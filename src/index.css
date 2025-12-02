@@ -1,4 +1,10 @@
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: Sen;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+
 }

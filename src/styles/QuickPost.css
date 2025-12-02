@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;600;700&display=swap');
+
+.qp-box {
+  width: 100%;
+  max-width: 561px;
+  max-height: 116px;
+  background: white;
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  font-family: "Sen", sans-serif;
+
+  position: absolute;
+  left: 392px; 
+  top: 80px;
+}
+
+.qp-row1 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.qp-profile {
+  width: 42px;
+  height: 42px;
+}
+
+.qp-input {
+  width: 384px;
+  height: 32px;
+  background: #E5E7EB;
+  color: #6B7280;
+  border-radius: 20px;
+  padding: 0px 24px;
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+}
+
+.qp-line {
+  width: 100%;
+  height: 1px;
+  background: #E5E7EB;
+  margin: 18px 0 12px 0;
+}
+
+.qp-row2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qp-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  margin: 0 20px;
+  font-family: "Sen", sans-serif;
+}
+
+.qp-btn img {
+  height: 12px;
+}
+
+.qp-btn:hover {
+  opacity: 0.8;
+}

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;600;700&display=swap');
+
+.filter-buttons-container {
+display: flex;
+gap: 12px;
+
+position: absolute;
+left: 392px;
+top: 220px;
+}
+
+.filter-button {
+padding: 8px 20px;
+border-radius: 999px;
+border: 1px solid #d9d9d9;
+background: white;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.2s ease;
+font-family: "Sen", sans-serif;
+}
+
+
+.filter-button.active {
+background: #2e3fa8;
+color: white;
+border-color: #2e3fa8;
+}
+
+.filter-button:hover:not(.active) {
+background: #f4f4f4;
+}
