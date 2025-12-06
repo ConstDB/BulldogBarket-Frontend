@@ -1,27 +1,160 @@
 import React from "react";
 
-export default function ProductDetailsForm() {
+export default function ProductDetailsForm({
+  itemTitle,
+  setItemTitle,
+  description,
+  setDescription,
+  price,
+  setPrice,
+  category,
+  setCategory,
+  itemImage,
+  setItemImage,
+  setItemImageFile
+}) {
   return (
-    <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 15 }}>
-      <div>
-        <div style={{ fontWeight: 700 }}>Item Title</div>
-        <input style={{ width: 450, height: 33, borderRadius: 10, border: "1px solid #E5E7EB", padding: "5px 10px" }} placeholder="e.g., PE Uniform Size M" />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        padding: 20,
+        border: "1px solid #E5E7EB",
+        marginTop: 25,
+        marginBottom: 20,
+        backgroundColor: "white",
+        borderRadius: 10,
+        width: 800,
+      }}
+    >
+      {/* IMAGE UPLOADER */}
+      <div
+        style={{
+          width: "100%",
+          height: 160,
+          border: "1px solid #9CA3AF",
+          borderRadius: 12,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ fontWeight: 700 }}>Click or drag photos here</div>
+        <div style={{ fontSize: 12, color: "#9CA3AF" }}>Max 5 photos (5MB each)</div>
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            background: "#DBEAFE",
+            borderRadius: "50%",
+            marginTop: 10,
+          }}
+        />
+
+        {/* file input (visually hidden but accessible) */}
+        <input
+          type="file"
+          accept="image/*"
+          style={{ marginTop: 8 }}
+          onChange={(e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            // set file for upload
+            if (typeof setItemImageFile === "function") setItemImageFile(file);
+            // create preview URL
+            const url = URL.createObjectURL(file);
+            if (typeof setItemImage === "function") setItemImage(url);
+          }}
+        />
       </div>
-      <div>
-        <div style={{ fontWeight: 700 }}>Price (₱)</div>
-        <input style={{ width: 200, height: 33, borderRadius: 10, border: "1px solid #E5E7EB", padding: "5px 10px" }} placeholder="0.00" />
+
+      {/* TITLE & PRICE */}
+      <div style={{ display: "flex", gap: 12, width: "100%" }}>
+        <div style={{ flex: 2 }}>
+          <div style={{ fontWeight: 700 }}>Item Title</div>
+          <input
+            value={itemTitle}
+            onChange={(e) => setItemTitle && setItemTitle(e.target.value)}
+            style={{
+              width: "100%",
+              height: 33,
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              padding: "5px 10px",
+            }}
+            placeholder="e.g., PE Uniform Size M"
+          />
+        </div>
+
+        <div style={{ flex: 1, marginLeft: 40 }}>
+          <div style={{ fontWeight: 700 }}>Price (₱)</div>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice && setPrice(Number(e.target.value))}
+            style={{
+              width: "90%",
+              height: 33,
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              padding: "5px 10px",
+            }}
+            placeholder="0.00"
+          />
+        </div>
       </div>
-      <div>
-        <div style={{ fontWeight: 700 }}>Category</div>
-        <input style={{ width: 360, height: 33, borderRadius: 10, border: "1px solid #E5E7EB", padding: "5px 10px" }} placeholder="Uniform" />
+
+      {/* CATEGORY & CONDITION */}
+      <div style={{ display: "flex", gap: 12, width: "100%" }}>
+        <div style={{ flex: 2 }}>
+          <div style={{ fontWeight: 700 }}>Category</div>
+          <input
+            value={category}
+            onChange={(e) => setCategory && setCategory(e.target.value)}
+            style={{
+              width: "100%",
+              height: 33,
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              padding: "5px 10px",
+            }}
+            placeholder="Uniform"
+          />
+        </div>
+
+        <div style={{ flex: 1, marginLeft: 40 }}>
+          <div style={{ fontWeight: 700 }}>Condition</div>
+          <input
+            style={{
+              width: "90%",
+              height: 33,
+              borderRadius: 10,
+              border: "1px solid #E5E7EB",
+              padding: "5px 10px",
+            }}
+            placeholder="Pre-loved / Used"
+          />
+        </div>
       </div>
-      <div>
-        <div style={{ fontWeight: 700 }}>Condition</div>
-        <input style={{ width: 280, height: 33, borderRadius: 10, border: "1px solid #E5E7EB", padding: "5px 10px" }} placeholder="Pre-loved / Used" />
-      </div>
+
+      {/* MESSAGE TO SELLER */}
       <div>
         <div style={{ fontWeight: 700 }}>Message to Seller (Optional)</div>
-        <textarea style={{ width: 660, height: 90, borderRadius: 10, border: "1px solid #E5E7EB", padding: 10 }} placeholder="Describe your item. Where can you meet? (e.g., Garden, Library)" />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription && setDescription(e.target.value)}
+          style={{
+            width: "97%",
+            height: 90,
+            borderRadius: 10,
+            border: "1px solid #E5E7EB",
+            padding: 10,
+            marginTop: 4,
+          }}
+          placeholder="Describe your item. Where can you meet? (e.g., Garden, Library)"
+        />
       </div>
     </div>
   );

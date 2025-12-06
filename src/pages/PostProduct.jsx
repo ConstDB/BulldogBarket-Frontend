@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import HeaderBar from "../components/postproduct/HeaderBar";
 import ListingTypeSelector from "../components/postproduct/ListingTypeSelector";
-import ImageUploader from "../components/postproduct/ImageUploader";
 import LivePreview from "../components/postproduct/LivePreview";
 import PostButton from "../components/postproduct/PostButton";
 import ProductDetailsForm from "../components/postproduct/ProductDetailsForm";
@@ -12,6 +11,56 @@ export default function PostProduct() {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Pre-loved");
   const [itemImage, setItemImage] = useState(null);
+  const [itemImageFile, setItemImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
+  const handlePost = async () => {
+    setError(null);
+    // basic client validation
+    if (!itemTitle || !description || !price) {
+      setError("Please fill required fields: title, description, price.");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("title", itemTitle);
+    form.append("description", description);
+    form.append("price", String(price));
+    form.append("category", category);
+    if (itemImageFile) form.append("image", itemImageFile);
+
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_BASE}/api/listings`, {
+        method: "POST",
+        // when sending FormData, do NOT set Content-Type; browser will set boundary
+        body: form,
+        // credentials: 'include' // enable if backend uses cookies
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data?.message || "Failed to create listing");
+        return;
+      }
+      // on success, reset form or navigate
+      // simple reset:
+      setItemTitle("");
+      setDescription("");
+      setPrice(0);
+      setCategory("Pre-loved");
+      setItemImage(null);
+      setItemImageFile(null);
+      // you might want to navigate to the newly created listing page
+      alert("Listing created");
+    } catch (err) {
+      setError(err?.message || "Network error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -25,7 +74,6 @@ export default function PostProduct() {
     >
       <HeaderBar />
 
-      {/* Centered content container */}
       <div
         style={{
           display: "flex",
@@ -36,10 +84,10 @@ export default function PostProduct() {
           boxSizing: "border-box",
         }}
       >
-        {/* Form + Listing Type Section */}
-        <div style={{ maxWidth: 800, flex: 1 }}>
+
+        <div style={{ maxWidth: 1080, flex: 1 }}>
           <ListingTypeSelector />
-          <ImageUploader setItemImage={setItemImage} />
+
           <ProductDetailsForm
             itemTitle={itemTitle}
             setItemTitle={setItemTitle}
@@ -49,18 +97,28 @@ export default function PostProduct() {
             setPrice={setPrice}
             category={category}
             setCategory={setCategory}
+            itemImage={itemImage}
+            setItemImage={setItemImage}
+            setItemImageFile={setItemImageFile}
           />
-          <PostButton />
+
+          <div>
+            {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
+            <PostButton onClick={handlePost} />
+            {loading && <div style={{ marginTop: 8 }}>Posting…</div>}
+          </div>
         </div>
 
-        {/* Live Preview beside the form */}
-        <LivePreview
-          itemTitle={itemTitle}
-          description={description}
-          price={price}
-          category={category}
-          itemImage={itemImage}
-        />
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ fontWeight: 700, fontSize: 16 }}>Live Preview</div>
+          <LivePreview
+            itemTitle={itemTitle}
+            description={description}
+            price={price}
+            category={category}
+            itemImage={itemImage}
+          />
+        </div>
       </div>
     </div>
   );

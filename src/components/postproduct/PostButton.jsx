@@ -5,7 +5,7 @@ export default function PostButton({ onClick }) {
     <button
       onClick={onClick}
       style={{
-        width: 710,
+        width: 845,
         height: 50,
         background: "#35408E",
         color: "white",

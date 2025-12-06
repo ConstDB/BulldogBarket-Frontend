@@ -4,7 +4,7 @@ export default function HeaderBar() {
   return (
     <div style={{
       width: "100%",
-      height: 60,
+      height: 100,
       background: "#35408E",
       display: "flex",
       alignItems: "center",

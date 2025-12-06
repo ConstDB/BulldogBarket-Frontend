@@ -13,7 +13,7 @@ export default function ListingTypeSelector() {
         border: "1px solid #E5E7EB",
         backgroundColor: "white",
         borderRadius: 10,
-        width: 700 // optional fixed width, adjust as needed
+        width: 800 
       }}>
         
       <div style={{ fontSize: 16, fontFamily: "Inter", fontWeight: 700, color: "#334155", textAlign: "left" }}>
@@ -24,7 +24,7 @@ export default function ListingTypeSelector() {
         <div
           onClick={() => setType("single")}
           style={{
-            width: 320,
+            width: 350,
             height: 140,
             background: type === "single" ? "#EFF6FF" : "white",
             border: "1px solid #E5E7EB",
@@ -55,7 +55,7 @@ export default function ListingTypeSelector() {
         <div
           onClick={() => setType("bulk")}
           style={{
-            width: 320,
+            width: 350,
             height: 140,
             background: type === "bulk" ? "#EFF6FF" : "white",
             border: "1px solid #E5E7EB",
