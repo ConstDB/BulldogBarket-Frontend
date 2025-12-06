@@ -61,9 +61,7 @@ export default function ProductDetailsForm({
           onChange={(e) => {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
-            // set file for upload
             if (typeof setItemImageFile === "function") setItemImageFile(file);
-            // create preview URL
             const url = URL.createObjectURL(file);
             if (typeof setItemImage === "function") setItemImage(url);
           }}
