@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function LivePreview({
-  userName = "Jonel (You)",
+  userName = "Duterte (You)",
   userLocation = "NU Manila",
   timestamp = "Just Now",
   avatarUrl = "https://placehold.co/40x40",
