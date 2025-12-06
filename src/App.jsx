@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import Menu from "./pages/menu";
 import About from "./pages/about";
-import Signup from "./pages/signup/signup";
+import Signup from "./pages/signup";
 
 function App() {
   return (
