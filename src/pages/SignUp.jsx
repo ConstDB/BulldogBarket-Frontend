@@ -1,6 +1,6 @@
 import React from "react";
-import BarkKartPanel from "../components/SignUp/barkkart_panel";
-import SignupForm from "../components/SignUp/signup_form";
+import BarkKartPanel from "../components/signup/barkkart_panel";
+import SignupForm from "../components/signup/signup_form";
 
 export default function SignUp() {
   return (
