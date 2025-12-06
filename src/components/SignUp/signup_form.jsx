@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     studentNumber: "",
@@ -12,14 +13,61 @@ export default function SignupForm() {
     agree: false,
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+    if (!formData.studentNumber) return "Student number is required.";
+    if (!formData.password || formData.password.length < 6) return "Password must be at least 6 characters.";
+    if (!formData.agree) return "You must agree to the Terms of Service.";
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setError(null);
+    const v = validate();
+    if (v) {
+      setError(v);
+      return;
+    }
+
+    const payload = {
+      fullName: formData.fullName,
+      studentNumber: formData.studentNumber,
+      course: formData.course,
+      year: formData.year,
+      campus: formData.campus,
+      password: formData.password,
+    };
+
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data?.message || "Signup failed");
+        return;
+      }
+
+      navigate("/signin");
+    } catch (err) {
+      setError(err?.message || "Network error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,6 +76,8 @@ export default function SignupForm() {
       <p style={{ fontSize: "14px", color: "#6B7280", marginBottom: "2rem" }}>
         Enter your details to join the marketplace.
       </p>
+
+      {error && <div style={{ color: "#B91C1C", marginBottom: "1rem" }}>{error}</div>}
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <div>
@@ -113,9 +163,10 @@ export default function SignupForm() {
 
         <button
           type="submit"
-          style={{ background: "#35408E", color: "white", padding: "0.75rem", borderRadius: 4, fontWeight: 700, marginTop: "1rem", cursor: "pointer" }}
+          disabled={loading}
+          style={{ background: "#35408E", color: "white", padding: "0.75rem", borderRadius: 4, fontWeight: 700, marginTop: "1rem", cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
         >
-          Create Account
+          {loading ? "Creating…" : "Create Account"}
         </button>
       </form>
 
