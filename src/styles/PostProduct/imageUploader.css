@@ -1,0 +1,101 @@
+.image-uploader-dropzone {
+  width: 100%;
+  height: 160px;
+  border: 1px solid #9CA3AF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  background: white;
+  transition: background 0.2s;
+}
+
+.image-uploader-dropzone.dragging {
+  background: #EFF6FF;
+}
+
+.image-uploader-camera {
+  width: 36px;
+  height: 36px;
+  background: #DBEAFE;
+  border-radius: 50%;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-uploader-camera img {
+  width: 20px;
+  height: 20px;
+}
+
+.image-uploader-text {
+  font-weight: 700;
+}
+
+.image-uploader-subtext {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.image-uploader-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.image-uploader-preview-container {
+  margin-top: 12px;
+}
+
+.image-uploader-preview-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.image-uploader-preview-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.image-uploader-preview-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+}
+
+.image-uploader-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-uploader-preview-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

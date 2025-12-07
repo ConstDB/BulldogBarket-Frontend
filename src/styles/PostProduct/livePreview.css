@@ -1,0 +1,174 @@
+/* LivePreview.css */
+
+.livePreview {
+  width: 352px;
+  height: 380px;
+  position: relative;
+}
+
+/* Card container */
+.lp-card {
+  width: 352px;
+  height: 331px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+  border-radius: 10px 14px 10px 10px;
+  border: 1px #F3F4F6 solid;
+}
+
+/* Avatar */
+.lp-avatar {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  border-radius: 9999px;
+}
+
+/* User name */
+.lp-username {
+  position: absolute;
+  left: 68px;
+  top: 18px;
+  color: black;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 700;
+}
+
+/* Location + timestamp */
+.lp-meta {
+  position: absolute;
+  left: 68px;
+  top: 39px;
+  color: #6B7280;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 400;
+}
+
+/* Item description */
+.lp-description {
+  position: absolute;
+  left: 16px;
+  top: 72px;
+  color: black;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 400;
+}
+
+/* Carousel wrapper */
+.lp-carousel {
+  position: absolute;
+  left: 16px;
+  top: 100px;
+}
+
+/* Category badge BG */
+.lp-cat-bg {
+  position: absolute;
+  width: 70px;
+  height: 18px;
+  left: 24px;
+  top: 108px;
+  background: #F9FAFB;
+  border-radius: 20px;
+}
+
+.lp-cat-label {
+  position: absolute;
+  left: 32px;
+  top: 110px;
+  color: #334155;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 400;
+}
+
+/* Pre-loved badge */
+.lp-cat2-bg {
+  position: absolute;
+  width: 71px;
+  height: 18px;
+  left: 102px;
+  top: 108px;
+  background: #EFF6FF;
+  border-radius: 20px;
+}
+
+.lp-cat2-label {
+  position: absolute;
+  left: 110px;
+  top: 110px;
+  color: #35408E;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 400;
+}
+
+/* Price tag */
+.lp-price-bg {
+  position: absolute;
+  width: 75px;
+  height: 35px;
+  left: 16px;
+  top: 215px;
+  background: #35408E;
+  border-top-right-radius: 5px;
+}
+
+.lp-price-label {
+  position: absolute;
+  left: 28px;
+  top: 223px;
+  color: #FFD400;
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 700;
+}
+
+/* Action container */
+.lp-action-bg {
+  position: absolute;
+  width: 320px;
+  height: 73px;
+  left: 16px;
+  top: 250px;
+  background: #F9FAFB;
+  border-radius: 0 0 10px 10px;
+  border: 1px #F3F4F6 solid;
+}
+
+.lp-action-title {
+  position: absolute;
+  left: 32px;
+  top: 266px;
+  color: #1F2937;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 700;
+}
+
+.lp-action-btn-bg {
+  position: absolute;
+  width: 288px;
+  height: 24px;
+  left: 32px;
+  top: 291px;
+  background: rgba(53, 64, 142, 0.5);
+  border-radius: 5px;
+}
+
+.lp-action-btn-label {
+  position: absolute;
+  left: 135.19px;
+  top: 295px;
+  color: white;
+  font-size: 12px;
+  font-family: Inter;
+  font-weight: 700;
+}
