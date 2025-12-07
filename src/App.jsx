@@ -3,7 +3,7 @@ import Home from "./pages/home";
 import Menu from "./pages/menu";
 import About from "./pages/about";
 import Signup from "./pages/signup";
-import PostProduct from "./pages/PostProduct";
+import SignIn from "./pages/SignIn/SignIn";
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         <Link to="/">Home</Link>
         <Link to="/menu">Menu</Link>
         <Link to="/about">About</Link>
+        <Link to="/signin">Sign in</Link>
         <Link to="/signup">Sign Up</Link>
         <Link to="/post-product">Post Product</Link>
       </nav>
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-product" element={<PostProduct />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
