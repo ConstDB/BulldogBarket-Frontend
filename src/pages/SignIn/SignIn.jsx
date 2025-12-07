@@ -1,6 +1,6 @@
 import "./SignIn.css";
-import SigninHeroPanel from "../../components/SigninHeroPanel";
-import SigninForm from "../../components/SigninForm";
+import SigninHeroPanel from "../../components/Sign-In/SigninHeroPanel";
+import SigninForm from "../../components/Sign-In/SigninForm";
 
 export default function SignIn() {
   return (
