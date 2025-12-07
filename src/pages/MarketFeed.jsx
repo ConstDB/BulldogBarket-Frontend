@@ -1,7 +1,8 @@
 import { useState } from "react";
-import FilterButton from "../components/FilterButton";
-import QuickPost from "../components/QuickPost";
-import SingleItemPost from "../components/SingleItemPost";
+import FilterButton from "../components/MarketFeed/FilterButton";
+import QuickPost from "../components/MarketFeed/QuickPost";
+import SingleItemPost from "../components/MarketFeed/SingleItemPost";
+import MultipleItemPost from "../components/MarketFeed/MultipleItemPost";
 
 export default function MarketFeed() {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -24,7 +25,7 @@ export default function MarketFeed() {
 
       {activeFilter === "all" && <SingleItemPost />}
 
-      {activeFilter === "food" && <p>Showing food court posts...</p>}
+      {activeFilter === "food" && <MultipleItemPost />}
     </div>
   );
 }
