@@ -1,4 +1,5 @@
 import React from "react";
+import ImageCarousel from "./ImageCarousel";
 
 export default function LivePreview({
   userName = "Duterte (You)",
@@ -9,10 +10,10 @@ export default function LivePreview({
   description = "Describe your item...",
   price = 0,
   category = "Pre-loved",
-  itemImage = null 
+  itemImages = []
 }) {
   return (
-    <div style={{ width: 352, height: 331, position: "relative" }}>
+    <div style={{ width: 352, height: 380, position: "relative" }}>
       <div
         style={{
           width: 352,
@@ -87,31 +88,9 @@ export default function LivePreview({
       </div>
 
       {/* Image placeholder */}
-      <div
-        style={{
-          width: 320,
-          height: 150,
-          left: 16,
-          top: 100,
-          position: "absolute",
-          background: itemImage ? "transparent" : "#E5E7EB",
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10
-        }}
-      >
-        {itemImage && (
-          <img
-            src={itemImage}
-            alt="item"
-            style={{
-              width: "100%",
-              height: "100%",
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              objectFit: "cover"
-            }}
-          />
-        )}
+      {/* Image carousel */}
+      <div style={{ left: 16, top: 100, position: "absolute" }}>
+        <ImageCarousel itemImages={itemImages} />
       </div>
 
       {/* Category badges */}

@@ -7,12 +7,12 @@ import ProductDetailsForm from "../components/postproduct/ProductDetailsForm";
 import { validateListing } from "../schemas/product_schema";
 
 export default function PostProduct() {
-  const [itemTitle, setItemTitle] = useState("");
+  const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Pre-loved");
-  const [itemImage, setItemImage] = useState(null);
-  const [itemImageFile, setItemImageFile] = useState(null);
+  const [itemImages, setItemImages] = useState([]);
+  const [itemImageFiles, setItemImageFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,11 +23,11 @@ export default function PostProduct() {
     
     // Use the validation schema
     const formData = {
-      title: itemTitle,
+      title: itemName,
       description,
       price,
       category,
-      itemImageFile
+      itemImageFile: itemImageFiles[0] // At least one image required
     };
     
     const validationErrors = validateListing(formData);
@@ -37,15 +37,18 @@ export default function PostProduct() {
     }
 
     const form = new FormData();
-    form.append("title", itemTitle);
+    form.append("title", itemName);
     form.append("description", description);
     form.append("price", String(price));
     form.append("category", category);
-    if (itemImageFile) form.append("image", itemImageFile);
+    // Append all images
+    itemImageFiles.forEach((file, index) => {
+      form.append(`images`, file);
+    });
 
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/listings`, {
+      const res = await fetch(`${API_BASE}/api/v1/listings`, {
         method: "POST",
         // when sending FormData, do NOT set Content-Type; browser will set boundary
         body: form,
@@ -58,12 +61,12 @@ export default function PostProduct() {
       }
       // on success, reset form or navigate
       // simple reset:
-      setItemTitle("");
+      setItemName("");
       setDescription("");
       setPrice(0);
       setCategory("Pre-loved");
-      setItemImage(null);
-      setItemImageFile(null);
+      setItemImages([]);
+      setItemImageFiles([]);
       // you might want to navigate to the newly created listing page
       alert("Listing created");
     } catch (err) {
@@ -100,17 +103,18 @@ export default function PostProduct() {
           <ListingTypeSelector />
 
           <ProductDetailsForm
-            itemTitle={itemTitle}
-            setItemTitle={setItemTitle}
+            itemName={itemName}
+            setItemName={setItemName}
             description={description}
             setDescription={setDescription}
             price={price}
             setPrice={setPrice}
             category={category}
             setCategory={setCategory}
-            itemImage={itemImage}
-            setItemImage={setItemImage}
-            setItemImageFile={setItemImageFile}
+            itemImages={itemImages}
+            setItemImages={setItemImages}
+            itemImageFiles={itemImageFiles}
+            setItemImageFiles={setItemImageFiles}
           />
 
           <div>
@@ -123,11 +127,11 @@ export default function PostProduct() {
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <div style={{ fontWeight: 700, fontSize: 16 }}>Live Preview</div>
           <LivePreview
-            itemTitle={itemTitle}
+            itemName={itemName}
             description={description}
             price={price}
             category={category}
-            itemImage={itemImage}
+            itemImages={itemImages}
           />
         </div>
       </div>

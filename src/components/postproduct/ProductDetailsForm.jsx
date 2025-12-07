@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import cameraIcon from "../../assets/camera.svg";
+import ImageUploader from "./ImageUploader";
 
 export default function ProductDetailsForm({
   itemTitle,
@@ -10,25 +11,59 @@ export default function ProductDetailsForm({
   setPrice,
   category,
   setCategory,
-  itemImage,
-  setItemImage,
-  setItemImageFile
+  itemImages,
+  setItemImages,
+  itemImageFiles,
+  setItemImageFiles
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
-  const lastObjectUrl = useRef(null);
 
-  const handleFile = (file) => {
-    if (!file) return;
-    if (lastObjectUrl.current) {
-      try { URL.revokeObjectURL(lastObjectUrl.current); } catch (e) {}
-      lastObjectUrl.current = null;
-    }
-    if (typeof setItemImageFile === "function") setItemImageFile(file);
-    const url = URL.createObjectURL(file);
-    lastObjectUrl.current = url;
-    if (typeof setItemImage === "function") setItemImage(url);
+  const handleFiles = (newFiles) => {
+    if (!newFiles || newFiles.length === 0) return;
+    // Avoid nested state updates — compute additions first
+    const filesArray = Array.from(newFiles);
+    const existingCount = Array.isArray(itemImages) ? itemImages.length : 0;
+    const available = Math.max(0, 5 - existingCount);
+    const toAdd = filesArray.slice(0, available);
+
+    if (toAdd.length === 0) return;
+
+    const newUrls = toAdd.map((file) => URL.createObjectURL(file));
+
+    // Append URLs and files in separate state updates
+    setItemImages((prev) => {
+      const updated = Array.isArray(prev) ? [...prev] : [];
+      updated.push(...newUrls);
+      return updated;
+    });
+
+    setItemImageFiles((prevFiles) => {
+      const updatedFiles = Array.isArray(prevFiles) ? [...prevFiles] : [];
+      updatedFiles.push(...toAdd);
+      return updatedFiles;
+    });
   };
+
+  const removeImage = (index) => {
+    setItemImages((prev) => {
+      const updated = [...prev];
+      // Revoke the old URL to prevent memory leak
+      try {
+        URL.revokeObjectURL(updated[index]);
+      } catch (e) {}
+      updated.splice(index, 1);
+      return updated;
+    });
+
+    setItemImageFiles((prev) => {
+      const updated = [...prev];
+      updated.splice(index, 1);
+      return updated;
+    });
+  };
+
+  const canAddMore = itemImages.length < 5;
   return (
     <div
       style={{
@@ -45,69 +80,7 @@ export default function ProductDetailsForm({
       }}
     >
 
-      <div
-        onDragOver={(e) => e.preventDefault()}
-        onDragEnter={(e) => { e.preventDefault(); setIsDragging(true); }}
-        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
-        onDrop={(e) => {
-          e.preventDefault();
-          setIsDragging(false);
-          const file = e.dataTransfer?.files && e.dataTransfer.files[0];
-          if (file) handleFile(file);
-        }}
-        onClick={() => fileInputRef.current && fileInputRef.current.click()}
-        style={{
-          width: "100%",
-          height: 160,
-          border: "1px solid #9CA3AF",
-          borderRadius: 12,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          position: "relative",
-          background: isDragging ? "#EFF6FF" : "white",
-          cursor: "pointer"
-        }}
-      >
-        <div
-          style={{
-            width: 36,
-            height: 36,
-            background: "#DBEAFE",
-            borderRadius: "50%",
-            marginTop: 10,
-            marginBottom: 10,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img src={cameraIcon} alt="camera" style={{ width: 20, height: 20 }} />
-        </div>
-        <div style={{ fontWeight: 700 }}>Click or drag photos here</div>
-        <div style={{ fontSize: 12, color: "#9CA3AF" }}>Max 5 photos (5MB each)</div>
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "100%",
-            opacity: 0,
-            pointerEvents: "none",
-          }}
-          onChange={(e) => {
-            const file = e.target.files && e.target.files[0];
-            if (file) handleFile(file);
-            e.currentTarget.value = null; 
-          }}
-        />
-      </div>
+      <ImageUploader itemImages={itemImages} setItemImages={setItemImages} itemImageFiles={itemImageFiles} setItemImageFiles={setItemImageFiles} />
 
       {/* TITLE & PRICE */}
       <div style={{ display: "flex", gap: 12, width: "100%" }}>

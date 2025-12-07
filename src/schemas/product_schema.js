@@ -1,18 +1,18 @@
 const listingSchema = {
-  title: { required: true, minLength: 5 },
-  description: { required: true, minLength: 10 },
+  name: { required: true, minLength: 5 },
+  image: { required: true },
   price: { required: true, min: 0 },
   category: { required: true },
-  image: { required: true }
+  description: { required: true, minLength: 10 },
 };
 
 export function validateListing(formData) {
   const errors = {};
 
-  if (!formData.title?.trim()) {
-    errors.title = 'Product title is required';
-  } else if (formData.title.length < 5) {
-    errors.title = 'Title must be at least 5 characters';
+  if (!formData.name?.trim()) {
+    errors.name = 'Product name is required';
+  } else if (formData.name.length < 5) {
+    errors.name = 'name must be at least 5 characters';
   }
 
   if (!formData.description?.trim()) {
