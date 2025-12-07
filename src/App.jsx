@@ -3,7 +3,10 @@ import Home from "./pages/home";
 import Menu from "./pages/menu";
 import About from "./pages/about";
 import Signup from "./pages/signup";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/SignIn"; 
+import PostProduct from "./pages/PostProduct";
+import SellerDashboard from "./pages/SellerDashboard/dashboard"; 
+
 
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
         <Link to="/signin">Sign in</Link>
         <Link to="/signup">Sign Up</Link>
         <Link to="/post-product">Post Product</Link>
+        <Link to="/seller-dashboard">Seller Dashboard</Link>
       </nav>
 
       <Routes>
@@ -31,6 +35,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-product" element={<PostProduct />} />
+        <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </>
