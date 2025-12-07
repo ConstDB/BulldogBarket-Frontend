@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
 export default function ProductDetailsForm({
   itemTitle,
@@ -13,6 +13,21 @@ export default function ProductDetailsForm({
   setItemImage,
   setItemImageFile
 }) {
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
+  const lastObjectUrl = useRef(null);
+
+  const handleFile = (file) => {
+    if (!file) return;
+    if (lastObjectUrl.current) {
+      try { URL.revokeObjectURL(lastObjectUrl.current); } catch (e) {}
+      lastObjectUrl.current = null;
+    }
+    if (typeof setItemImageFile === "function") setItemImageFile(file);
+    const url = URL.createObjectURL(file);
+    lastObjectUrl.current = url;
+    if (typeof setItemImage === "function") setItemImage(url);
+  };
   return (
     <div
       style={{
@@ -28,8 +43,18 @@ export default function ProductDetailsForm({
         width: 800,
       }}
     >
-      {/* IMAGE UPLOADER */}
+
       <div
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnter={(e) => { e.preventDefault(); setIsDragging(true); }}
+        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
+        onDrop={(e) => {
+          e.preventDefault();
+          setIsDragging(false);
+          const file = e.dataTransfer?.files && e.dataTransfer.files[0];
+          if (file) handleFile(file);
+        }}
+        onClick={() => fileInputRef.current && fileInputRef.current.click()}
         style={{
           width: "100%",
           height: 160,
@@ -39,10 +64,11 @@ export default function ProductDetailsForm({
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
+          position: "relative",
+          background: isDragging ? "#EFF6FF" : "white",
+          cursor: "pointer"
         }}
       >
-        <div style={{ fontWeight: 700 }}>Click or drag photos here</div>
-        <div style={{ fontSize: 12, color: "#9CA3AF" }}>Max 5 photos (5MB each)</div>
         <div
           style={{
             width: 36,
@@ -50,20 +76,29 @@ export default function ProductDetailsForm({
             background: "#DBEAFE",
             borderRadius: "50%",
             marginTop: 10,
+            marginBottom: 10,
           }}
         />
+        <div style={{ fontWeight: 700 }}>Click or drag photos here</div>
+        <div style={{ fontSize: 12, color: "#9CA3AF" }}>Max 5 photos (5MB each)</div>
 
-        {/* file input (visually hidden but accessible) */}
         <input
+          ref={fileInputRef}
           type="file"
           accept="image/*"
-          style={{ marginTop: 8 }}
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0,
+            pointerEvents: "none",
+          }}
           onChange={(e) => {
             const file = e.target.files && e.target.files[0];
-            if (!file) return;
-            if (typeof setItemImageFile === "function") setItemImageFile(file);
-            const url = URL.createObjectURL(file);
-            if (typeof setItemImage === "function") setItemImage(url);
+            if (file) handleFile(file);
+            e.currentTarget.value = null; 
           }}
         />
       </div>
