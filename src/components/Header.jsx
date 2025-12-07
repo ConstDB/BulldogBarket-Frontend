@@ -7,7 +7,6 @@ import bookmark from "../assets/bookmark.svg";
 import notif from "../assets/notif.svg";
 import profileicon from "../assets/profileicon.svg";
 
-
 function Header() {
   const [open, setOpen] = useState(false);
 
@@ -182,6 +181,7 @@ function Header() {
             </div>
           )}
         </div>
+
       </div>
     </header>
   );

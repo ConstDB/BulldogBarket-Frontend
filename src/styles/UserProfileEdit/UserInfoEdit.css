@@ -1,0 +1,166 @@
+.uie-container {
+  width: 540px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.uie-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: -10px;
+}
+
+.uie-locked-box {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #d8e4f0;
+}
+
+.uie-locked-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uie-lock-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.uie-locked-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.uie-locked-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.35;
+  padding-left: 32px;
+  max-width: 360px;
+}
+
+.uie-locked-fields {
+  display: flex;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.uie-field-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.uie-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.uie-label-lg {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.uie-locked-field {
+  background: #e2e8f0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 15px;
+  margin-top: 6px;
+}
+
+.uie-row {
+  display: flex;
+  gap: 20px;
+}
+
+.uie-select {
+  width: 100%;
+  height: 44px;
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+.uie-hint {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.uie-contact-wrapper {
+  position: relative;
+  margin-top: 6px;
+}
+
+.uie-chat-icon {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+}
+
+.uie-contact-input {
+  width: 494px;
+  height: 33px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding-left: 35px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+.uie-save-btn {
+  width: 100%;
+  height: 33px;
+  background: #35408e;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.uie-save-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.uie-status {
+  margin-top: 8px;
+}
+
+.uie-error {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.uie-success {
+  color: #16a34a;
+  font-size: 13px;
+}
+.uie-save-btn:hover:not(.uie-save-disabled) {
+  background: #2c3575;
+}

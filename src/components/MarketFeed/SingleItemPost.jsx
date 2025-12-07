@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../../styles/MarketFeed/SingleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
 import upvoteIcon from "../../assets/upvote.svg";
@@ -23,7 +24,7 @@ export default function SingleItemPost() {
       price: 350,
       title: "NU PE Uniform - Medium",
       description:
-        "Selling my old PE Uniform. Good condition, used only for one term. Size medium. Meetup at Garden tomorrow! Putanginamoooo",
+        "Selling my old PE Uniform. Good condition, used only for one term. Size medium. Meetup at Garden tomorrow!",
       image: itemImage,
       upvotes: 12,
       comments: 3,
@@ -35,354 +36,77 @@ export default function SingleItemPost() {
   const [downvotes, setDownvotes] = useState(0);
   const [comments, setComments] = useState(mockData.post.comments);
 
-  const handleUpvote = () => setUpvotes(upvotes + 1);
-  const handleDownvote = () => setDownvotes(downvotes + 1);
-  const handleCommentClick = () => alert("modal tol");
-
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "560px",
-        background: "#ffffff",
-        padding: "18px",
-        borderRadius: "12px",
-        border: "1px solid #e6e6e6",
-        fontFamily: "Sen, sans-serif",
-        boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-        position: "absolute",
-        left: "392px",
-        top: "270px",
-      }}
-    >
+    <div className="sip-container">
+      <div className="sip-user-row">
+        <div className="sip-user-info">
+          <img src={mockData.user.avatar} className="sip-avatar" />
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            alignItems: "center",
-          }}
-        >
-          <img
-            src={mockData.user.avatar}
-            alt="User"
-            style={{
-              width: "45px",
-              height: "45px",
-              borderRadius: "999px",
-            }}
-          />
           <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <span
-                style={{
-                  fontWeight: 600,
-                  fontSize: "15px",
-                }}
-              >
-                {mockData.user.name}
-              </span>
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "gray",
-                }}
-              >
-                {" • "}
-                {mockData.user.yearCourse}
-              </span>
+            <div className="sip-user-name">
+              <span className="sip-name">{mockData.user.name}</span>
+              <span className="sip-year">{` • ${mockData.user.yearCourse}`}</span>
             </div>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "gray",
-              }}
-            >
+
+            <div className="sip-meta">
               {mockData.post.timestamp} • {mockData.user.location}
             </div>
           </div>
         </div>
 
-        <button
-          onClick={() => setBookmarked(!bookmarked)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
+        <button className="sip-bookmark-btn" onClick={() => setBookmarked(!bookmarked)}>
           <img
             src={bookmarkIcon}
-            alt="Bookmark"
-            style={{
-              width: "16px",
-              opacity: bookmarked ? 1 : 0.4,
-            }}
+            className="sip-bookmark-icon"
+            style={{ opacity: bookmarked ? 1 : 0.4 }}
           />
         </button>
       </div>
 
-      <div
-        style={{
-          margin: "14px 0",
-          fontSize: "15px",
-        }}
-      >
-        {mockData.post.description}
-      </div>
+      <div className="sip-description">{mockData.post.description}</div>
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "530px",
-          background: "#ffffff",
-          padding: "14px",
-          borderRadius: "12px",
-          border: "1px solid #cdced0",
-          fontFamily: "Sen, sans-serif",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            background: "#f3f5f7",
-            width: "fit-content",
-            padding: "4px 10px",
-            borderRadius: "6px",
-            fontSize: "12px",
-            color: "#4b5563",
-            marginBottom: "10px",
-          }}
-        >
-          {mockData.post.category}
-        </div>
+      <div className="sip-item-box">
+        <div className="sip-category">{mockData.post.category}</div>
 
-        <img
-          src={mockData.post.image}
-          alt="Item"
-          style={{
-            width: "100%",
-            borderRadius: "10px",
-            marginBottom: "10px",
-          }}
-        />
+        <img src={mockData.post.image} className="sip-item-img" />
 
-        <div
-          style={{
-            background: "#2d46a8",
-            color: "#ffca28",
-            width: "fit-content",
-            padding: "6px 12px",
-            borderRadius: "6px",
-            marginBottom: "5px",
-            fontSize: "18px",
-            fontWeight: "bold",
-            fontFamily: "Sen, sans-serif",
-          }}
-        >
-          ₱{mockData.post.price}.00
-        </div>
+        <div className="sip-price">₱{mockData.post.price}.00</div>
 
-        <div
-          style={{
-            fontWeight: 600,
-            marginBottom: "14px",
-          }}
-        >
-          {mockData.post.title}
-        </div>
+        <div className="sip-title">{mockData.post.title}</div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "-4px",
-            marginBottom: "6px",
-          }}
-        >
-          <button
-            style={{
-              width: "67%",
-              height: "38px",
-              background: "#2d46a8",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontFamily: "Sen, sans-serif",
-            }}
-          >
-            Request Item
-          </button>
+        <div className="sip-buttons">
+          <button className="sip-request-btn">Request Item</button>
 
-          <button
-            style={{
-              width: "30%",
-              height: "38px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "6px",
-              background: "white",
-              color: "#3b5bdb",
-              border: "2px solid #d0d4e0",
-              borderRadius: "10px",
-              cursor: "pointer",
-              fontWeight: 600,
-              fontFamily: "Sen, sans-serif",
-            }}
-          >
-            <img src={chatIcon} alt="Chat" />
-            Chat
+          <button className="sip-chat-btn">
+            <img src={chatIcon} /> Chat
           </button>
         </div>
 
-        <div
-          style={{
-            fontSize: "11px",
-            textAlign: "center",
-            marginTop: "5px",
-            color: "gray",
-          }}
-        >
-          Seller approval required for single items.
-        </div>
+        <div className="sip-note">Seller approval required for single items.</div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "8px",
-          fontSize: "14px",
-          color: "#555",
-        }}
-      >
-        <span
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          <img
-            src={CountVotes}
-            alt="Count"
-            style={{
-              width: "16px",
-              height: "16px",
-              objectFit: "contain",
-            }}
-          />
+      <div className="sip-stats">
+        <span className="sip-stat">
+          <img src={CountVotes} className="sip-stat-icon" />
           {upvotes} upvotes
         </span>
 
-        <span
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          {comments} comments
-        </span>
+        <span className="sip-stat">{comments} comments</span>
       </div>
 
-      <hr
-        style={{
-          border: "none",
-          borderTop: "1px solid #ddd",
-        }}
-      />
+      <hr className="sip-divider" />
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "10px 40px 0",
-        }}
-      >
-        <button
-          onClick={handleUpvote}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "16px",
-            color: "#444",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-        >
-          <img
-            src={upvoteIcon}
-            alt="Upvote"
-            style={{
-              width: "20px",
-            }}
-          />
-          Upvote
+      <div className="sip-actions">
+        <button className="sip-action-btn" onClick={() => setUpvotes(upvotes + 1)}>
+          <img src={upvoteIcon} className="sip-action-icon" /> Upvote
         </button>
 
-        <button
-          onClick={handleDownvote}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "16px",
-            color: "#444",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-        >
-          <img
-            src={downvoteIcon}
-            alt="Downvote"
-            style={{
-              width: "20px",
-            }}
-          />
-          Downvote
+        <button className="sip-action-btn" onClick={() => setDownvotes(downvotes + 1)}>
+          <img src={downvoteIcon} className="sip-action-icon" /> Downvote
         </button>
 
-        <button
-          onClick={handleCommentClick}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "16px",
-            color: "#444",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-        >
-          <img
-            src={commentIcon}
-            alt="Comments"
-            style={{
-              width: "20px",
-            }}
-          />
-          Comment
+        <button className="sip-action-btn" onClick={() => alert("modal tol")}>
+          <img src={commentIcon} className="sip-action-icon" /> Comment
         </button>
       </div>
     </div>

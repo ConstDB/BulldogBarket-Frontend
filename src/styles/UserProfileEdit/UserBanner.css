@@ -1,0 +1,106 @@
+.ub-container {
+  width: 900px;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.ub-banner {
+  height: 128px;
+  background: linear-gradient(135deg, #4a53a6, #2e347a);
+}
+
+.ub-content {
+  background: #fff;
+  padding: 0px 20px 0px 14px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ub-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ub-profile-wrapper {
+  position: relative;
+}
+
+.ub-profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  margin-top: -40px;
+}
+
+.ub-camera-btn {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.ub-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.ub-verified-badge {
+  background: #eff6ff;
+  color: #35408e;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ub-verified-icon {
+  width: 6px;
+  height: 6px;
+  display: block;
+}
+
+.ub-subtext {
+  font-size: 14px;
+  color: #777;
+  margin-top: 4px;
+}
+
+.ub-stats {
+  display: flex;
+  gap: 30px;
+}
+
+.ub-stat {
+  text-align: center;
+}
+
+.ub-stat-value {
+  font-weight: 700;
+  font-size: 18px;
+  color: #35408e;
+}
+
+.ub-stat-label {
+  font-size: 12px;
+  color: #666;
+}
