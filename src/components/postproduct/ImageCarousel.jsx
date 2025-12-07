@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../../styles/PostProduct/ImageCarousel.css";
 
 export default function ImageCarousel({ itemImages = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,26 +12,40 @@ export default function ImageCarousel({ itemImages = [] }) {
     }
   }, [itemImages, currentIndex]);
 
-  const mainImage = Array.isArray(itemImages) && itemImages.length > 0 ? itemImages[currentIndex] : null;
+  const mainImage = itemImages[currentIndex] || null;
 
   return (
-    <div style={{ width: 320, height: 170, position: "relative" }}>
-      <div style={{ width: "100%", height: 150, background: mainImage ? "transparent" : "#E5E7EB", borderRadius: 10, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {mainImage && <img src={mainImage} alt="item" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+    <div className="image-carousel">
+      <div className="image-carousel-main" style={{ background: mainImage ? "transparent" : undefined }}>
+        {mainImage && <img src={mainImage} alt="item" />}
 
-        {Array.isArray(itemImages) && itemImages.length > 1 && (
+        {itemImages.length > 1 && (
           <>
-            <button onClick={(e) => { e.stopPropagation(); setCurrentIndex((i) => (i - 1 + itemImages.length) % itemImages.length); }} style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.5)", color: "white", border: "none", width: 28, height: 28, borderRadius: 14, cursor: "pointer" }}>‹</button>
-            <button onClick={(e) => { e.stopPropagation(); setCurrentIndex((i) => (i + 1) % itemImages.length); }} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "rgba(0,0,0,0.5)", color: "white", border: "none", width: 28, height: 28, borderRadius: 14, cursor: "pointer" }}>›</button>
+            <button
+              className="image-carousel-btn image-carousel-btn-left"
+              onClick={(e) => { e.stopPropagation(); setCurrentIndex((i) => (i - 1 + itemImages.length) % itemImages.length); }}
+            >
+              ‹
+            </button>
+            <button
+              className="image-carousel-btn image-carousel-btn-right"
+              onClick={(e) => { e.stopPropagation(); setCurrentIndex((i) => (i + 1) % itemImages.length); }}
+            >
+              ›
+            </button>
           </>
         )}
       </div>
 
-      {Array.isArray(itemImages) && itemImages.length > 1 && (
-        <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
+      {itemImages.length > 1 && (
+        <div className="image-carousel-thumbs">
           {itemImages.map((url, idx) => (
-            <div key={idx} onClick={() => setCurrentIndex(idx)} style={{ cursor: "pointer", border: idx === currentIndex ? "2px solid #2563EB" : "1px solid #E5E7EB", width: 56, height: 40, overflow: "hidden", borderRadius: 6 }}>
-              <img src={url} alt={`thumb-${idx}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <div
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`image-carousel-thumb ${idx === currentIndex ? "selected" : ""}`}
+            >
+              <img src={url} alt={`thumb-${idx}`} />
             </div>
           ))}
         </div>
