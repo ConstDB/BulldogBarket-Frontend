@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants";
+import { validateSignup } from "../../schemas/user_schema";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -24,19 +25,14 @@ export default function SignupForm() {
     setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const validate = () => {
-    if (!formData.studentNumber) return "Student number is required.";
-    if (!formData.password || formData.password.length < 6) return "Password must be at least 6 characters.";
-    if (!formData.agree) return "You must agree to the Terms of Service.";
-    return null;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    const v = validate();
-    if (v) {
-      setError(v);
+    
+    // Use the validation schema
+    const validationErrors = validateSignup(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setError(Object.values(validationErrors)[0]);
       return;
     }
 

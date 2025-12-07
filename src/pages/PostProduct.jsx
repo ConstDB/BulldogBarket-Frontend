@@ -4,6 +4,7 @@ import ListingTypeSelector from "../components/postproduct/ListingTypeSelector";
 import LivePreview from "../components/postproduct/LivePreview";
 import PostButton from "../components/postproduct/PostButton";
 import ProductDetailsForm from "../components/postproduct/ProductDetailsForm";
+import { validateListing } from "../schemas/product_schema";
 
 export default function PostProduct() {
   const [itemTitle, setItemTitle] = useState("");
@@ -19,9 +20,19 @@ export default function PostProduct() {
 
   const handlePost = async () => {
     setError(null);
-    // basic client validation
-    if (!itemTitle || !description || !price) {
-      setError("Please fill required fields: title, description, price.");
+    
+    // Use the validation schema
+    const formData = {
+      title: itemTitle,
+      description,
+      price,
+      category,
+      itemImageFile
+    };
+    
+    const validationErrors = validateListing(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setError(Object.values(validationErrors)[0]);
       return;
     }
 
