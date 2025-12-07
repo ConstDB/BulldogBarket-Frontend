@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants";
+import { validateSignup } from "../../schemas/user_schema";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -23,19 +25,14 @@ export default function SignupForm() {
     setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const validate = () => {
-    if (!formData.studentNumber) return "Student number is required.";
-    if (!formData.password || formData.password.length < 6) return "Password must be at least 6 characters.";
-    if (!formData.agree) return "You must agree to the Terms of Service.";
-    return null;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    const v = validate();
-    if (v) {
-      setError(v);
+    
+    // Use the validation schema
+    const validationErrors = validateSignup(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setError(Object.values(validationErrors)[0]);
       return;
     }
 
@@ -108,38 +105,53 @@ export default function SignupForm() {
         <div style={{ display: "flex", gap: "2.5rem" }}>
           <div style={{ flex: 1 }}>
             <label style={{ fontWeight: 700 }}>Course</label>
-            <input
-              type="text"
+            <select
               name="course"
               value={formData.course}
               onChange={handleChange}
-              placeholder="BSCS-ML"
               style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
-            />
+            >
+              <option value="">Select a course</option>
+              {NU_COURSES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
           </div>
           <div style={{ flex: 1 }}>
             <label style={{ fontWeight: 700 }}>Year</label>
-            <input
-              type="text"
+            <select
               name="year"
               value={formData.year}
               onChange={handleChange}
-              placeholder="3rd year"
               style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
-            />
+            >
+              <option value="">Select year level</option>
+              {NU_YEAR_LEVELS.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
         <div>
           <label style={{ fontWeight: 700 }}>Campus</label>
-          <input
-            type="text"
+          <select
             name="campus"
             value={formData.campus}
             onChange={handleChange}
-            placeholder="NU Manila"
             style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
-          />
+          >
+            <option value="">Select a campus</option>
+            {NU_CAMPUSES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
