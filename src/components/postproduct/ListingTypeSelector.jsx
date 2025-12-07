@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import burgerIcon from "../../assets/burger.svg";
+import shirtIcon from "../../assets/shirt.svg";
+import listingIcon from "../../assets/listingType.svg";
 
 export default function ListingTypeSelector() {
   const [type, setType] = useState("single");
@@ -16,7 +19,8 @@ export default function ListingTypeSelector() {
         width: 800 
       }}>
         
-      <div style={{ fontSize: 16, fontFamily: "Inter", fontWeight: 700, color: "#334155", textAlign: "left" }}>
+      <div style={{ fontSize: 16, fontFamily: "Inter", fontWeight: 700, color: "#334155", textAlign: "left", display: "flex", alignItems: "center", gap: 8 }}>
+        <img src={listingIcon} alt="listing type" style={{ width: 24, height: 24 }} />
         Listing Type
       </div>
 
@@ -45,6 +49,7 @@ export default function ListingTypeSelector() {
             e.currentTarget.style.boxShadow = "none";
           }}
         >
+          <img src={shirtIcon} alt="shirt" style={{ width: 40, height: 40 }} />
           <div style={{ fontSize: 14, fontWeight: 700 }}>Single Item</div>
           <div style={{ fontSize: 12, color: "#6B7280" }}>
             Unique items like uniforms, books, or old gadgets.
@@ -76,6 +81,7 @@ export default function ListingTypeSelector() {
             e.currentTarget.style.boxShadow = "none";
           }}
         >
+          <img src={burgerIcon} alt="burger" style={{ width: 40, height: 40 }} />
           <div style={{ fontSize: 14, fontWeight: 700 }}>Bulk / Food</div>
           <div style={{ fontSize: 12, color: "#6B7280" }}>
             Items with multiple stocks like graham balls, pins.

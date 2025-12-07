@@ -133,7 +133,7 @@ export default function LivePreview({
           position: "absolute",
           color: "#334155",
           fontSize: 12,
-          fontFamily: "Sen",
+          fontFamily: "Inter",
           fontWeight: 400,
           wordWrap: "break-word"
         }}
@@ -158,7 +158,7 @@ export default function LivePreview({
           position: "absolute",
           color: "#35408E",
           fontSize: 12,
-          fontFamily: "Sen",
+          fontFamily: "Inter",
           fontWeight: 400,
           wordWrap: "break-word"
         }}

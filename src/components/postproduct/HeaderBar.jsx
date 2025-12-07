@@ -1,4 +1,5 @@
 import React from "react";
+import arrowIcon from "../../assets/LeftArrow.svg";
 
 export default function HeaderBar() {
   return (
@@ -8,14 +9,13 @@ export default function HeaderBar() {
       background: "#35408E",
       display: "flex",
       alignItems: "center",
-      padding: "0 40px",
+      paddingLeft: "40px",
       color: "white",
       fontFamily: "Inter",
       fontWeight: 700,
       fontSize: 18
     }}>
-      <div style={{ marginRight: 20, width: 20, height: 2, background: "#EFF6FF" }} />
-      <div style={{ marginRight: 10, width: 9, height: 16, background: "#EFF6FF" }} />
+        <img src={arrowIcon} alt="back" style={{ width: 16, height: 16, marginRight: 10 }} />
       Create Listing
     </div>
   );

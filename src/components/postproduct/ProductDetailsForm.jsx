@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import cameraIcon from "../../assets/camera.svg";
 
 export default function ProductDetailsForm({
   itemTitle,
@@ -77,8 +78,13 @@ export default function ProductDetailsForm({
             borderRadius: "50%",
             marginTop: 10,
             marginBottom: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
+        >
+          <img src={cameraIcon} alt="camera" style={{ width: 20, height: 20 }} />
+        </div>
         <div style={{ fontWeight: 700 }}>Click or drag photos here</div>
         <div style={{ fontSize: 12, color: "#9CA3AF" }}>Max 5 photos (5MB each)</div>
 
