@@ -1,0 +1,60 @@
+.barkkart-panel {
+  flex: 1;
+  background: #35408E;
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.barkkart-panel h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.barkkart-panel h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 2rem;
+  line-height: 1.2;
+}
+
+.barkkart-panel h2 span {
+  color: #FFD400;
+}
+
+.barkkart-panel p {
+  margin-top: 1rem;
+  color: #DBEAFE;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.barkkart-panel .feature {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.barkkart-panel .feature:first-child {
+  margin-top: 2rem;
+}
+
+.barkkart-panel .feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-right: 1rem;
+}
+
+.barkkart-panel .feature-text p:first-child {
+  font-weight: 700;
+}
+
+.barkkart-panel .footer {
+  margin-top: 2rem;
+  font-size: 14px;
+  color: #E5E7EB;
+}

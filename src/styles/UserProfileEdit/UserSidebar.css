@@ -1,0 +1,58 @@
+/* Main container */
+.sidebar-container {
+  width: 270px;
+  height: 265px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #F3F4F6;
+  font-family: sans-serif;
+}
+
+/* Base item style */
+.sidebar-item {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  color: #1f2a44;
+  transition: 0.25s ease;
+}
+
+/* Hover */
+.sidebar-item:hover {
+  background: #f2f6ff;
+  border-left-color: #35408E;
+  color: #35408E;
+}
+
+/* Active (clicked) items */
+.sidebar-item.active {
+  background: #f2f6ff;
+  border-left-color: #3b5bdb;
+  color: #3b5bdb;
+}
+
+/* Logout special styling */
+.logout {
+  color: red !important;
+}
+
+.logout:hover {
+  background: #f2f6ff;
+  border-left-color: red;
+  color: red;
+}
+
+.logout-active {
+  background: #f2f6ff;
+  border-left-color: red;
+  color: red !important;
+}
+.logout-active:hover {
+  background: #f2f6ff;
+  border-left-color: red;
+  color: red !important;
+}
