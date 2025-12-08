@@ -1,9 +1,9 @@
 import React from "react";
 // 1. Import Link so we can navigate
-import { Link } from "react-router-dom"; 
 import { FaStore, FaMoon, FaHome } from "react-icons/fa";
+import { Link } from "react-router-dom"; 
 
-export default function Navbar() {
+export default function NavBar() {
   const styles = {
     navbar: {
       width: "100%",
@@ -25,7 +25,7 @@ export default function Navbar() {
       alignItems: "center",
       gap: "10px",
       cursor: "pointer",
-      textDecoration: "none", // Removes underline
+      textDecoration: "none", 
       color: "white",
     },
     brandIcon: {
@@ -67,24 +67,20 @@ export default function Navbar() {
 
   return (
     <div style={styles.navbar}>
-      {/* LEFT: Logo -> Link to Home */}
       <Link to="/" style={styles.brandGroup}>
         <FaStore style={styles.brandIcon} />
         <span style={styles.brandName}>BarkKart</span>
       </Link>
 
-      {/* RIGHT: Icons */}
       <div style={styles.navGroup}>
         <button style={styles.iconLink} title="Dark Mode">
           <FaMoon />
         </button>
 
-        {/* Home Icon -> Link to Home */}
         <Link to="/" style={styles.iconLink} title="Home">
           <FaHome />
         </Link>
 
-        {/* Profile Image -> Link to Sign In */}
         <Link to="/signin"> 
           <img 
             src="https://placehold.co/100" 

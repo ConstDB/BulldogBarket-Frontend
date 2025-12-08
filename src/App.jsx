@@ -9,7 +9,8 @@ import UserProfileEdit from "./pages/UserProfileEdit";
 import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
-import SellerDashboard from "./pages/SellerDashboard/dashboard"; 
+import SellerDashboard from "./pages/dashboard"; 
+
 
 
 function App() {
