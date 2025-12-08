@@ -4,7 +4,7 @@ import { PiLockKeyFill } from "react-icons/pi";
 import "../../styles/SignIn/SignInForm.css";
 
 export default function SigninForm() {
-  const [formData, setFormData] = useState({ identifier: "", password: "" });
+  const [formData, setFormData] = useState({ studentNumber: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
   const [hoverBtn, setHoverBtn] = useState(false);
@@ -16,13 +16,17 @@ export default function SigninForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Initialize the API BASE
+  const API_BASE = import.meta.env.VITE_API_URL || "";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    console.log(formData)
     try {
-      const response = await fetch("/api/auth/signin", {
+      const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -53,9 +57,9 @@ export default function SigninForm() {
           <span className="icon-left"><FaRegIdCard /></span>
           <input
             type="text"
-            name="identifier"
+            name="studentNumber"
             placeholder="e.g., 2022-123456"
-            value={formData.identifier}
+            value={formData.studentNumber}
             onChange={handleChange}
             onFocus={() => setFocusedInput("user")}
             onBlur={() => setFocusedInput(null)}

@@ -47,7 +47,7 @@ export default function SignupForm() {
 
     try {
       setLoading(true);
-      const res = await fetch(`http://127.0.0.1:3000/api/v1/auth/signup`, {
+      const res = await fetch(`${API_BASE}/api/v1/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
