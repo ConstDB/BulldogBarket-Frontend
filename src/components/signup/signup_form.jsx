@@ -54,12 +54,12 @@ export default function SignupForm() {
       });
 
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(data?.message || "Signup failed");
-        return;
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard");
+      } else {
+        navigate("/signin");
       }
-
-      navigate("/signin");
     } catch (err) {
       setError(err?.message || "Network error");
     } finally {
