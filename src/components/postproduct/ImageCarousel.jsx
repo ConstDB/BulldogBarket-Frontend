@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/PostProduct/ImageCarousel.css";
+import "../../styles/PostProduct/imageCarousel.css";
 
 export default function ImageCarousel({ itemImages = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);

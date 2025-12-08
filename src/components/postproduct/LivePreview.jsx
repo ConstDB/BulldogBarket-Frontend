@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/PostProduct/LivePreview.css";
+import "../../styles/PostProduct/livePreview.css";
 import ImageCarousel from "./ImageCarousel";
 
 export default function LivePreview({

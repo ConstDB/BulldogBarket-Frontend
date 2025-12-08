@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaRegIdCard } from "react-icons/fa";
 import { PiLockKeyFill } from "react-icons/pi";
-import "../../styles/Signin/SigninForm.css";
+import "../../styles/SignIn/SignInForm.css";
 
 export default function SigninForm() {
   const [formData, setFormData] = useState({ identifier: "", password: "" });

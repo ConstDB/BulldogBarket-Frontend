@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import cameraIcon from "../../assets/cameraicon.svg";
-import "../../styles/PostProduct/ImageUploader.css";
+import "../../styles/PostProduct/imageUploader.css";
 
 export default function ImageUploader({ itemImages = [], setItemImages, itemImageFiles = [], setItemImageFiles }) {
   const [isDragging, setIsDragging] = useState(false);

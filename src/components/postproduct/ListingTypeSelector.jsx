@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../../styles/PostProduct/ListingTypeSelector.css";
+import "../../styles/PostProduct/listingTypeSelector.css";
 import burgerIcon from "../../assets/burger.svg";
 import shirtIcon from "../../assets/shirt.svg";
-import listingIcon from "../../assets/listingType.svg";
+import listingIcon from "../../assets/ListingType.svg";
 
 export default function ListingTypeSelector() {
   const [type, setType] = useState("single");

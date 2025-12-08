@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "../../styles/PostProduct/ProductDetailsForm.css";
+import "../../styles/PostProduct/productDetailsForm.css";
 import ImageUploader from "./ImageUploader";
 
 export default function ProductDetailsForm({

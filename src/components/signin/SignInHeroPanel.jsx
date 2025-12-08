@@ -1,7 +1,7 @@
 import React from "react";
 import { FaStore } from "react-icons/fa";
 import { BiPackage } from "react-icons/bi";
-import "../../styles/Signin/SignInHeroPanel.css";
+import "../../styles/SignIn/SignInHeroPanel.css";
 
 export default function SignInHeroPanel() {
   return (

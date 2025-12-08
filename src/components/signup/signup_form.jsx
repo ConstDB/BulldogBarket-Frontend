@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants";
 import { validateSignup } from "../../schemas/user_schema";
-import "../../styles/signup/signup.css"; // Make sure this path is correct
+import "../../styles/SignUp/signup.css"; // Make sure this path is correct
 
 export default function SignupForm() {
   const navigate = useNavigate();
