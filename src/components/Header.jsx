@@ -100,7 +100,7 @@ function Header() {
           <img src={home} alt="MarketFeed" style={{ height: "16px", cursor: "pointer" }} />
         </Link>
 
-        <Link to="/bookmarks">
+        <Link to="/post-product">
           <img src={bookmark} alt="Bookmarks" style={{ height: "16px", cursor: "pointer" }} />
         </Link>
 

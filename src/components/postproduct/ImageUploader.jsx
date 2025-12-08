@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import cameraIcon from "../../assets/camera.svg";
+import cameraIcon from "../../assets/cameraicon.svg";
 import "../../styles/PostProduct/ImageUploader.css";
 
 export default function ImageUploader({ itemImages = [], setItemImages, itemImageFiles = [], setItemImageFiles }) {

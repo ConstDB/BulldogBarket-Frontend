@@ -91,6 +91,7 @@
   font-weight: 700;
 }
 
+/*
 input:hover,
 select:hover,
 textarea:hover,
@@ -104,10 +105,11 @@ textarea:focus {
   transition: all 0.2s ease;
 }
 
-/* Submit button hover */
+Submit button hover
 button:hover:not(:disabled) {
   background: #2e3575;
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
+*/
 

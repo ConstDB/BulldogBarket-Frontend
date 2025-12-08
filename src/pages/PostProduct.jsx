@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import HeaderBar from "../components/postproduct/HeaderBar";
 import ListingTypeSelector from "../components/postproduct/ListingTypeSelector";
 import LivePreview from "../components/postproduct/LivePreview";
 import PostButton from "../components/postproduct/PostButton";
@@ -86,7 +85,7 @@ export default function PostProduct() {
         flexDirection: "column",
       }}
     >
-      <HeaderBar />
+
 
       <div
         style={{
