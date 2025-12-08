@@ -37,17 +37,17 @@ export default function SignupForm() {
     }
 
     const payload = {
-      fullName: formData.fullName,
+      name: formData.fullName,
       studentNumber: formData.studentNumber,
       course: formData.course,
-      year: formData.year,
+      yearLevel: formData.year,
       campus: formData.campus,
       password: formData.password,
     };
 
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/auth/signup`, {
+      const res = await fetch(`http://127.0.0.1:3000/api/v1/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
