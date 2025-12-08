@@ -1,0 +1,94 @@
+.hero-panel {
+  width: 640px;
+  background-color: #35408E;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+
+/* Brand section */
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  color: #FBBF24;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Hero Text */
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 20px 0;
+}
+
+.highlight {
+  color: #FBBF24;
+}
+
+.hero-desc {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-bottom: 40px;
+  line-height: 1.5;
+  max-width: 350px;
+}
+
+/* Features */
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.feature-sub {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Footer */
+.copyright {
+  position: absolute;
+  bottom: 30px;
+  left: 40px;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}

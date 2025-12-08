@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../../styles/MarketFeed/MultipleItemPost.css";
-import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
 import upvoteIcon from "../../assets/upvote.svg";
@@ -11,84 +10,59 @@ import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
 
-const mockData = {
-  user: {
-    name: "Marcos",
-    yearCourse: `${NU_COURSES[15]} • ${NU_YEAR_LEVELS[4]}`,
-    location: NU_CAMPUSES[2],
-    avatar: profileIcon,
-  },
-  post: {
-    timestamp: "4 hrs ago",
-    category: "Snacks",
-    price: 50,
-    item: "box",
-    title: "Homemade Graham Balls (5 pcs)",
-    description:
-      "Fresh batch of Graham Balls just dropped! Also selling ID laces. Meetup agad sa garden",
-    image: foodImage,
-    upvotes: 12,
-    comments: 3,
-  },
-};
+export default function MultipleItemPost() {
+  const mockData = {
+    user: {
+      name: "Marcos",
+      yearCourse: "5th year BS Chemical Engineering",
+      location: "NU Moa",
+      avatar: profileIcon,
+    },
+    post: {
+      timestamp: "4 hrs ago",
+      category: "Snacks",
+      price: 50,
+      item: "box",
+      title: "Homemade Graham Balls (5 pcs)",
+      description:
+        "Fresh batch of Graham Balls just dropped! Also selling ID laces. Meetup agad sa garden",
+      image: foodImage,
+      upvotes: 12,
+      comments: 3,
+    },
+  };
 
-export default function MultipleItemPost({ post = mockData.post, user = mockData.user }) {
-  const [bookmarked, setBookmarked] = useState(post.bookmarked || false);
-  const [upvotes, setUpvotes] = useState(post.upvotes || 0);
-  const [downvotes, setDownvotes] = useState(post.downvotes || 0);
-  const [comments, setComments] = useState(post.comments || 0);
-  const [actionLoading, setActionLoading] = useState(null);
-  const [actionError, setActionError] = useState(null);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [upvotes, setUpvotes] = useState(mockData.post.upvotes);
+  const [downvotes, setDownvotes] = useState(0);
+  const [comments, setComments] = useState(mockData.post.comments);
 
-  async function handleAction(action) {
-    setActionLoading(action);
-    setActionError(null);
-
-    try {
-      const res = await fetch(`/api/posts/${post.id}/${action}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Action failed: ${res.status}`);
-      }
-
-      const data = await res.json();
-      if (action === "upvote") setUpvotes(data.upvotes || upvotes + 1);
-      if (action === "downvote") setDownvotes(data.downvotes || downvotes + 1);
-      if (action === "bookmark") setBookmarked(!bookmarked);
-    } catch (err) {
-      setActionError(err?.message || "Action failed");
-    } finally {
-      setActionLoading(null);
-    }
-  }
+  const handleUpvote = () => setUpvotes(upvotes + 1);
+  const handleDownvote = () => setDownvotes(downvotes + 1);
+  const handleCommentClick = () => alert("modal tol");
 
   return (
     <div className="mip-container">
 
       <div className="mip-user-row">
         <div className="mip-user-info">
-          <img src={user.avatar || profileIcon} alt="User" className="mip-avatar" />
+          <img src={mockData.user.avatar} alt="User" className="mip-avatar" />
 
           <div>
             <div className="mip-user-name">
-              <span className="mip-name">{user.name || "User"}</span>
-              <span className="mip-year"> • {user.yearCourse || ""}</span>
+              <span className="mip-name">{mockData.user.name}</span>
+              <span className="mip-year"> • {mockData.user.yearCourse}</span>
             </div>
 
             <div className="mip-meta">
-              {post.timestamp || "just now"} • {user.location || ""}
+              {mockData.post.timestamp} • {mockData.user.location}
             </div>
           </div>
         </div>
 
         <button
-          onClick={() => handleAction("bookmark")}
+          onClick={() => setBookmarked(!bookmarked)}
           className="mip-bookmark-btn"
-          disabled={actionLoading === "bookmark"}
         >
           <img
             src={bookmarkIcon}
@@ -99,18 +73,18 @@ export default function MultipleItemPost({ post = mockData.post, user = mockData
         </button>
       </div>
 
-      <div className="mip-description">{post.description || ""}</div>
+      <div className="mip-description">{mockData.post.description}</div>
 
       <div className="mip-item-box">
-        <div className="mip-category">{post.category || ""}</div>
+        <div className="mip-category">{mockData.post.category}</div>
 
-        <img src={post.image || foodImage} alt="Item" className="mip-item-img" />
+        <img src={mockData.post.image} alt="Item" className="mip-item-img" />
 
         <div className="mip-price">
-          ₱{post.price || 0}.00 / {post.item || "item"}
+          ₱{mockData.post.price}.00 / {mockData.post.item}
         </div>
 
-        <div className="mip-title">{post.title || ""}</div>
+        <div className="mip-title">{mockData.post.title}</div>
 
         <div className="mip-buttons">
           <button className="mip-request-btn">Order Item</button>
@@ -135,40 +109,22 @@ export default function MultipleItemPost({ post = mockData.post, user = mockData
         <span className="mip-stat">{comments} comments</span>
       </div>
 
-      {actionError && (
-        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>
-          {actionError}
-        </div>
-      )}
-
       <hr className="mip-divider" />
 
       <div className="mip-actions">
-        <button 
-          className="mip-action-btn" 
-          onClick={() => handleAction("upvote")}
-          disabled={actionLoading === "upvote"}
-        >
+        <button className="mip-action-btn" onClick={handleUpvote}>
           <img src={upvoteIcon} alt="Upvote" className="mip-action-icon" />
-          {actionLoading === "upvote" ? "..." : "Upvote"}
+          Upvote
         </button>
 
-        <button 
-          className="mip-action-btn" 
-          onClick={() => handleAction("downvote")}
-          disabled={actionLoading === "downvote"}
-        >
+        <button className="mip-action-btn" onClick={handleDownvote}>
           <img src={downvoteIcon} alt="Downvote" className="mip-action-icon" />
-          {actionLoading === "downvote" ? "..." : "Downvote"}
+          Downvote
         </button>
 
-        <button 
-          className="mip-action-btn" 
-          onClick={() => handleAction("comment")}
-          disabled={actionLoading === "comment"}
-        >
+        <button className="mip-action-btn" onClick={handleCommentClick}>
           <img src={commentIcon} alt="Comments" className="mip-action-icon" />
-          {actionLoading === "comment" ? "..." : "Comment"}
+          Comment
         </button>
       </div>
     </div>

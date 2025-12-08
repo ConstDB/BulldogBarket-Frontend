@@ -6,10 +6,10 @@ import Menu from "./pages/menu";
 import About from "./pages/about";
 import Header from "./components/Header";
 import UserProfileEdit from "./pages/UserProfileEdit";
+import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
 import './index.css';
-
 
 function App() {
   return (
@@ -20,6 +20,8 @@ function App() {
         <Route path="/profile" element={<UserProfileEdit />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-product" element={<PostProduct />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />

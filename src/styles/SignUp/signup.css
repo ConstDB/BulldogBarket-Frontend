@@ -93,6 +93,7 @@
 
 /*
 input:hover,
+
 select:hover,
 textarea:hover,
 input:focus,
@@ -105,11 +106,13 @@ textarea:focus {
   transition: all 0.2s ease;
 }
 
-Submit button hover
-button:hover:not(:disabled) {
+/* Submit button hover */
+/* button:hover:not(:disabled) {
+>>>>>>> 99501eaac9af94b8f47616ced380d8f9bf5fe948
   background: #2e3575;
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
-*/
 
+*/
+ 
