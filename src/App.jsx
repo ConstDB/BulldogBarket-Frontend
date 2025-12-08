@@ -13,7 +13,6 @@ import PostProduct from "./pages/PostProduct";
 import SellerDashboard from "./pages/dashboard"; 
 
 
-
 const queryClient = new QueryClient();
 
 function App() {
