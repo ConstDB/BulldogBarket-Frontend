@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs";
 
+// 1. Import the new CSS file
+import "../../styles/SellerDashboard/SellerListings.css";
+
 export default function SellerListings() {
   // --- MOCK DATA STATE ---
   const [listings, setListings] = useState([
@@ -28,121 +31,39 @@ export default function SellerListings() {
     },
   ]);
 
-  // --- THEME COLORS ---
-  const colors = {
-    white: "#FFFFFF",
-    textDark: "#1F2937",
-    textLight: "#6B7280",
-    border: "#E5E7EB",
-    green: "#10B981",
-    orange: "#F59E0B",
-    trash: "#9CA3AF",
-    bgHover: "#F9FAFB",
-  };
-
-  // --- DYNAMIC STYLES OBJECT ---
-  const styles = {
-    card: {
-      backgroundColor: colors.white,
-      borderRadius: "16px",
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
-      border: `1px solid ${colors.border}`,
-      padding: "24px",
-      height: "fit-content",
-      width: "100%",
-    },
-    title: {
-      fontSize: "1.1rem",
-      fontWeight: "700",
-      color: colors.textDark,
-      marginBottom: "24px",
-    },
-    listContainer: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "20px",
-    },
-    itemRow: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    itemGroup: {
-      display: "flex",
-      alignItems: "center",
-      gap: "15px",
-    },
-    imagePlaceholder: {
-      width: "48px",
-      height: "48px",
-      borderRadius: "8px",
-      backgroundColor: "#E5E7EB",
-      objectFit: "cover",
-    },
-    textGroup: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    itemName: {
-      fontSize: "0.95rem",
-      fontWeight: "700",
-      color: colors.textDark,
-      lineHeight: "1.2",
-    },
-    stockText: (isReserved) => ({
-      fontSize: "0.8rem",
-      fontWeight: "600",
-      marginTop: "4px",
-      color: isReserved ? colors.orange : colors.green, 
-    }),
-    toggleIcon: {
-      color: colors.green,
-      fontSize: "1.8rem",
-      cursor: "pointer",
-    },
-    trashIcon: {
-      color: colors.trash,
-      fontSize: "1.1rem",
-      cursor: "pointer",
-      transition: "color 0.2s",
-    },
-  };
-
-  // --- ACTIONS (This fixes the 'setListings' unused warning) ---
-  
   // 1. Function to Toggle Active Status
   const handleToggle = (id) => {
     const updatedList = listings.map((item) => {
       if (item.id === id) {
-        return { ...item, isActive: !item.isActive }; // Flip the active state
+        return { ...item, isActive: !item.isActive }; 
       }
       return item;
     });
-    setListings(updatedList); // We are now using setListings!
+    setListings(updatedList); 
   };
 
   // 2. Function to Delete an Item
   const handleDelete = (id) => {
-    // Filter out the item with the matching ID
     const updatedList = listings.filter((item) => item.id !== id);
-    setListings(updatedList); // We are now using setListings!
+    setListings(updatedList); 
   };
 
   return (
-    <div style={styles.card}>
-      <h3 style={styles.title}>My Active Listings</h3>
+    <div className="listing-card">
+      <h3 className="listing-title">My Active Listings</h3>
 
-      <div style={styles.listContainer}>
+      <div className="list-container">
         {listings.map((item) => (
-          <div key={item.id} style={styles.itemRow}>
+          <div key={item.id} className="listing-row">
             
             {/* Left: Image & Details */}
-            <div style={styles.itemGroup}>
-              <div style={styles.imagePlaceholder} />
+            <div className="listing-group">
+              <div className="listing-img-placeholder" />
               
-              <div style={styles.textGroup}>
-                <span style={styles.itemName}>{item.name}</span>
-                <span style={styles.stockText(item.isReserved)}>
+              <div className="text-group">
+                <span className="item-name">{item.name}</span>
+                {/* Dynamic Class for Color: "reserved" or "active" */}
+                <span className={`stock-label ${item.isReserved ? "reserved" : "active"}`}>
                   {item.stockLabel}
                 </span>
               </div>
@@ -153,22 +74,22 @@ export default function SellerListings() {
               {item.isReserved ? (
                 // Delete Button
                 <FaTrash 
-                  style={styles.trashIcon} 
+                  className="action-icon icon-trash"
                   title="Delete Listing"
-                  onClick={() => handleDelete(item.id)} // Added Click Event
+                  onClick={() => handleDelete(item.id)} 
                 />
               ) : (
                 // Toggle Button
                 item.isActive ? (
                   <BsToggleOn 
-                    style={styles.toggleIcon} 
+                    className="action-icon icon-toggle-on"
                     title="Deactivate"
-                    onClick={() => handleToggle(item.id)} // Added Click Event
+                    onClick={() => handleToggle(item.id)} 
                   />
                 ) : (
                   <BsToggleOff 
-                    style={{...styles.toggleIcon, color: colors.textLight}} 
-                    onClick={() => handleToggle(item.id)} // Added Click Event
+                    className="action-icon icon-toggle-off"
+                    onClick={() => handleToggle(item.id)} 
                   />
                 )
               )}
