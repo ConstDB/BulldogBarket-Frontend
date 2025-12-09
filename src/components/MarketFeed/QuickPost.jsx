@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "../../styles/MarketFeed/QuickPost.css";
 
 import profileicon from "../../assets/profileicon.svg";
@@ -5,12 +6,13 @@ import sellitem from "../../assets/sellitem.svg";
 import lfpost from "../../assets/lfpost.svg";
 
 function QuickPost() {
+  const navigate = useNavigate();
   return (
     <div className="qp-box">
       <div className="qp-row1">
         <img src={profileicon} alt="User" className="qp-profile" />
 
-        <div className="qp-input">
+        <div className="qp-input" onClick={() => navigate("/post-product")} style={{ cursor: "pointer" }}>
           Selling or Looking for something?
         </div>
       </div>
@@ -18,7 +20,7 @@ function QuickPost() {
       <div className="qp-line"></div>
 
       <div className="qp-row2">
-        <button className="qp-btn">
+        <button className="qp-btn" onClick={() => navigate("/post-product")}>
           <img src={sellitem} alt="Sell Item" />
           <span>Sell Item</span>
         </button>
