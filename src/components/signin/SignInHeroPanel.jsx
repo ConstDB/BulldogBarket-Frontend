@@ -33,7 +33,7 @@ export default function SignInHeroPanel() {
 
       <div className="feature-row">
         <div className="icon-circle">
-          <FaStore />
+          <BiPackage />
         </div>
         <div className="feature-text">
           <span className="feature-title">Seller Dashboard</span>
