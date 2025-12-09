@@ -1,0 +1,106 @@
+/* src/components/seller-dashboard/SellerListings.css */
+
+:root {
+  --text-dark: #1F2937;
+  --text-light: #6B7280;
+  --border-light: #E5E7EB;
+  --status-green: #10B981;
+  --status-orange: #F59E0B;
+  --icon-trash: #9CA3AF;
+  --bg-white: #FFFFFF;
+}
+
+.listing-card {
+  background-color: var(--bg-white);
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+  padding: 24px;
+  height: fit-content;
+  width: 100%;
+}
+
+.listing-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.listing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.listing-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.listing-img-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: var(--border-light);
+  object-fit: cover;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.stock-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Dynamic Status Colors */
+.stock-label.active {
+  color: var(--status-green);
+}
+
+.stock-label.reserved {
+  color: var(--status-orange);
+}
+
+/* --- ICONS --- */
+.action-icon {
+  cursor: pointer;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.action-icon:hover {
+  opacity: 0.8;
+}
+
+.icon-trash {
+  color: var(--icon-trash);
+  font-size: 1.1rem;
+}
+
+.icon-toggle-on {
+  color: var(--status-green);
+  font-size: 1.8rem;
+}
+
+.icon-toggle-off {
+  color: var(--text-light);
+  font-size: 1.8rem;
+}

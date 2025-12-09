@@ -1,83 +1,25 @@
 import React from "react";
-// 1. Import Link so we can navigate
 import { FaStore, FaMoon, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom"; 
 
-export default function NavBar() {
-  const styles = {
-    navbar: {
-      width: "100%",
-      height: "64px",
-      backgroundColor: "#2A3B8F", 
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: "0 40px",
-      boxSizing: "border-box", 
-      color: "white",
-      position: "sticky",
-      top: 0,
-      zIndex: 100,
-      boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-    },
-    brandGroup: {
-      display: "flex",
-      alignItems: "center",
-      gap: "10px",
-      cursor: "pointer",
-      textDecoration: "none", 
-      color: "white",
-    },
-    brandIcon: {
-      fontSize: "1.5rem",
-      color: "#FBBF24", 
-    },
-    brandName: {
-      fontSize: "1.2rem",
-      fontWeight: "800",
-      letterSpacing: "0.5px",
-    },
-    navGroup: {
-      display: "flex",
-      alignItems: "center",
-      gap: "24px",
-    },
-    iconLink: {
-      color: "white",
-      fontSize: "1.2rem",
-      display: "flex",
-      alignItems: "center",
-      opacity: 0.9,
-      transition: "opacity 0.2s",
-      textDecoration: "none",
-      background: "none",
-      border: "none",
-      cursor: "pointer",
-    },
-    profileImg: {
-      width: "36px",
-      height: "36px",
-      borderRadius: "50%",
-      backgroundColor: "#E5E7EB",
-      border: "2px solid rgba(255,255,255,0.2)",
-      objectFit: "cover",
-      cursor: "pointer",
-    }
-  };
+// 👇 IMPORT THE CSS FILE HERE
+import "../../styles/NavigationBar/NavBar.css"; 
 
+export default function NavBar() {
   return (
-    <div style={styles.navbar}>
-      <Link to="/" style={styles.brandGroup}>
-        <FaStore style={styles.brandIcon} />
-        <span style={styles.brandName}>BarkKart</span>
+    <div className="navbar">
+      {/* Brand Logo Group */}
+      <Link to="/" className="brand-group">
+        <FaStore className="brand-icon" />
+        <span className="brand-name">BarkKart</span>
       </Link>
 
-      <div style={styles.navGroup}>
-        <button style={styles.iconLink} title="Dark Mode">
+      <div className="nav-group">
+        <button className="icon-link" title="Dark Mode">
           <FaMoon />
         </button>
 
-        <Link to="/" style={styles.iconLink} title="Home">
+        <Link to="/" className="icon-link" title="Home">
           <FaHome />
         </Link>
 
@@ -85,7 +27,7 @@ export default function NavBar() {
           <img 
             src="https://placehold.co/100" 
             alt="Profile" 
-            style={styles.profileImg} 
+            className="profile-img" 
           />
         </Link>
       </div>
