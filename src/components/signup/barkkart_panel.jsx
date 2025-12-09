@@ -14,26 +14,27 @@ export default function barkkartPanel() {
         </p>
       </div>
 
-      <div>
-        <div className="feature">
-          <div className="feature-icon" />
+      <div className="feature-container">
+        <div className="feature-row">
+          <div className="icon-circle"></div>
           <div className="feature-text">
-            <p>Secure & Verified</p>
-            <p>Safe transactions on campus.</p>
+            <span className="feature-title">Secure & Verified</span>
+            <span className="feature-sub">Student ID verification required.</span>
+          </div>   
+        </div>
+        
+        <div className="feature-row">
+          <div className="icon-circle"></div>
+          <div className="feature-text">
+            <span className="feature-title">Meetup or Delivery</span>
+            <span className="feature-sub">Choose what works best for you.</span>
           </div>
         </div>
-
-        <div className="feature">
-          <div className="feature-icon" />
-          <div className="feature-text">
-            <p>Meetup or Delivery</p>
-          </div>
-        </div>
+      </div>
 
         <p className="footer">
           © 2025 BarkKart. Information Assurance and Security Project.
         </p>
       </div>
-    </div>
   );
 }
