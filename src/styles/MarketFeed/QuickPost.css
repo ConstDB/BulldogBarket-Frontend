@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;600;700&display=swap');
  
+.whole-container{
+  display: flex;
+  justify-content: center;
+}
 .qp-box {
   width: 100%;
   max-width: 561px;
@@ -9,10 +13,8 @@
   padding: 16px 18px;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   font-family: "Sen", sans-serif;
- 
-  position: absolute;
-  left: 392px;
-  top: 80px;
+  flex: auto;
+
 }
  
 .qp-row1 {
