@@ -6,7 +6,7 @@ import Menu from "./pages/menu";
 import About from "./pages/about";
 import Header from "./components/Header";
 import UserProfileEdit from "./pages/UserProfileEdit";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/Signin";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
 import SellerDashboard from "./pages/dashboard"; 
