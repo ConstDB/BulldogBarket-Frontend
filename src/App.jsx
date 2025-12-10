@@ -6,7 +6,7 @@ import Menu from "./pages/menu";
 import About from "./pages/about";
 import Header from "./components/Header";
 import UserProfileEdit from "./pages/UserProfileEdit";
-import SignIn from "./pages/Signin";
+import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
 import SellerDashboard from "./pages/dashboard"; 
@@ -32,7 +32,7 @@ function App() {
         <Link to="/post-product">Post Product</Link>
         <Link to="/seller-dashboard">Seller Dashboard</Link>
       </nav>
-
+      <Header />
       <Routes>
         <Route path="/marketfeed" element={<MarketFeed />} />
         <Route path="/profile" element={<UserProfileEdit />} />
