@@ -3,7 +3,7 @@ import { FaStore, FaMoon, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom"; 
 
 // 👇 IMPORT THE CSS FILE HERE
-import "../../styles/NavigationBar/NavBar.css"; 
+import "../../styles/SellerDashboard/NavBar.css";
 
 export default function NavBar() {
   return (
