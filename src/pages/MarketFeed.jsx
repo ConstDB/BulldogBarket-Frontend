@@ -4,37 +4,54 @@ import QuickPost from "../components/MarketFeed/QuickPost";
 import SingleItemPost from "../components/MarketFeed/SingleItemPost";
 import MultipleItemPost from "../components/MarketFeed/MultipleItemPost";
 
+const API_BASE = "http://127.0.0.1:3000/api/v1";
+
 export default function MarketFeed() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    fetchPosts(activeFilter);
-  }, [activeFilter]);
+    fetchListings(1, true);
+  }, []);
 
-  async function fetchPosts(filter) {
+  // fetchListings: pageNum - which page to fetch, replace - whether to replace current posts
+  async function fetchListings(pageNum = 1, replace = false) {
     setLoading(true);
     setError(null);
 
     try {
-      const url = filter === "all" 
-        ? "/api/products" 
-        : `/api/products?category=${filter}`;
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzMwY2QxOWYxZGUyMTNmNzg4NDgzZiIsImlhdCI6MTc2NTI4Mjk2MCwiZXhwIjoxNzY1NTQyMTYwfQ.LR37muTT28TWNsIhMsweZlZ-H4KPco50LM77JPgH-fE";
+      const sort = "recent"; // backend supports recent|popular
+      const limit = 20;
+      const url = `${API_BASE}/listings?page=${pageNum}&limit=${limit}&sort=${sort}`;
 
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Failed to fetch: ${res.status}`);
+        const text = await res.text().catch(() => null);
+        throw new Error(text || "Fetch failed, fix your backend or your query.");
       }
 
       const data = await res.json();
-      // Assume backend returns { products: [...] } or just [...]
-      setPosts(Array.isArray(data) ? data : data.products || []);
+      const listings = Array.isArray(data) ? data : [];
+
+      // backend may return less than limit when no more items
+      setHasMore(listings.length === limit);
+
+      setPosts((prev) => (replace ? listings : [...prev, ...listings]));
     } catch (err) {
       setError(err?.message || "Failed to load posts");
-      setPosts([]);
+      if (replace) setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -74,13 +91,13 @@ export default function MarketFeed() {
       )}
 
       {posts.map((post) => {
-        // Determine type from post data (assume backend includes 'category' or 'type')
-        const postType = post.category || post.type || "market";
 
-        return postType === "market" ? (
-          <SingleItemPost key={post.id} post={post} />
+        const postType = post.type || "single";
+
+        return postType === "bulk" ? (
+          <MultipleItemPost key={post._id} post={post} />
         ) : (
-          <MultipleItemPost key={post.id} post={post} />
+          <SingleItemPost key={post._id} post={post} />
         );
       })}
     </div>
