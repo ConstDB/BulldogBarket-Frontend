@@ -55,6 +55,7 @@ export default function MultipleItemPost({ post }) {
 
     checkIfSaved();
   }, [listingId]);
+  const [openModal, setOpenModal] = useState(false);
  
   // Handle upvote
   const handleUpvote = async () => {
@@ -179,6 +180,9 @@ export default function MultipleItemPost({ post }) {
       setActionLoading(false);
     }
   };
+  const handleCommentClick = () => alert("modal tol");
+
+  
  
   return (
     <div className="mip-container">
@@ -215,7 +219,9 @@ export default function MultipleItemPost({ post }) {
         <div className="mip-title">{listing.name}</div>
  
         <div className="mip-buttons">
-          <button className="mip-request-btn">Order Item</button>
+          <button className="mip-request-btn"
+            onClick={() => setOpenModal} >Order Item</button>
+ 
           <button className="mip-chat-btn">
             <img src={chatIcon} alt="Chat" /> Chat
           </button>
