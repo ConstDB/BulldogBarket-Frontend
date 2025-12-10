@@ -9,6 +9,8 @@ import chatIcon from "../../assets/chat.svg";
 import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
+import useModalManager from "../../hooks/useModalManager";
+import BulkOrderModal from "./BulkOrderModal";
  
 const API_BASE = "http://127.0.0.1:3000/api/v1";
  
@@ -55,9 +57,10 @@ export default function MultipleItemPost({ post }) {
 
     checkIfSaved();
   }, [listingId]);
-  const [openModal, setOpenModal] = useState(false);
- 
+
   // Handle upvote
+ 
+  const {modals, open, close} = useModalManager();
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
  
@@ -220,7 +223,7 @@ export default function MultipleItemPost({ post }) {
  
         <div className="mip-buttons">
           <button className="mip-request-btn"
-            onClick={() => setOpenModal} >Order Item</button>
+            onClick={() => open("order")} >Order Item</button>
  
           <button className="mip-chat-btn">
             <img src={chatIcon} alt="Chat" /> Chat
@@ -268,6 +271,7 @@ export default function MultipleItemPost({ post }) {
           <img src={commentIcon} alt="Comment" className="mip-action-icon" /> Comment
         </button>
       </div>
+      {modals.order && <BulkOrderModal onClose={() => close("order")} listing={post}/>}
     </div>
   );
 }
