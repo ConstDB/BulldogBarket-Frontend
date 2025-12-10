@@ -4,7 +4,7 @@ import QuickPost from "../components/MarketFeed/QuickPost";
 import SingleItemPost from "../components/MarketFeed/SingleItemPost";
 import MultipleItemPost from "../components/MarketFeed/MultipleItemPost";
 
-const API_BASE = "http://127.0.0.1:3000/api/v1";
+const API_BASE = import.meta.env.VITE_API_URL || ""
 
 export default function MarketFeed() {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -24,10 +24,10 @@ export default function MarketFeed() {
     setError(null);
 
     try {
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzMwY2QxOWYxZGUyMTNmNzg4NDgzZiIsImlhdCI6MTc2NTI4Mjk2MCwiZXhwIjoxNzY1NTQyMTYwfQ.LR37muTT28TWNsIhMsweZlZ-H4KPco50LM77JPgH-fE";
+      const token = localStorage.getItem("token");
       const sort = "recent"; // backend supports recent|popular
       const limit = 20;
-      const url = `${API_BASE}/listings?page=${pageNum}&limit=${limit}&sort=${sort}`;
+      const url = `${API_BASE}/api/v1/listings?page=${pageNum}&limit=${limit}&sort=${sort}`;
 
       const res = await fetch(url, {
         method: "GET",
@@ -58,48 +58,54 @@ export default function MarketFeed() {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "16px",
-        marginTop: "212px",
-      }}
-    >
-      <QuickPost />
+    <div className="whole-container">
+      <div
+        style={{
+          width: "fit-content",
+          display: "flex",
+          alignSelf: "center",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "20px",
+          marginTop: "22px",
+          position: "relative"
+        }}
+      >
+        <QuickPost />
 
-      <FilterButton active={activeFilter} onChange={setActiveFilter} />
+        <FilterButton active={activeFilter} onChange={setActiveFilter} />
 
-      {error && (
-        <div style={{ color: "#DC2626", fontSize: 14, marginTop: 16 }}>
-          {error}
-        </div>
-      )}
+        {error && (
+          <div style={{ color: "#DC2626", fontSize: 14, marginTop: 16 }}>
+            {error}
+          </div>
+        )}
 
-      {loading && (
-        <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
-          Loading posts...
-        </div>
-      )}
+        {loading && (
+          <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
+            Loading posts...
+          </div>
+        )}
 
-      {!loading && posts.length === 0 && !error && (
-        <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
-          No posts found
-        </div>
-      )}
+        {!loading && posts.length === 0 && !error && (
+          <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
+            No posts found
+          </div>
+        )}
 
-      {posts.map((post) => {
+        {posts.map((post) => {
 
-        const postType = post.type || "single";
+          const postType = post.type || "single";
 
-        return postType === "bulk" ? (
-          <MultipleItemPost key={post._id} post={post} />
-        ) : (
-          <SingleItemPost key={post._id} post={post} />
-        );
-      })}
+          return postType === "bulk" ? (
+            <MultipleItemPost key={post._id} post={post} />
+          ) : (
+            <SingleItemPost key={post._id} post={post} />
+          );
+        })}
+      </div>
+
     </div>
+    
   );
 }

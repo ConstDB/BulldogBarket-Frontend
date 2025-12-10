@@ -1,5 +1,5 @@
 import React from "react";
-import { SigninHeroPanel } from "../components/signin/SigninHeroPanel";
+import SigninHeroPanel from "../components/signin/SignInHeroPanel"; 
 import SigninForm from "../components/signin/SigninForm";
 
 export default function SignIn() {
