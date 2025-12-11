@@ -6,8 +6,6 @@ import "../../styles/SignIn/SigninForm.css";
 export default function SigninForm() {
   const [formData, setFormData] = useState({ studentNumber: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [focusedInput, setFocusedInput] = useState(null);
-  const [hoverBtn, setHoverBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,7 +14,6 @@ export default function SigninForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Initialize the API BASE
   const API_BASE = import.meta.env.VITE_API_URL || "";
 
   const handleSubmit = async (e) => {
@@ -48,59 +45,63 @@ export default function SigninForm() {
   };
 
   return (
-    <div className="signin-form-panel">
-      <form onSubmit={handleSubmit}>
+    <div className="signin-panel">
+      <div className="form-content">
+        <h2 className="signin-header">Sign In</h2>
+        <p className="signin-subheader">Access your account using student credentials.</p>
+
         {error && <div className="error-message">{error}</div>}
 
-        <label>Student Number / Email</label>
-        <div className="input-wrapper">
-          <span className="icon-left"><FaRegIdCard /></span>
-          <input
-            type="text"
-            name="studentNumber"
-            placeholder="e.g., 2022-123456"
-            value={formData.studentNumber}
-            onChange={handleChange}
-            onFocus={() => setFocusedInput("user")}
-            onBlur={() => setFocusedInput(null)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label className="input-label">Student Number / Email</label>
+            <div className="input-wrapper">
+              <span className="icon-left"><FaRegIdCard /></span>
+              <input
+                className="form-input"
+                type="text"
+                name="studentNumber"
+                placeholder="e.g., 2022-123456"
+                value={formData.studentNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
 
-        <label>Password</label>
-        <div className="input-wrapper">
-          <span className="icon-left"><PiLockKeyFill /></span>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="*************"
-            value={formData.password}
-            onChange={handleChange}
-            onFocus={() => setFocusedInput("pass")}
-            onBlur={() => setFocusedInput(null)}
-            required
-          />
-          <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+          <div className="input-group">
+            <label className="input-label">Password</label>
+            <div className="input-wrapper">
+              <span className="icon-left"><PiLockKeyFill /></span>
+              <input
+                className="form-input"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="*************"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
+            </div>
+          </div>
+
+          <a href="#" className="forgot-link">Forgot Password?</a>
+
+          <button
+            type="submit"
+            className="main-btn"
+            disabled={loading}
+          >
           </button>
-        </div>
-
-        <a href="#" className="forgot-link">Forgot Password?</a>
-
-        <button
-          type="submit"
-          className="main-btn"
-          onMouseEnter={() => setHoverBtn(true)}
-          onMouseLeave={() => setHoverBtn(false)}
-          disabled={loading}
-        >
-          {loading ? "Signing In..." : "Sign In"}
-        </button>
+        </form>
 
         <div className="create-account">
           New to BarkKart? <a href="#" className="create-link">Create Account</a>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
