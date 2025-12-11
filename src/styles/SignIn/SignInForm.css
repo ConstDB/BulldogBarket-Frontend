@@ -1,3 +1,146 @@
+/* src/components/Sign-In/SigninForm.css */
+
+:root {
+  --blue-primary: #2A3B8F;
+  --blue-dark: #1e2b6e;
+  --text-dark: #1F2937;
+  --text-light: #6B7280;
+  --input-focus: #2A3B8F;
+  --error-red: #DC2626;
+  --error-bg: #FEE2E2;
+  --error-border: #FCA5A5;
+}
+
+.signin-subheader {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 35px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  width: 544px;
+  height: 48px;
+  padding: 12px 12px 12px 45px; /* Left padding for icon space */
+  border-radius: 8px;
+  border: 1px solid #9CA3AF;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  color: var(--text-dark);
+  box-sizing: border-box;
+}
+
+/* Handles focus state automatically */
+.form-input:focus {
+  border-color: var(--input-focus);
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* Allows clicks to pass through */
+}
+
+.eye-btn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.eye-btn:hover {
+  color: var(--text-dark);
+}
+
+.forgot-link {
+  display: block;
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--blue-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 30px;
+  margin-top: 5px;
+}
+
+.main-btn {
+  width: 544px;
+  height: 48px;
+  background-color: var(--blue-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 25px;
+}
+
+/* Handles hover state automatically */
+.main-btn:hover {
+  background-color: var(--blue-dark);
+}
+
+.main-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.create-account {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 500;
+  width: 100%;
+}
+
+.create-link {
+  color: var(--blue-primary);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.error-message {
+  color: var(--error-red);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: var(--error-bg);
+  border-radius: 6px;
+  border: 1px solid var(--error-border);
+}
+
 /* Panel */
 .signin-form-panel {
   width: 600px;

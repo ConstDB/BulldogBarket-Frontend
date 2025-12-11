@@ -10,6 +10,8 @@ import UserProfileEdit from "./pages/UserProfileEdit";
 import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
+import SellerDashboard from "./pages/dashboard"; 
+
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/post-product" element={<PostProduct />} />
+            <Route path="/seller-dashboard" element={<SellerDashboard/>}/>
             <Route path="*" element={<h1>404 - Page Not Found</h1>} />
           </Routes>
       </>

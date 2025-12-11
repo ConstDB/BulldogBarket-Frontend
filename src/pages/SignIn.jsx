@@ -1,6 +1,6 @@
 import React from "react";
+import SigninHeroPanel from "../components/signin/SignInHeroPanel"; 
 import SigninForm from "../components/signin/SigninForm";
-import SignInHeroPanel from "../components/signin/SignInHeroPanel";
 
 export default function SignIn() {
   const styles = {
@@ -27,7 +27,7 @@ export default function SignIn() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <SignInHeroPanel />
+        <SigninHeroPanel />
         <SigninForm />
       </div>
     </div>
