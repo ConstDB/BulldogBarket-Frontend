@@ -58,7 +58,7 @@ export default function SavedItems() {
     try {
       const token = localStorage.getItem("token");
 
-      const url = `${API_BASE}/api/v1/saved`;
+      const url = `${API_BASE}/api/v1/users/saved-listings`;
 
       const res = await fetch(url, {
         method: "GET",
@@ -101,7 +101,8 @@ export default function SavedItems() {
 
     try {
       const token = localStorage.getItem("token");
-      const url = `${API_BASE}/api/v1/saved/${listingId}`;
+      // backend expects saved-listings under users namespace
+      const url = `${API_BASE}/api/v1/users/saved-listings/${listingId}`;
 
       const res = await fetch(url, {
         method: "DELETE",
