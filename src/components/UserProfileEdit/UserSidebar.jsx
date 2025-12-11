@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/UserProfileEdit/UserSidebar.css";
+import useUserStore from "@/stores/useUserStore";
 
 function UserSidebar() {
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
+  const clearUser = useUserStore((s) => s.clearUser);
 
   return (
     <div className="sidebar-container">
-
       <div
         className={`sidebar-item ${active === "purchases" ? "active" : ""}`}
         onClick={() => {
@@ -61,14 +62,10 @@ function UserSidebar() {
 
       <div
         className={`sidebar-item logout ${active === "logout" ? "logout-active" : ""}`}
-        onClick={() => {
-          setActive("logout");
-          navigate("/logout");
-        }}
+        onClick={clearUser}
       >
         Sign Out
       </div>
-
     </div>
   );
 }

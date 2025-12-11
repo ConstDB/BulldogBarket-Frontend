@@ -1,42 +1,22 @@
 import UserSidebar from "../components/UserProfileEdit/UserSidebar";
 import UserBanner from "../components/UserProfileEdit/UserBanner";
 import UserInfoEdit from "../components/UserProfileEdit/UserInfoEdit";
+import { useFetchProfileQuery } from "@/hooks/useFetchProfileQuery";
+import Loading from "@/components/Loading";
 
 function UserProfileEdit() {
+  const { data, isLoading } = useFetchProfileQuery();
+
+  if (isLoading) return <Loading />;
+
   return (
-    <div
-      style={{
-        fontFamily: "sans-serif",
-      }}
-    >
+    <div className="flex justify-center items-center font-sans pt-8">
+      <div className="flex-col items-center ">
+        <UserBanner user={data.user} />
 
-      <div
-        style={{
-          paddingLeft: "270px",
-          paddingTop: "40px",
-          boxSizing: "border-box",
-        }}
-      >
-        <UserBanner />
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          minHeight: "100vh",
-          paddingLeft: "270px",
-          paddingTop: "35px", 
-          boxSizing: "border-box",
-        }}
-      >
-
-        <div style={{ marginRight: "30px" }}>
+        <div className="flex justify-between min-h-screen pt-9 box-border gap-7">
           <UserSidebar />
-        </div>
-
-        <div style={{ flex: 1 }}>
-          <UserInfoEdit />
-
+          <UserInfoEdit user={data.user} />
         </div>
       </div>
     </div>
