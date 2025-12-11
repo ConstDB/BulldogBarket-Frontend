@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash, FaRegIdCard } from "react-icons/fa";
 import { PiLockKeyFill } from "react-icons/pi";
 import "../../styles/SignIn/SignInForm.css";
+import useUserStore from "@/stores/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 export default function SigninForm() {
   const [formData, setFormData] = useState({ studentNumber: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const setUser = useUserStore((s) => s.setUser);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +27,6 @@ export default function SigninForm() {
     setLoading(true);
     setError("");
 
-    console.log(formData);
     try {
       const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: "POST",
@@ -35,8 +40,10 @@ export default function SigninForm() {
       }
 
       const data = await response.json();
+      setUser(data.user);
+
       localStorage.setItem("token", data.token);
-      window.location.href = "/marketfeed";
+      navigate("/marketfeed");
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
     } finally {
