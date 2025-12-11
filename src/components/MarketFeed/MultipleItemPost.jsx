@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../styles/MarketFeed/MultipleItemPost.css";
- 
+
 import bookmarkIcon from "../../assets/bookmarks.svg";
 import upvoteIcon from "../../assets/upvote.svg";
 import downvoteIcon from "../../assets/downvote.svg";
@@ -11,22 +11,25 @@ import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
 import useModalManager from "../../hooks/useModalManager";
 import BulkOrderModal from "../../modals/OrderModal";
- 
+import CommentModal from "../../modals/CommentModal";
+
 const API_BASE = "http://127.0.0.1:3000/api/v1";
- 
+
 export default function MultipleItemPost({ post }) {
   const listing = post;
   const listingId = listing._id;
   const userId = localStorage.getItem("userId");
- 
+
   const upvoteCount = listing.upvotes?.length || 0;
   const downvoteCount = listing.downvotes?.length || 0;
   const commentCount = listing.comments?.length || 0;
- 
+
   const [bookmarked, setBookmarked] = useState(listing.isSaved || false);
   const [upvoted, setUpvoted] = useState(listing.upvotes?.includes(userId));
-  const [downvoted, setDownvoted] = useState(listing.downvotes?.includes(userId));
- 
+  const [downvoted, setDownvoted] = useState(
+    listing.downvotes?.includes(userId)
+  );
+
   const [upvotesLocal, setUpvotesLocal] = useState(upvoteCount);
   const [downvotesLocal, setDownvotesLocal] = useState(downvoteCount);
   const [actionLoading, setActionLoading] = useState(false);
@@ -42,7 +45,7 @@ export default function MultipleItemPost({ post }) {
         const res = await fetch(`${API_BASE}/users/saved-listings`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         if (res.ok) {
           const savedListings = await res.json();
           const isSaved = savedListings.some(
@@ -59,18 +62,18 @@ export default function MultipleItemPost({ post }) {
   }, [listingId]);
 
   // Handle upvote
- 
-  const {modals, open, close} = useModalManager();
+
+  const { modals, open, close } = useModalManager();
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
- 
+
     try {
       setActionLoading(true);
       setActionError("");
       const token = localStorage.getItem("token");
       const method = upvoted ? "DELETE" : "PATCH";
       const url = `${API_BASE}/listings/${listingId}/upvotes`;
- 
+
       const res = await fetch(url, {
         method,
         headers: {
@@ -78,16 +81,16 @@ export default function MultipleItemPost({ post }) {
           ...(token && { Authorization: `Bearer ${token}` }),
         },
       });
- 
+
       if (!res.ok) return setActionError("Failed to upvote");
- 
+
       if (upvoted) {
         setUpvoted(false);
         setUpvotesLocal((p) => p - 1);
       } else {
         setUpvoted(true);
         setUpvotesLocal((p) => p + 1);
- 
+
         if (downvoted) {
           setDownvoted(false);
           setDownvotesLocal((p) => p - 1);
@@ -97,18 +100,18 @@ export default function MultipleItemPost({ post }) {
       setActionLoading(false);
     }
   };
- 
+
   // Handle downvote
   const handleDownvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
- 
+
     try {
       setActionLoading(true);
       setActionError("");
       const token = localStorage.getItem("token");
       const method = downvoted ? "DELETE" : "PATCH";
       const url = `${API_BASE}/listings/${listingId}/upvotes`;
- 
+
       const res = await fetch(url, {
         method,
         headers: {
@@ -116,16 +119,16 @@ export default function MultipleItemPost({ post }) {
           ...(token && { Authorization: `Bearer ${token}` }),
         },
       });
- 
+
       if (!res.ok) return setActionError("Failed to downvote");
- 
+
       if (downvoted) {
         setDownvoted(false);
         setDownvotesLocal((p) => p - 1);
       } else {
         setDownvoted(true);
         setDownvotesLocal((p) => p + 1);
- 
+
         if (upvoted) {
           setUpvoted(false);
           setUpvotesLocal((p) => p - 1);
@@ -142,7 +145,7 @@ export default function MultipleItemPost({ post }) {
       setActionError("Missing listing ID");
       return;
     }
-    
+
     setActionLoading(true);
     setActionError("");
 
@@ -156,7 +159,7 @@ export default function MultipleItemPost({ post }) {
 
     try {
       console.log("Sending bookmark request:", { listingId, bookmarked });
-      
+
       const res = await fetch(`${API_BASE}/users/saved-listings`, {
         method: bookmarked ? "DELETE" : "POST",
         headers: {
@@ -185,25 +188,34 @@ export default function MultipleItemPost({ post }) {
   };
   const handleCommentClick = () => alert("modal tol");
 
-  
- 
   return (
     <div className="mip-container">
       <div className="mip-user-row">
         <div className="mip-user-info">
-          <img src={listing.seller?.avatarUrl || profileIcon} alt="User" className="mip-avatar" />
+          <img
+            src={listing.seller?.avatarUrl || profileIcon}
+            alt="User"
+            className="mip-avatar"
+          />
           <div>
             <div className="mip-user-name">
               <span className="mip-name">{listing.seller?.name || "User"}</span>
               <span className="mip-year">
-                • {listing.seller?.yearLevel || ""} {listing.seller?.course || ""}
+                • {listing.seller?.yearLevel || ""}{" "}
+                {listing.seller?.course || ""}
               </span>
             </div>
-            <div className="mip-meta">{listing.seller?.campus || "NU Manila"}</div>
+            <div className="mip-meta">
+              {listing.seller?.campus || "NU Manila"}
+            </div>
           </div>
         </div>
- 
-        <button onClick={handleBookmark} disabled={actionLoading} className="mip-bookmark-btn">
+
+        <button
+          onClick={handleBookmark}
+          disabled={actionLoading}
+          className="mip-bookmark-btn"
+        >
           <img
             src={bookmarkIcon}
             alt="Bookmark"
@@ -212,41 +224,51 @@ export default function MultipleItemPost({ post }) {
           />
         </button>
       </div>
- 
+
       <div className="mip-description">{listing.description}</div>
- 
+
       <div className="mip-item-box">
         <div className="mip-category">{listing.category}</div>
-        <img src={listing.images?.[0] || foodImage} alt="Item" className="mip-item-img" />
+        <img
+          src={listing.images?.[0] || foodImage}
+          alt="Item"
+          className="mip-item-img"
+        />
         <div className="mip-price">₱{listing.price || 0}.00 / piece</div>
         <div className="mip-title">{listing.name}</div>
- 
+
         <div className="mip-buttons">
-          <button className="mip-request-btn"
-            onClick={() => open("order")} >Order Item</button>
- 
+          <button className="mip-request-btn" onClick={() => open("order")}>
+            Order Item
+          </button>
+
           <button className="mip-chat-btn">
             <img src={chatIcon} alt="Chat" /> Chat
           </button>
         </div>
- 
-        <div className="mip-note">Stocks reserved automatically. Pay on meetup.</div>
+
+        <div className="mip-note">
+          Stocks reserved automatically. Pay on meetup.
+        </div>
       </div>
- 
+
       <div className="mip-stats">
         <span className="mip-stat">
-          <img src={CountVotes} alt="Count" className="mip-stat-icon" /> {upvotesLocal} upvotes
+          <img src={CountVotes} alt="Count" className="mip-stat-icon" />{" "}
+          {upvotesLocal} upvotes
         </span>
-  
+
         <span className="mip-stat">{commentCount} comments</span>
       </div>
- 
+
       {actionError && (
-        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>{actionError}</div>
+        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>
+          {actionError}
+        </div>
       )}
- 
+
       <hr className="mip-divider" />
- 
+
       <div className="mip-actions">
         <button
           className="mip-action-btn"
@@ -257,7 +279,7 @@ export default function MultipleItemPost({ post }) {
           <img src={upvoteIcon} alt="Upvote" className="mip-action-icon" />
           Upvote
         </button>
- 
+
         <button
           className="mip-action-btn"
           onClick={handleDownvote}
@@ -267,12 +289,23 @@ export default function MultipleItemPost({ post }) {
           <img src={downvoteIcon} alt="Downvote" className="mip-action-icon" />
           Downvote
         </button>
- 
+
         <button className="mip-action-btn">
-          <img src={commentIcon} alt="Comment" className="mip-action-icon" /> Comment
+          <img
+            src={commentIcon}
+            alt="Comment"
+            className="mip-action-icon"
+            onClick={() => open("comment")}
+          />{" "}
+          Comment{" "}
         </button>
       </div>
-      {modals.order && <BulkOrderModal onClose={() => close("order")} listing={post}/>}
+      {modals.order && (
+        <BulkOrderModal onClose={() => close("order")} listing={post} />
+      )}
+      {modals.comment && (
+        <CommentModal onClose={() => close("order")} listing={post} />
+      )}
     </div>
   );
 }
