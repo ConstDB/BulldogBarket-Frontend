@@ -1,6 +1,8 @@
+import { useCreateOrder } from "@/hooks/useOrderApi";
 import energy from "../assets/greenEnergy.svg"
 import { Button } from "../components/ui/button"
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectGroup, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 
 export default function BulkOrderModal({ onClose, listing }){
@@ -8,6 +10,8 @@ export default function BulkOrderModal({ onClose, listing }){
     const [payment, setPayment] = useState("")
     const [location, setLocation] = useState("")
     const [totalAmount, setTotalAmount] = useState(listing.price)
+    
+    const createOrderMutation = useCreateOrder();
 
     const increment = () => setValue(v => v + 1);
     const decrement = () => setValue(v => (v > 1 ? v - 1 : 1));
@@ -23,8 +27,21 @@ export default function BulkOrderModal({ onClose, listing }){
         setTotalAmount(listing.price * value)
     }, [value, listing.price])
     
+    const payload = {
+        listingId: listing._id,
+        quantity : value,
+        meetupLocation : location,
+        paymentMethod : payment
+    }
+
+    const handleOrder = () => {
+        createOrderMutation.mutate(payload)
+        onClose();
+    }
+
+
     return (
-         <div className="fixed top-0 left-0 w-screen h-screen bg-black/40 z-9999 backdrop-blur-sm flex items-center justify-center " onClick={onClose}>
+         <div className="fixed top-0 left-0 w-screen h-screen bg-black/40 z-50 backdrop-blur-sm flex items-center justify-center " onClick={onClose}>
             <div className="flex w-[420px] min-h-[440px] flex-col bg-white rounded-[10px] py-7 px-6" onClick={(e) => e.stopPropagation()}>
                 <h2 className="text-2xl font-bold">Place Order</h2> 
                 <div className="w-[360px] h-20 bg-[#F0FDF4] m-1 rounded-lg p-2 flex">
@@ -49,7 +66,7 @@ export default function BulkOrderModal({ onClose, listing }){
                         <input
                             type="number"
                             value={value}
-                            onChange={(e) => {handleChange}}
+                            onChange={handleChange}
                             className="w-12 text-center border-none p-0 no-spin"
                         />
                         <button onClick={increment} className="mr-2.5 w-7">+</button>
@@ -63,13 +80,21 @@ export default function BulkOrderModal({ onClose, listing }){
                         <h1>Location</h1>
                     </div>
                     <div className="flex gap-4">
+                        
+                        <Select value={payment} onValueChange={setPayment}>
+                            <SelectTrigger className="w-full border-[#E5E7EB] bg-neutral-100">
+                                <SelectValue placeholder="Select Payment" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-neutral-100">
+                                <SelectGroup>
+                                    <SelectItem value="GCash">GCash</SelectItem>
+                                    <SelectItem value="Cash on Meetup">Cash on Meetup</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
                         <Input 
-                            className="border-[#E5E7EB] bg-neutral-100"
-                            value={payment}
-                            onChange={(e) => setPayment(e.target.value)}
-                        />
-                        <Input 
-                            className="border-[#E5E7EB] bg-neutral-100" 
+                            className="border-[#b3c9f5] bg-neutral-100" 
                             value={location}    
                             onChange={(e) => setLocation(e.target.value)}
                         />
@@ -79,7 +104,7 @@ export default function BulkOrderModal({ onClose, listing }){
                     <h1 className="text-[16px] font-bold text-[#6B7280]">Total Amount</h1>
                     <h1 className="text-2xl text-[#35408E] font-bold">₱{totalAmount}.00</h1>
                 </div>
-                <Button className="bg-green-600 text-white text-sm font-bold">Confirm Order</Button>
+                <Button className="bg-green-600 text-white text-sm font-bold" onClick={handleOrder}>Confirm Order</Button>
             </div> 
         </div>
     )
