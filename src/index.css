@@ -8,4 +8,23 @@ body {
 }
 
 
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.no-spin {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
 
+input[type="number"].no-spin {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;      /* Standard */
+}
+
+input[type="number"].no-spin::-webkit-inner-spin-button,
+input[type="number"].no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;  /* Chrome, Safari, Edge */
+  margin: 0;
+}

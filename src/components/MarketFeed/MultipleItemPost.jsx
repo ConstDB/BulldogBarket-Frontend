@@ -10,7 +10,7 @@ import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
 import useModalManager from "../../hooks/useModalManager";
-import BulkOrderModal from "./BulkOrderModal";
+import BulkOrderModal from "../../modals/BulkOrderModal";
  
 const API_BASE = "http://127.0.0.1:3000/api/v1";
  
