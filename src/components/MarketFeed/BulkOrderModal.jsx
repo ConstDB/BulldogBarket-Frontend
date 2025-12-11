@@ -1,4 +1,5 @@
 import energy from "../../assets/greenEnergy.svg"
+import { Button } from "../ui/button"
 
 export default function BulkOrderModal({ onClose, listing}){
     return (
@@ -28,7 +29,7 @@ export default function BulkOrderModal({ onClose, listing}){
 
                 </div>
                 <hr className="border-t border-[#D9D9D9] my-3"/>
-                <button onClick={onClose}>Close</button>
+                <Button onClick={onClose}>Close</Button>
             </div> 
         </div>
     )
