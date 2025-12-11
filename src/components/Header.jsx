@@ -54,8 +54,7 @@ function Header() {
 
         <div className="relative" onClick={() => setOpen((prev) => !prev)}>
           <img
-            src={user.avatarUrl}
-            alt="Profile"
+            src={user?.avatarUrl}
             className="rounded-full border border-blue-300 h-7 cursor-pointer"
           />
 
