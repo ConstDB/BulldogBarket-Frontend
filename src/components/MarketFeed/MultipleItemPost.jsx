@@ -9,6 +9,8 @@ import chatIcon from "../../assets/chat.svg";
 import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
+import useModalManager from "../../hooks/useModalManager";
+import BulkOrderModal from "../../modals/OrderModal";
  
 const API_BASE = "http://127.0.0.1:3000/api/v1";
  
@@ -24,8 +26,8 @@ export default function MultipleItemPost({ post }) {
   const [downvotes, setDownvotes] = useState(0);
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState("");
-  const [openModal, setOpenModal] = useState(false);
  
+  const {modals, open, close} = useModalManager();
   const handleUpvote = async () => {
     try {
       setActionLoading(true);
@@ -113,7 +115,7 @@ export default function MultipleItemPost({ post }) {
  
         <div className="mip-buttons">
           <button className="mip-request-btn"
-            onClick={() => setOpenModal} >Order Item</button>
+            onClick={() => open("order")} >Order Item</button>
  
           <button className="mip-chat-btn">
             <img src={chatIcon} alt="Chat" />
@@ -131,7 +133,7 @@ export default function MultipleItemPost({ post }) {
           <img src={CountVotes} alt="Count" className="mip-stat-icon" />
           {upvotesLocal} upvotes
         </span>
- 
+  
         <span className="mip-stat">{commentCount} comments</span>
       </div>
  
@@ -163,6 +165,7 @@ export default function MultipleItemPost({ post }) {
           Comment
         </button>
       </div>
+      {modals.order && <BulkOrderModal onClose={() => close("order")} listing={post}/>}
     </div>
   );
 }
