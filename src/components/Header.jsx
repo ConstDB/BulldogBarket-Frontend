@@ -53,11 +53,9 @@ function Header() {
       <div
         style={{
           display: "flex",
-          position: "absolute",
-          left: "444px",
         }}
       >
-        <div style={{ width: "550px", position: "relative" }}>
+        <div style={{ width: "550px", backgroundColor: "white", borderRadius: "40px", position: "relative" }}>
           <img
             src={search}
             alt="Search"

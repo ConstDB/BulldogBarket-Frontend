@@ -15,7 +15,7 @@ export default function SignIn() {
     },
     card: {
       display: "flex",
-      width: "1440px",
+      width: "fit-content",
       height: "524px",
       backgroundColor: "#FFFFFF",
       borderRadius: "16px",
