@@ -5,10 +5,11 @@ import search from "../assets/search.svg";
 import home from "../assets/home.svg";
 import bookmark from "../assets/bookmark.svg";
 import notif from "../assets/notif.svg";
-import profileicon from "../assets/profileicon.svg";
+import useUserStore from "@/stores/useUserStore";
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const user = useUserStore((state) => state.user);
 
   // shitty implementation muna since walang global auth context
   const handleLogout = () => {
@@ -51,12 +52,12 @@ function Header() {
           <img src={notif} alt="Notifications" className="h-4 cursor-pointer" />
         </Link>
 
-        <div
-          className="relative"
-          onMouseEnter={() => setOpen(true)}
-          onMouseLeave={() => setOpen(false)}
-        >
-          <img src={profileicon} alt="Profile" className="h-7 cursor-pointer" />
+        <div className="relative" onClick={() => setOpen((prev) => !prev)}>
+          <img
+            src={user.avatarUrl}
+            alt="Profile"
+            className="rounded-full border border-blue-300 h-7 cursor-pointer"
+          />
 
           {open && (
             <div className="absolute top-9 right-0 bg-white rounded-md shadow-lg w-[120px] flex flex-col z-50 overflow-hidden">
