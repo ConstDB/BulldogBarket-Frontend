@@ -10,7 +10,7 @@ import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import foodImage from "../../assets/food.svg";
 import useModalManager from "../../hooks/useModalManager";
-import BulkOrderModal from "../../modals/BulkOrderModal";
+import BulkOrderModal from "../../modals/OrderModal";
  
 const API_BASE = "http://127.0.0.1:3000/api/v1";
  
@@ -237,6 +237,7 @@ export default function MultipleItemPost({ post }) {
         <span className="mip-stat">
           <img src={CountVotes} alt="Count" className="mip-stat-icon" /> {upvotesLocal} upvotes
         </span>
+  
         <span className="mip-stat">{commentCount} comments</span>
       </div>
  
