@@ -3,16 +3,15 @@ import FilterButton from "../components/MarketFeed/FilterButton";
 import QuickPost from "../components/MarketFeed/QuickPost";
 import SingleItemPost from "../components/MarketFeed/SingleItemPost";
 import MultipleItemPost from "../components/MarketFeed/MultipleItemPost";
+import Header from "@/components/Header";
 
-const API_BASE = import.meta.env.VITE_API_URL || ""
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function MarketFeed() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     fetchListings(1, true);
@@ -25,7 +24,7 @@ export default function MarketFeed() {
 
     try {
       const token = localStorage.getItem("token");
-      const sort = "recent"; // backend supports recent|popular
+      const sort = "recent";
       const limit = 20;
       const url = `${API_BASE}/api/v1/listings?page=${pageNum}&limit=${limit}&sort=${sort}`;
 
@@ -45,9 +44,6 @@ export default function MarketFeed() {
       const data = await res.json();
       const listings = Array.isArray(data) ? data : [];
 
-      // backend may return less than limit when no more items
-      setHasMore(listings.length === limit);
-
       setPosts((prev) => (replace ? listings : [...prev, ...listings]));
     } catch (err) {
       setError(err?.message || "Failed to load posts");
@@ -58,43 +54,20 @@ export default function MarketFeed() {
   }
 
   return (
-    <div className="whole-container">
-      <div
-        style={{
-          width: "fit-content",
-          display: "flex",
-          alignSelf: "center",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "20px",
-          marginTop: "22px",
-          position: "relative"
-        }}
-      >
+    <div className="flex flex-col">
+      <Header />
+      <div className="w-fit flex self-center flex-col items-center gap-5 mt-[22px] relative">
         <QuickPost />
-
         <FilterButton active={activeFilter} onChange={setActiveFilter} />
 
-        {error && (
-          <div style={{ color: "#DC2626", fontSize: 14, marginTop: 16 }}>
-            {error}
-          </div>
-        )}
+        {error && <div className="text-red-500">{error}</div>}
 
-        {loading && (
-          <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
-            Loading posts...
-          </div>
-        )}
-
+        {loading && <div className="text-blue-400 mt-4">Loading posts...</div>}
         {!loading && posts.length === 0 && !error && (
-          <div style={{ color: "#64748B", fontSize: 14, marginTop: 16 }}>
-            No posts found
-          </div>
+          <div className="text-blue-400 mt-4">No posts found</div>
         )}
 
         {posts.map((post) => {
-
           const postType = post.type || "single";
 
           return postType === "bulk" ? (
@@ -104,8 +77,6 @@ export default function MarketFeed() {
           );
         })}
       </div>
-
     </div>
-    
   );
 }

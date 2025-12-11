@@ -6,25 +6,22 @@ import "../../styles/SignIn/SignInForm.css";
 export default function SigninForm() {
   const [formData, setFormData] = useState({ studentNumber: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [focusedInput, setFocusedInput] = useState(null);
-  const [hoverBtn, setHoverBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Initialize the API BASE
-  const API_BASE = import.meta.env.VITE_API_URL || "";
+  const API_BASE = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    console.log(formData)
+    console.log(formData);
     try {
       const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: "POST",
@@ -39,7 +36,7 @@ export default function SigninForm() {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      window.location.href = "/dashboard";
+      window.location.href = "/marketfeed";
     } catch (err) {
       setError(err.message || "An error occurred. Please try again.");
     } finally {
@@ -54,30 +51,30 @@ export default function SigninForm() {
 
         <label>Student Number / Email</label>
         <div className="input-wrapper">
-          <span className="icon-left"><FaRegIdCard /></span>
+          <span className="icon-left">
+            <FaRegIdCard />
+          </span>
           <input
             type="text"
             name="studentNumber"
             placeholder="e.g., 2022-123456"
             value={formData.studentNumber}
             onChange={handleChange}
-            onFocus={() => setFocusedInput("user")}
-            onBlur={() => setFocusedInput(null)}
             required
           />
         </div>
 
         <label>Password</label>
         <div className="input-wrapper">
-          <span className="icon-left"><PiLockKeyFill /></span>
+          <span className="icon-left">
+            <PiLockKeyFill />
+          </span>
           <input
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="*************"
             value={formData.password}
             onChange={handleChange}
-            onFocus={() => setFocusedInput("pass")}
-            onBlur={() => setFocusedInput(null)}
             required
           />
           <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
@@ -85,20 +82,19 @@ export default function SigninForm() {
           </button>
         </div>
 
-        <a href="#" className="forgot-link">Forgot Password?</a>
+        <a href="#" className="forgot-link">
+          Forgot Password?
+        </a>
 
-        <button
-          type="submit"
-          className="main-btn"
-          onMouseEnter={() => setHoverBtn(true)}
-          onMouseLeave={() => setHoverBtn(false)}
-          disabled={loading}
-        >
+        <button type="submit" className="main-btn" disabled={loading}>
           {loading ? "Signing In..." : "Sign In"}
         </button>
 
         <div className="create-account">
-          New to BarkKart? <a href="#" className="create-link">Create Account</a>
+          New to BarkKart?{" "}
+          <a href="#" className="create-link">
+            Create Account
+          </a>
         </div>
       </form>
     </div>
