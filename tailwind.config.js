@@ -8,6 +8,7 @@ export default{
         '9999': '9999',
       }
     }, 
+    extend: {}, 
   },
   plugins: [],
 };
