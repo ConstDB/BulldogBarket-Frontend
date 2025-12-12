@@ -38,13 +38,14 @@ export default function MarketFeed() {
 
       if (!res.ok) {
         const text = await res.text().catch(() => null);
-        throw new Error(text || "Fetch failed, fix your backend or your query.");
+        throw new Error(
+          text || "Fetch failed, fix your backend or your query."
+        );
       }
 
       const data = await res.json();
-      const listings = Array.isArray(data) ? data : [];
 
-      setPosts((prev) => (replace ? listings : [...prev, ...listings]));
+      setPosts(data);
     } catch (err) {
       setError(err?.message || "Failed to load posts");
       if (replace) setPosts([]);
@@ -67,15 +68,16 @@ export default function MarketFeed() {
           <div className="text-blue-400 mt-4">No posts found</div>
         )}
 
-        {posts.map((post) => {
-          const postType = post.type || "single";
+        {posts.length !== 0 &&
+          posts.map((post) => {
+            const postType = post.type || "single";
 
-          return postType === "bulk" ? (
-            <MultipleItemPost key={post._id} post={post} />
-          ) : (
-            <SingleItemPost key={post._id} post={post} />
-          );
-        })}
+            return postType === "bulk" ? (
+              <MultipleItemPost key={post._id} post={post} />
+            ) : (
+              <SingleItemPost key={post._id} post={post} />
+            );
+          })}
       </div>
     </div>
   );

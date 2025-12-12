@@ -18,7 +18,17 @@ const API_BASE = "http://127.0.0.1:3000/api/v1";
 export default function MultipleItemPost({ post }) {
   const listing = post;
   const listingId = listing._id;
-  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+
+  let userId = null;
+  if (token) {
+    const payloadBase64 = token.split(".")[1]; // get payload part
+    const decodedJson = atob(payloadBase64); // decode Base64
+    const payload = JSON.parse(decodedJson); // convert to JS object
+
+    const userId = payload["id"];
+    console.log(payload);
+  }
 
   const upvoteCount = listing.upvotes?.length || 0;
   const downvoteCount = listing.downvotes?.length || 0;
@@ -290,21 +300,16 @@ export default function MultipleItemPost({ post }) {
           Downvote
         </button>
 
-        <button className="mip-action-btn">
-          <img
-            src={commentIcon}
-            alt="Comment"
-            className="mip-action-icon"
-            onClick={() => open("comment")}
-          />{" "}
+        <button className="mip-action-btn" onClick={() => open("comment")}>
+          <img src={commentIcon} alt="Comment" className="mip-action-icon" />{" "}
           Comment{" "}
         </button>
       </div>
       {modals.order && (
-        <BulkOrderModal onClose={() => close("order")} listing={post} />
+        <BulkOrderModal onClose={() => close("order")} listing={listing} />
       )}
       {modals.comment && (
-        <CommentModal onClose={() => close("order")} listing={post} />
+        <CommentModal onClose={() => close("comment")} listing={listingId} />
       )}
     </div>
   );
