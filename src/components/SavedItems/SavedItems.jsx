@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
-// 1. Component Import
 import SavedItemCard from "../components/SavedItems/SavedItemCard";
 
-// 2. CSS Import
-// Make sure this path matches where you actually saved the CSS file
 import "../styles/SavedItems/SavedItems.css"; 
 
 export default function SavedItems() {

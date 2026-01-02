@@ -3,7 +3,6 @@ import SellerHeader from "../components/seller-dashboard/SellerHeader";
 import SellerStats from "../components/seller-dashboard/SellerStats";
 import OrderSection from "../components/seller-dashboard/OrderSection";
 import SellerListings from "../components/seller-dashboard/SellerListings";
-import Navbar from "../components/seller-dashboard/NavBar";
 
 export default function SellerDashboard() {
   const styles = {
@@ -32,8 +31,7 @@ export default function SellerDashboard() {
 
   return (
     <>
-      <Navbar />
-
+      
       <div style={styles.page}>
         <div style={styles.container}>
           <SellerHeader />

@@ -10,6 +10,7 @@ import UserProfileEdit from "./pages/UserProfileEdit";
 import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
+import SavedItems from "./pages/SavedItems";
 import SellerDashboard from "./pages/dashboard";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Link to="/signin">Sign in</Link>
         <Link to="/signup">Sign Up</Link>
         <Link to="/post-product">Post Product</Link>
+        <Link to="/saved-items">Saved Items</Link>
         <Link to="/seller-dashboard">Seller Dashboard</Link>
       </nav>
       <Header />
@@ -41,6 +43,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-product" element={<PostProduct />} />
+        <Route path="/saved-items" element={<SavedItems />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
