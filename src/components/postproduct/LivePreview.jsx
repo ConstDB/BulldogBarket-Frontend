@@ -36,8 +36,9 @@ export default function LivePreview({
       <div className="lp-cat2-bg"></div>
       <div className="lp-cat2-label">{category}</div>
 
-      <div className="lp-price-bg"></div>
-      <div className="lp-price-label">₱{price}</div>
+      <div className="lp-price-bg">
+        <div className="lp-price-label">₱{price}</div>
+      </div>
 
       <div className="lp-action-bg"></div>
       <div className="lp-action-title">{itemName}</div> {/* <-- changed from itemTitle */}

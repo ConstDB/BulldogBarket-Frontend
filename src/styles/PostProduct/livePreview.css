@@ -110,26 +110,27 @@
   font-weight: 400;
 }
 
-/* Price tag */
 .lp-price-bg {
   position: absolute;
-  width: 75px;
+  width: fit-content;
   height: 35px;
   left: 16px;
   top: 215px;
   background: #35408E;
   border-top-right-radius: 5px;
+  padding: 0 12px; /* Add padding for spacing */
+  display: flex;
+  align-items: center;
 }
 
 .lp-price-label {
-  position: absolute;
-  left: 28px;
-  top: 223px;
+
   color: #FFD400;
   font-size: 16px;
   font-family: Inter;
   font-weight: 700;
 }
+
 
 /* Action container */
 .lp-action-bg {

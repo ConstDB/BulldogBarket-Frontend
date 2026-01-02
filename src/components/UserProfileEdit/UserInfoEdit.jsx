@@ -5,10 +5,19 @@ import LockIcon from "../../assets/lock.svg";
 import ChatIcon from "../../assets/chat.svg";
 
 function UserInfoEdit({ user, onSave }) {
-  const [course, setCourse] = useState(user.course);
-  const [year, setYearLevel] = useState(user?.year || "");
-  const [campus, setCampus] = useState(user?.campus || "");
-  const [contact, setContact] = useState(user?.contact || "");
+  // Add safety check at the start
+  if (!user) {
+    return (
+      <div className="h-[650px] bg-white rounded-2xl p-7 flex flex-col gap-5 shadow border border-gray-100">
+        <div className="uie-title">Loading user information...</div>
+      </div>
+    );
+  }
+
+  const [course, setCourse] = useState(user.course || "");
+  const [year, setYearLevel] = useState(user.yearLevel || "");
+  const [campus, setCampus] = useState(user.campus || "");
+  const [contact, setContact] = useState(user.socials?.messengerLink || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -67,12 +76,12 @@ function UserInfoEdit({ user, onSave }) {
         <div className="uie-locked-fields">
           <div className="uie-field-group">
             <label className="uie-label">STUDENT NUMBER</label>
-            <div className="uie-locked-field">{user.studentNumber}</div>
+            <div className="uie-locked-field">{user.studentNumber || "N/A"}</div>
           </div>
 
           <div className="uie-field-group">
             <label className="uie-label">FULL NAME</label>
-            <div className="uie-locked-field">{user.name}</div>
+            <div className="uie-locked-field">{user.name || "N/A"}</div>
           </div>
         </div>
       </div>
@@ -81,7 +90,7 @@ function UserInfoEdit({ user, onSave }) {
         <div className="uie-field-group">
           <label className="uie-label-lg">Course / Program</label>
           <select
-            value={user.course}
+            value={course}
             onChange={(e) => setCourse(e.target.value)}
             className="uie-select"
           >
@@ -97,7 +106,7 @@ function UserInfoEdit({ user, onSave }) {
         <div className="uie-field-group">
           <label className="uie-label-lg">Year Level</label>
           <select
-            value={user.yearLevel}
+            value={year}
             onChange={(e) => setYearLevel(e.target.value)}
             className="uie-select"
           >
@@ -130,7 +139,7 @@ function UserInfoEdit({ user, onSave }) {
           <img src={ChatIcon} alt="Chat" className="uie-chat-icon" />
 
           <input
-            value={user.socials.messengerLink}
+            value={contact}
             onChange={(e) => setContact(e.target.value)}
             placeholder="https://messenger.com/rickprime"
             className="uie-contact-input"

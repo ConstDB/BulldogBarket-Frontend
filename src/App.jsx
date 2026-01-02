@@ -11,6 +11,7 @@ import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
 import SellerDashboard from "./pages/dashboard";
+import MyPurchases from "./pages/MyPurchases";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/post-product" element={<PostProduct />} />
           <Route path="/seller-dashboard" element={<SellerDashboard />} />
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+          <Route path="/purchases" element={<MyPurchases />} />
         </Routes>
       </>
     </QueryClientProvider>
