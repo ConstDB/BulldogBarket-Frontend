@@ -41,7 +41,7 @@ export default function LivePreview({
       </div>
 
       <div className="lp-action-bg"></div>
-      <div className="lp-action-title">{itemName}</div> {/* <-- changed from itemTitle */}
+      <div className="lp-action-title">{itemName}</div>
 
       <div className="lp-action-btn-bg"></div>
       <div className="lp-action-btn-label">Action Button</div>

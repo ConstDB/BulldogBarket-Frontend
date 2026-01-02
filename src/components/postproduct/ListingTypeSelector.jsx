@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../styles/PostProduct/listingTypeSelector.css";
 import burgerIcon from "../../assets/burger.svg";
 import shirtIcon from "../../assets/shirt.svg";
 import listingIcon from "../../assets/ListingType.svg";
 
-export default function ListingTypeSelector() {
-  const [type, setType] = useState("single");
-
+export default function ListingTypeSelector({ type, setType }) {
   return (
     <div className="listing-selector">
       <div className="listing-selector-header">

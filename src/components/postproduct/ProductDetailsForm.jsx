@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import "../../styles/PostProduct/productDetailsForm.css";
 import ImageUploader from "./ImageUploader";
 
@@ -11,42 +11,16 @@ export default function ProductDetailsForm({
   setPrice,
   category,
   setCategory,
+  condition,
+  setCondition,
+  stocks,
+  setStocks,
+  type,
   itemImages,
   setItemImages,
   itemImageFiles,
   setItemImageFiles
 }) {
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
-
-  const handleFiles = (newFiles) => {
-    if (!newFiles || newFiles.length === 0) return;
-    const filesArray = Array.from(newFiles);
-    const existingCount = itemImages.length;
-    const available = Math.max(0, 5 - existingCount);
-    const toAdd = filesArray.slice(0, available);
-    if (toAdd.length === 0) return;
-
-    const newUrls = toAdd.map((file) => URL.createObjectURL(file));
-
-    setItemImages((prev) => [...prev, ...newUrls]);
-    setItemImageFiles((prev) => [...prev, ...toAdd]);
-  };
-
-  const removeImage = (index) => {
-    setItemImages((prev) => {
-      const updated = [...prev];
-      try { URL.revokeObjectURL(updated[index]); } catch {}
-      updated.splice(index, 1);
-      return updated;
-    });
-    setItemImageFiles((prev) => {
-      const updated = [...prev];
-      updated.splice(index, 1);
-      return updated;
-    });
-  };
-
   return (
     <div className="pdf-container">
       <ImageUploader
@@ -56,26 +30,34 @@ export default function ProductDetailsForm({
         setItemImageFiles={setItemImageFiles}
       />
 
-      {/* TITLE & PRICE */}
+      {/* ITEM NAME & PRICE */}
       <div className="pdf-row">
         <div className="pdf-row-left">
-          <div className="pdf-label">Item Name</div>
+          <div className="pdf-label">
+            Item Name <span style={{ color: 'red' }}>*</span>
+          </div>
           <input
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
             placeholder="e.g., PE Uniform Size M"
             className="pdf-input"
+            required
           />
         </div>
 
         <div className="pdf-row-right">
-          <div className="pdf-label">Price (₱)</div>
+          <div className="pdf-label">
+            Price (₱) <span style={{ color: 'red' }}>*</span>
+          </div>
           <input
             type="number"
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
             placeholder="0.00"
             className="pdf-input-small"
+            min="0"
+            step="0.01"
+            required
           />
         </div>
       </div>
@@ -83,33 +65,72 @@ export default function ProductDetailsForm({
       {/* CATEGORY & CONDITION */}
       <div className="pdf-row">
         <div className="pdf-row-left">
-          <div className="pdf-label">Category</div>
+          <div className="pdf-label">
+            Category <span style={{ color: 'red' }}>*</span>
+          </div>
           <input
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            placeholder="Uniform"
+            placeholder="e.g., Uniform, School Supplies, Electronics"
             className="pdf-input"
+            required
           />
         </div>
 
         <div className="pdf-row-right">
-          <div className="pdf-label">Condition</div>
-          <input
-            placeholder="Pre-loved / Used"
+          <div className="pdf-label">
+            Condition <span style={{ color: 'red' }}>*</span>
+          </div>
+          <select
+            value={condition}
+            onChange={(e) => setCondition(e.target.value)}
             className="pdf-input-small"
-          />
+            required
+          >
+            <option value="Brand New">Brand New</option>
+            <option value="Pre-loved">Pre-loved</option>
+            <option value="Used">Used</option>
+            <option value="Like New">Like New</option>
+          </select>
         </div>
       </div>
 
-      {/* MESSAGE TO SELLER */}
+      {/* STOCKS (only show for bulk type) */}
+      {type === "bulk" && (
+        <div className="pdf-row">
+          <div className="pdf-row-left">
+            <div className="pdf-label">
+              Stocks Available <span style={{ color: 'red' }}>*</span>
+            </div>
+            <input
+              type="number"
+              value={stocks}
+              onChange={(e) => setStocks(Number(e.target.value))}
+              placeholder="1"
+              className="pdf-input"
+              min="1"
+              required
+            />
+          </div>
+        </div>
+      )}
+
+      {/* DESCRIPTION */}
       <div>
-        <div className="pdf-label">Message to Seller (Optional)</div>
+        <div className="pdf-label">
+          Description <span style={{ color: 'red' }}>*</span>
+        </div>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Describe your item. Where can you meet? (e.g., Garden, Library)"
           className="pdf-textarea"
+          rows={5}
+          required
         />
+        <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
+          Include details like condition, size, meetup location, etc.
+        </div>
       </div>
     </div>
   );

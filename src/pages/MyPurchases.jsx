@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MyPurchases.css';
 
-const API_BASE_URL = 'http://127.0.0.1/api/v1';
+const API_BASE_URL = 'http://127.0.0.1:3000/api/v1';
 
 const StatusBadge = ({ type, status, paymentMethod }) => {
   const getClassName = () => {
@@ -181,25 +181,25 @@ const MyPurchases = () => {
       
       // Fetch all order types in parallel
       const [pendingRes, completedRes, cancelledRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/orders?status=pending`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=pending`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         }),
-        fetch(`${API_BASE_URL}/orders?status=completed`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=completed`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         }),
-        fetch(`${API_BASE_URL}/orders?status=cancelled`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=cancelled`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
       ]);
