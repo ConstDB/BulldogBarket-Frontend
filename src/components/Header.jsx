@@ -5,181 +5,77 @@ import search from "../assets/search.svg";
 import home from "../assets/home.svg";
 import bookmark from "../assets/bookmark.svg";
 import notif from "../assets/notif.svg";
-import profileicon from "../assets/profileicon.svg";
+import useUserStore from "@/stores/useUserStore";
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const user = useUserStore((state) => state.user);
+
+  // shitty implementation muna since walang global auth context
+  const handleLogout = () => {
+    window.location.href = "/signin";
+    localStorage.removeItem("token");
+  };
 
   return (
-    <header
-      style={{
-        width: "100%",
-        height: "58px",
-        backgroundColor: "#2E3A8C",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 24px",
-        fontFamily: "Sen, sans-serif",
-        boxSizing: "border-box",
-        boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.25)",
-        position: "relative",
-      }}
-    >
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          padding: "0 60px",
-        }}
-      >
+    <header className="w-full h-14 bg-[#2E3A8C] flex items-center justify-between px-6 font-sen shadow-md relative">
+      <div className="flex items-center gap-2.5 px-[60px]">
         <Link to="/marketfeed">
-          <img src={barket} alt="BarkKart Logo" style={{ height: "20px" }} />
+          <img src={barket} alt="BarkKart Logo" className="h-5" />
         </Link>
-
-        <span
-          style={{
-            color: "white",
-            fontSize: "20px",
-            fontWeight: 700,
-          }}
-        >
-          BarkKart
-        </span>
+        <span className="text-white text-xl font-bold">BarkKart</span>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-        }}
-      >
-        <div style={{ width: "550px", backgroundColor: "white", borderRadius: "40px", position: "relative" }}>
+      <div className="flex">
+        <div className="relative w-[550px] bg-white rounded-[40px]">
           <img
             src={search}
             alt="Search"
-            style={{
-              position: "absolute",
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              height: "18px",
-              width: "18px",
-              pointerEvents: "none",
-            }}
+            className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none"
           />
-
           <input
             type="text"
             placeholder="Search for uniforms, food, etc..."
-            style={{
-              width: "100%",
-              height: "30px",
-              borderRadius: "40px",
-              border: "none",
-              padding: "0 18px 0 40px",
-              fontSize: "16px",
-              outline: "none",
-            }}
+            className="w-full h-[30px] rounded-[40px] border-none pl-10 pr-4 text-base outline-none"
           />
         </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "24px",
-          padding: "0 60px",
-        }}
-      >
+      <div className="flex items-center gap-6 px-[60px]">
         <Link to="/marketfeed">
-          <img src={home} alt="MarketFeed" style={{ height: "16px", cursor: "pointer" }} />
+          <img src={home} alt="MarketFeed" className="h-4 cursor-pointer" />
         </Link>
-
         <Link to="/post-product">
-          <img src={bookmark} alt="Bookmarks" style={{ height: "16px", cursor: "pointer" }} />
+          <img src={bookmark} alt="Bookmarks" className="h-4 cursor-pointer" />
         </Link>
-
         <Link to="/notifications">
-          <img src={notif} alt="Notifications" style={{ height: "16px", cursor: "pointer" }} />
+          <img src={notif} alt="Notifications" className="h-4 cursor-pointer" />
         </Link>
 
-        <div
-          style={{ position: "relative" }}
-          onMouseEnter={() => setOpen(true)}
-          onMouseLeave={() => setOpen(false)}
-        >
+        <div className="relative" onClick={() => setOpen((prev) => !prev)}>
           <img
-            src={profileicon}
-            alt="Profile"
-            style={{
-              height: "30px",
-              cursor: "pointer",
-            }}
+            src={user?.avatarUrl}
+            className="rounded-full border border-blue-300 h-7 cursor-pointer"
           />
 
           {open && (
-            <div
-              style={{
-                position: "absolute",
-                top: "36px",
-                right: 0,
-                backgroundColor: "white",
-                borderRadius: "8px",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                width: "120px",
-                display: "flex",
-                flexDirection: "column",
-                zIndex: 1000,
-                overflow: "hidden",
-              }}
-            >
+            <div className="absolute top-9 right-0 bg-white rounded-md shadow-lg w-[120px] flex flex-col z-50 overflow-hidden">
               <Link
                 to="/profile"
-                style={{
-                  padding: "10px 16px",
-                  fontSize: "14px",
-                  color: "#2E3A8C",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  borderBottom: "1px solid #f0f0f0",
-                  textAlign: "left",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#f2f2f2")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "white")
-                }
+                className="px-4 py-2 text-sm text-[#2E3A8C] border-b border-gray-200 hover:bg-gray-100 text-left cursor-pointer"
               >
                 Profile
               </Link>
 
-              <Link
-                to="/logout"
-                style={{
-                  padding: "10px 16px",
-                  fontSize: "14px",
-                  color: "#2E3A8C",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#f2f2f2")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "white")
-                }
+              <button
+                className="px-4 py-2 text-sm text-[#2E3A8C] hover:bg-gray-100 text-left cursor-pointer"
+                onClick={handleLogout}
               >
                 Logout
-              </Link>
+              </button>
             </div>
           )}
         </div>
-
       </div>
     </header>
   );

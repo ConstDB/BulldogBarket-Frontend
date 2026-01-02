@@ -1,20 +1,11 @@
 import { useState } from "react";
-import "../../styles/UserProfileEdit/UserInfoEdit.css"; 
+import "../../styles/UserProfileEdit/UserInfoEdit.css";
 import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants.js";
 import LockIcon from "../../assets/lock.svg";
 import ChatIcon from "../../assets/chat.svg";
 
-const mockUser = {
-  studentNumber: "2023-123456",
-  fullName: "Rick Prime",
-  course: "",
-  year: "",
-  campus: "",
-  contact: "",
-};
-
-function UserInfoEdit({ user = mockUser, onSave }) {
-  const [course, setCourse] = useState(user?.course || "");
+function UserInfoEdit({ user, onSave }) {
+  const [course, setCourse] = useState(user.course);
   const [year, setYearLevel] = useState(user?.year || "");
   const [campus, setCampus] = useState(user?.campus || "");
   const [contact, setContact] = useState(user?.contact || "");
@@ -59,7 +50,7 @@ function UserInfoEdit({ user = mockUser, onSave }) {
   }
 
   return (
-    <div className="uie-container">
+    <div className="h-[650px] bg-white rounded-2xl p-7 flex flex-col gap-5 shadow border border-gray-100">
       <div className="uie-title">Personal Information</div>
 
       <div className="uie-locked-box">
@@ -69,8 +60,8 @@ function UserInfoEdit({ user = mockUser, onSave }) {
         </div>
 
         <div className="uie-locked-desc">
-          To ensure platform safety, your Student Number and Name are locked.
-          Contact admin to correct errors.
+          To ensure platform safety, your Student Number and Name are locked. Contact admin to
+          correct errors.
         </div>
 
         <div className="uie-locked-fields">
@@ -81,7 +72,7 @@ function UserInfoEdit({ user = mockUser, onSave }) {
 
           <div className="uie-field-group">
             <label className="uie-label">FULL NAME</label>
-            <div className="uie-locked-field">{user.fullName}</div>
+            <div className="uie-locked-field">{user.name}</div>
           </div>
         </div>
       </div>
@@ -90,7 +81,7 @@ function UserInfoEdit({ user = mockUser, onSave }) {
         <div className="uie-field-group">
           <label className="uie-label-lg">Course / Program</label>
           <select
-            value={course}
+            value={user.course}
             onChange={(e) => setCourse(e.target.value)}
             className="uie-select"
           >
@@ -106,7 +97,7 @@ function UserInfoEdit({ user = mockUser, onSave }) {
         <div className="uie-field-group">
           <label className="uie-label-lg">Year Level</label>
           <select
-            value={year}
+            value={user.yearLevel}
             onChange={(e) => setYearLevel(e.target.value)}
             className="uie-select"
           >
@@ -120,13 +111,9 @@ function UserInfoEdit({ user = mockUser, onSave }) {
         </div>
       </div>
 
-      <div className="uie-field-group">
+      <div>
         <label className="uie-label-lg">Campus</label>
-        <select
-          value={campus}
-          onChange={(e) => setCampus(e.target.value)}
-          className="uie-select"
-        >
+        <select value={campus} onChange={(e) => setCampus(e.target.value)} className="uie-select">
           <option value="">Select Campus</option>
           {NU_CAMPUSES.map((camp) => (
             <option key={camp} value={camp}>
@@ -137,14 +124,13 @@ function UserInfoEdit({ user = mockUser, onSave }) {
         <div className="uie-hint">This helps buyers know where you usually transact.</div>
       </div>
 
-      <div className="uie-field-group">
+      <div>
         <label className="uie-label-lg">Contact Channels</label>
-
         <div className="uie-contact-wrapper">
           <img src={ChatIcon} alt="Chat" className="uie-chat-icon" />
 
           <input
-            value={contact}
+            value={user.socials.messengerLink}
             onChange={(e) => setContact(e.target.value)}
             placeholder="https://messenger.com/rickprime"
             className="uie-contact-input"
@@ -153,7 +139,7 @@ function UserInfoEdit({ user = mockUser, onSave }) {
       </div>
 
       <button
-        className={`uie-save-btn ${loading ? "uie-save-disabled" : ""}`}
+        className="bg-[#35408E] text-white py-2 rounded-md font-bold hover:shadow hover:bg-[#35408E]/90"
         onClick={handleSave}
         disabled={loading}
       >

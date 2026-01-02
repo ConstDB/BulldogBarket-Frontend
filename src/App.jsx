@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import MarketFeed from "./pages/MarketFeed";
 import Home from "./pages/home";
@@ -10,7 +11,6 @@ import SignIn from "./pages/SignIn";
 import Signup from "./pages/signup";
 import PostProduct from "./pages/PostProduct";
 import SellerDashboard from "./pages/dashboard";
-import SavedItems from "./pages/saveditems";
 
 function App() {
   return (
@@ -30,11 +30,8 @@ function App() {
         <Link to="/signup">Sign Up</Link>
         <Link to="/post-product">Post Product</Link>
         <Link to="/seller-dashboard">Seller Dashboard</Link>
-        <Link to="/saved-items">Saved Items</Link>
       </nav>
-
       <Header />
-
       <Routes>
         <Route path="/marketfeed" element={<MarketFeed />} />
         <Route path="/profile" element={<UserProfileEdit />} />
@@ -45,11 +42,6 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/post-product" element={<PostProduct />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
-
-        {/* This must be BEFORE the 404 */}
-        <Route path="/saved-items" element={<SavedItems />} />
-
-        {/* 404 fallback */}
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </>
