@@ -31,10 +31,10 @@ function UserSidebar() {
       </div>
 
       <div
-        className={`sidebar-item ${active === "edit" ? "active" : ""}`}
+        className={`sidebar-item ${active === "profile" ? "active" : ""}`}
         onClick={() => {
-          setActive("edit");
-          navigate("/edit-profile");
+          setActive("profile");
+          navigate("/profile");
         }}
       >
         Edit Profile

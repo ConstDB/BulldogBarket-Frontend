@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MyPurchases.css';
-
-const API_BASE_URL = 'http://127.0.0.1/api/v1';
-
+ 
+const API_BASE_URL = 'http://127.0.0.1:3000/api/v1';
+ 
 const StatusBadge = ({ type, status, paymentMethod }) => {
   const getClassName = () => {
     if (type === 'completed') return 'status-badge delivered';
@@ -14,7 +14,7 @@ const StatusBadge = ({ type, status, paymentMethod }) => {
       return paymentMethod === 'Cash on Meetup' ? 'status-badge meetup' : 'status-badge accepted';
     }
   };
-
+ 
   const getText = () => {
     if (type === 'completed') return 'DELIVERED • DEC 6';
     if (type === 'cancelled') {
@@ -25,14 +25,14 @@ const StatusBadge = ({ type, status, paymentMethod }) => {
       return paymentMethod === 'Cash on Meetup' ? 'TO MEETUP' : 'REQUEST ACCEPTED';
     }
   };
-
+ 
   return <span className={getClassName()}>{getText()}</span>;
 };
-
+ 
 // PurchaseCard Component
 const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSeller, onViewDetails, onChat }) => {
   const { id, listing, quantity, totalPrice, status, paymentMethod } = order;
-  
+ 
   const getCancelReason = () => {
     if (status === 'cancelled_by_seller') {
       return <p className="cancel-reason">Reason: Seller declined request (Item unavailable)</p>;
@@ -42,7 +42,7 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
     }
     return null;
   };
-
+ 
   const getActions = () => {
     if (type === 'completed') {
       return (
@@ -90,7 +90,7 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
       );
     }
   };
-
+ 
   return (
     <div className={`purchase-card ${type === 'cancelled' ? 'cancelled-card' : ''}`}>
       <div className="card-header">
@@ -99,7 +99,7 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
         </span>
         <StatusBadge type={type} status={status} paymentMethod={paymentMethod} />
       </div>
-      
+     
       <div className="card-body">
         <div className="item-image">
           {listing.images && listing.images.length > 0 ? (
@@ -108,7 +108,7 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
             <div className="image-placeholder"></div>
           )}
         </div>
-        
+       
         <div className="item-details">
           <h3 className="item-name">{listing.name}</h3>
           <p className="item-info">Type: {listing.type}</p>
@@ -118,7 +118,7 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
           )}
           {getCancelReason()}
         </div>
-        
+       
         <div className="item-price">
           <span className="price">₱{totalPrice.toFixed(2)}</span>
           {paymentMethod && (
@@ -126,12 +126,12 @@ const PurchaseCard = ({ order, type, onCancelOrder, onOrderReceived, onRateSelle
           )}
         </div>
       </div>
-      
+     
       {getActions()}
     </div>
   );
 };
-
+ 
 // TabNavigation Component
 const TabNavigation = ({ activeTab, onTabChange, counts }) => {
   const tabs = [
@@ -140,7 +140,7 @@ const TabNavigation = ({ activeTab, onTabChange, counts }) => {
     { id: 'cancelled', label: 'Cancelled', count: counts.cancelled },
     { id: 'completed', label: 'Completed', count: counts.completed }
   ];
-
+ 
   return (
     <div className="tab-navigation">
       {tabs.map(tab => (
@@ -155,7 +155,7 @@ const TabNavigation = ({ activeTab, onTabChange, counts }) => {
     </div>
   );
 };
-
+ 
 // Main MyPurchases Component
 const MyPurchases = () => {
   const [activeTab, setActiveTab] = useState('completed');
@@ -167,64 +167,64 @@ const MyPurchases = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
     fetchOrders();
   }, []);
-
+ 
   const fetchOrders = async () => {
     try {
       setLoading(true);
       setError(null);
-      
+     
       console.log('Fetching orders from:', API_BASE_URL);
-      
+     
       // Fetch all order types in parallel
       const [pendingRes, completedRes, cancelledRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/orders?status=pending`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=pending`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         }),
-        fetch(`${API_BASE_URL}/orders?status=completed`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=completed`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         }),
-        fetch(`${API_BASE_URL}/orders?status=cancelled`, {
+        fetch(`${API_BASE_URL}/orders/buyer?status=cancelled`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
       ]);
-
+ 
       console.log('Response statuses:', {
         pending: pendingRes.status,
         completed: completedRes.status,
         cancelled: cancelledRes.status
       });
-
+ 
       if (!pendingRes.ok || !completedRes.ok || !cancelledRes.ok) {
         throw new Error(`API Error: ${pendingRes.status} ${completedRes.status} ${cancelledRes.status}`);
       }
-
+ 
       const pendingData = await pendingRes.json();
       const completedData = await completedRes.json();
       const cancelledData = await cancelledRes.json();
-
+ 
       console.log('Fetched data:', { pendingData, completedData, cancelledData });
-
+ 
       // All pending status orders go to pending tab
       // All completed status orders go to completed tab
       // All cancelled status orders go to cancelled tab
       // Note: "toReceive" will be empty unless you have a separate endpoint or status
-
+ 
       setOrders({
         toReceive: [], // Add endpoint if you have a specific "to_receive" status
         pending: Array.isArray(pendingData) ? pendingData : [],
@@ -238,7 +238,7 @@ const MyPurchases = () => {
       setLoading(false);
     }
   };
-
+ 
   const handleCancelOrder = async (orderId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
@@ -247,11 +247,11 @@ const MyPurchases = () => {
           'Content-Type': 'application/json'
         }
       });
-
+ 
       if (!response.ok) {
         throw new Error('Failed to cancel order');
       }
-
+ 
       // Refresh orders after cancellation
       await fetchOrders();
       alert('Order cancelled successfully');
@@ -260,7 +260,7 @@ const MyPurchases = () => {
       alert('Failed to cancel order. Please try again.');
     }
   };
-
+ 
   const handleOrderReceived = async (orderId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/orders/${orderId}/complete`, {
@@ -269,11 +269,11 @@ const MyPurchases = () => {
           'Content-Type': 'application/json'
         }
       });
-
+ 
       if (!response.ok) {
         throw new Error('Failed to mark order as received');
       }
-
+ 
       // Refresh orders after completion
       await fetchOrders();
       alert('Order marked as received successfully');
@@ -282,19 +282,19 @@ const MyPurchases = () => {
       alert('Failed to mark order as received. Please try again.');
     }
   };
-
+ 
   const handleRateSeller = (orderId) => {
     // Navigate to rating page or open rating modal
     console.log('Rate seller for order:', orderId);
     alert('Rating feature will be implemented');
   };
-
+ 
   const handleViewDetails = (orderId) => {
     // Navigate to order details page
     console.log('View details for order:', orderId);
     alert('View details feature will be implemented');
   };
-
+ 
   const handleChat = (messengerLink) => {
     if (messengerLink) {
       window.open(messengerLink, '_blank');
@@ -302,16 +302,16 @@ const MyPurchases = () => {
       alert('Messenger link not available');
     }
   };
-
+ 
   const counts = {
     toReceive: orders.toReceive.length,
     pending: orders.pending.length,
     cancelled: orders.cancelled.length,
     completed: orders.completed.length
   };
-
+ 
   const currentOrders = orders[activeTab] || [];
-
+ 
   return (
     <div className="my-purchases">
       <header className="page-header">
@@ -319,13 +319,13 @@ const MyPurchases = () => {
           My Purchases
         </button>
       </header>
-
-      <TabNavigation 
-        activeTab={activeTab} 
+ 
+      <TabNavigation
+        activeTab={activeTab}
         onTabChange={setActiveTab}
         counts={counts}
       />
-
+ 
       <div className="purchases-content">
         {loading ? (
           <div className="loading">Loading orders...</div>
@@ -338,9 +338,9 @@ const MyPurchases = () => {
           <div className="empty-state">No orders in this category</div>
         ) : (
           currentOrders.map(order => (
-            <PurchaseCard 
-              key={order.id} 
-              order={order} 
+            <PurchaseCard
+              key={order.id}
+              order={order}
               type={activeTab}
               onCancelOrder={handleCancelOrder}
               onOrderReceived={handleOrderReceived}
@@ -354,5 +354,5 @@ const MyPurchases = () => {
     </div>
   );
 };
-
+ 
 export default MyPurchases;

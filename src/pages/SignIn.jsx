@@ -1,7 +1,7 @@
 import React from "react";
-import SigninHeroPanel from "../components/signin/SignInHeroPanel"; 
+import SigninHeroPanel from "../components/signin/SignInHeroPanel";
 import SigninForm from "../components/signin/SigninForm";
-
+ 
 export default function SignIn() {
   const styles = {
     page: {
@@ -9,7 +9,7 @@ export default function SignIn() {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#F3F4F6", 
+      backgroundColor: "#F3F4F6",
       fontFamily: "'Inter', sans-serif",
       padding: "20px",
     },
@@ -23,7 +23,7 @@ export default function SignIn() {
       overflow: "hidden",
     },
   };
-
+ 
   return (
     <div style={styles.page}>
       <div style={styles.card}>
