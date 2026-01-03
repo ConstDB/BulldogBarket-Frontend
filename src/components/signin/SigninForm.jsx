@@ -84,7 +84,11 @@ export default function SigninForm() {
             onChange={handleChange}
             required
           />
-          <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+          <button
+            type="button"
+            className="eye-btn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
             {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
           </button>
         </div>
@@ -99,7 +103,7 @@ export default function SigninForm() {
 
         <div className="create-account">
           New to BarkKart?{" "}
-          <a href="#" className="create-link">
+          <a href="/signup" className="create-link">
             Create Account
           </a>
         </div>

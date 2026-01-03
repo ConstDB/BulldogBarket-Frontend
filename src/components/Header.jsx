@@ -45,7 +45,7 @@ function Header() {
         <Link to="/marketfeed">
           <img src={home} alt="MarketFeed" className="h-4 cursor-pointer" />
         </Link>
-        <Link to="/post-product">
+        <Link to="/saveditems">
           <img src={bookmark} alt="Bookmarks" className="h-4 cursor-pointer" />
         </Link>
         <Link to="/notifications">

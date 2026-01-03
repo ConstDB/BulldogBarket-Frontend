@@ -58,9 +58,7 @@ export default function MultipleItemPost({ post }) {
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some(
-            (item) => item.listing._id === listingId
-          );
+          const isSaved = savedListings.some((item) => item._id === listingId);
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -309,7 +307,7 @@ export default function MultipleItemPost({ post }) {
         <BulkOrderModal onClose={() => close("order")} listing={listing} />
       )}
       {modals.comment && (
-        <CommentModal onClose={() => close("comment")} listing={listingId} />
+        <CommentModal onClose={() => close("comment")} listing={listing} />
       )}
     </div>
   );
