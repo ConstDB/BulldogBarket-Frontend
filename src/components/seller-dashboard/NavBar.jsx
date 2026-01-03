@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaStore, FaMoon, FaHome } from "react-icons/fa";
 import { Link } from "react-router-dom"; 
 
-// 👇 IMPORT THE CSS FILE HERE
 import "../../styles/SellerDashboard/NavBar.css";
 
 export default function NavBar() {
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof document !== "undefined" && document.documentElement) {
+      return document.documentElement.classList.contains("dark");
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof document === "undefined" || !document.documentElement) return;
+
+    if (isDark) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, [isDark]);
+
+  const toggleDark = () => setIsDark((v) => !v);
+
   return (
     <div className="navbar">
       {/* Brand Logo Group */}
@@ -15,7 +30,12 @@ export default function NavBar() {
       </Link>
 
       <div className="nav-group">
-        <button className="icon-link" title="Dark Mode">
+        <button
+          className="icon-link"
+          title="Toggle dark mode"
+          onClick={toggleDark}
+          aria-pressed={isDark}
+        >
           <FaMoon />
         </button>
 
