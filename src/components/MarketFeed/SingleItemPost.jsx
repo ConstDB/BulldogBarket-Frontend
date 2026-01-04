@@ -224,9 +224,12 @@ export default function SingleItemPost({ post }) {
       <div className="sip-description">{listing.description}</div>
 
       <div className="sip-item-box">
-        <div className="sip-category">{listing.category}</div>
-        <img src={listing.images?.[0] || itemImage} className="sip-item-img" />
-        <div className="sip-price">₱{listing.price || 0}.00</div>
+        <div className="sip-image-wrapper">
+          <div className="sip-category">{listing.category}</div>
+          <img src={listing.images?.[0] || itemImage} className="sip-item-img" />
+          <div className="sip-price">₱{listing.price || 0}.00</div>
+        </div>
+        
         <div className="sip-title">{listing.name}</div>
 
         <div className="sip-buttons">

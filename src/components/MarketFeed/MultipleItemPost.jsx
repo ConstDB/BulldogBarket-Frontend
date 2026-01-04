@@ -70,8 +70,8 @@ export default function MultipleItemPost({ post }) {
   }, [listingId]);
 
   // Handle upvote
-
   const { modals, open, close } = useModalManager();
+  
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
 
@@ -194,7 +194,6 @@ export default function MultipleItemPost({ post }) {
       setActionLoading(false);
     }
   };
-  const handleCommentClick = () => alert("modal tol");
 
   return (
     <div className="mip-container">
@@ -236,13 +235,16 @@ export default function MultipleItemPost({ post }) {
       <div className="mip-description">{listing.description}</div>
 
       <div className="mip-item-box">
-        <div className="mip-category">{listing.category}</div>
-        <img
-          src={listing.images?.[0] || foodImage}
-          alt="Item"
-          className="mip-item-img"
-        />
-        <div className="mip-price">₱{listing.price || 0}.00 / piece</div>
+        <div className="mip-image-wrapper">
+          <div className="mip-category">{listing.category}</div>
+          <img
+            src={listing.images?.[0] || foodImage}
+            alt="Item"
+            className="mip-item-img"
+          />
+          <div className="mip-price">₱{listing.price || 0}.00 / piece</div>
+        </div>
+        
         <div className="mip-title">{listing.name}</div>
 
         <div className="mip-buttons">
@@ -303,6 +305,7 @@ export default function MultipleItemPost({ post }) {
           Comment{" "}
         </button>
       </div>
+      
       {modals.order && (
         <BulkOrderModal onClose={() => close("order")} listing={listing} />
       )}
