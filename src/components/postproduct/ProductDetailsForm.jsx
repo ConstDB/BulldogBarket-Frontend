@@ -62,7 +62,7 @@ export default function ProductDetailsForm({
         </div>
       </div>
 
-      {/* CATEGORY & CONDITION */}
+      {/* CATEGORY & CONDITION/STOCKS SIDE BY SIDE */}
       <div className="pdf-row">
         <div className="pdf-row-left">
           <div className="pdf-label">
@@ -78,42 +78,45 @@ export default function ProductDetailsForm({
         </div>
 
         <div className="pdf-row-right">
-          <div className="pdf-label">
-            Condition <span style={{ color: 'red' }}>*</span>
-          </div>
-          <select
-            value={condition}
-            onChange={(e) => setCondition(e.target.value)}
-            className="pdf-input-small"
-            required
-          >
-            <option value="Brand New">Brand New</option>
-            <option value="Pre-loved">Pre-loved</option>
-            <option value="Used">Used</option>
-            <option value="Like New">Like New</option>
-          </select>
+          {/* CONDITION for single type */}
+          {type === "single" && (
+            <>
+              <div className="pdf-label">
+                Condition <span style={{ color: 'red' }}>*</span>
+              </div>
+              <select
+                value={condition}
+                onChange={(e) => setCondition(e.target.value)}
+                className="pdf-input-small"
+                required
+              >
+                <option value="Brand New">Brand New</option>
+                <option value="Pre-loved">Pre-loved</option>
+                <option value="Used">Used</option>
+                <option value="Like New">Like New</option>
+              </select>
+            </>
+          )}
+
+          {/* STOCKS for bulk type */}
+          {type === "bulk" && (
+            <>
+              <div className="pdf-label">
+                Stocks Available <span style={{ color: 'red' }}>*</span>
+              </div>
+              <input
+                type="number"
+                value={stocks}
+                onChange={(e) => setStocks(Number(e.target.value))}
+                placeholder="1"
+                className="pdf-input-small"
+                min="1"
+                required
+              />
+            </>
+          )}
         </div>
       </div>
-
-      {/* STOCKS (only show for bulk type) */}
-      {type === "bulk" && (
-        <div className="pdf-row">
-          <div className="pdf-row-left">
-            <div className="pdf-label">
-              Stocks Available <span style={{ color: 'red' }}>*</span>
-            </div>
-            <input
-              type="number"
-              value={stocks}
-              onChange={(e) => setStocks(Number(e.target.value))}
-              placeholder="1"
-              className="pdf-input"
-              min="1"
-              required
-            />
-          </div>
-        </div>
-      )}
 
       {/* DESCRIPTION */}
       <div>
