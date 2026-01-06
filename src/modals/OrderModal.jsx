@@ -17,6 +17,7 @@ export default function BulkOrderModal({ onClose, listing }) {
   const [payment, setPayment] = useState("");
   const [location, setLocation] = useState("");
   const [totalAmount, setTotalAmount] = useState(listing.price);
+  const [error, setError] = useState("");
 
   const createOrderMutation = useCreateOrder();
 
@@ -42,8 +43,29 @@ export default function BulkOrderModal({ onClose, listing }) {
   };
 
   const handleOrder = () => {
-    createOrderMutation.mutate(payload);
-    onClose();
+    setError("");
+
+    if (!location.trim() || !payment.trim()) {
+      setError("Please fill in all required fields.");
+      return;
+    } else if (listing.stocks < value) {
+      setError(`Not enough stocks. Only ${listing.stocks} left.`);
+      return;
+    }
+    createOrderMutation.mutate(payload, {
+      onSuccess: () => {
+        onClose();
+      },
+
+      onError: (error) => {
+        const status = error?.response?.status;
+        if (status === 403) {
+          setError("You cannot buy your own item.");
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
+      },
+    });
   };
 
   return (
@@ -99,7 +121,7 @@ export default function BulkOrderModal({ onClose, listing }) {
           </div>
           <div className="flex gap-4">
             <Select value={payment} onValueChange={setPayment}>
-              <SelectTrigger className="w-full border-[#E5E7EB] bg-neutral-100">
+              <SelectTrigger className="w-full border-neutral-200 bg-neutral-100">
                 <SelectValue placeholder="Select Payment" />
               </SelectTrigger>
               <SelectContent className="bg-neutral-100">
@@ -111,8 +133,9 @@ export default function BulkOrderModal({ onClose, listing }) {
             </Select>
 
             <Input
-              className="border-[#b3c9f5] bg-neutral-100"
+              className="border-neutral-200 bg-neutral-100"
               value={location}
+              placeholder="e.g., The Garden (NU Manila)"
               onChange={(e) => setLocation(e.target.value)}
             />
           </div>
@@ -123,6 +146,13 @@ export default function BulkOrderModal({ onClose, listing }) {
             ₱{totalAmount}.00
           </h1>
         </div>
+
+        {error && (
+          <div className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-md p-2">
+            {error}
+          </div>
+        )}
+
         <Button
           className="bg-green-600 text-white text-sm font-bold"
           onClick={handleOrder}
