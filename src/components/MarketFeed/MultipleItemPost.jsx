@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../styles/MarketFeed/MultipleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
@@ -71,7 +71,10 @@ export default function MultipleItemPost({ post }) {
 
   // Handle upvote
   const { modals, open, close } = useModalManager();
-  
+
+  const commentModalRef = useRef();
+  const orderModalRef = useRef();
+
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
 
@@ -244,7 +247,7 @@ export default function MultipleItemPost({ post }) {
           />
           <div className="mip-price">₱{listing.price || 0}.00 / piece</div>
         </div>
-        
+
         <div className="mip-title">{listing.name}</div>
 
         <div className="mip-buttons">
@@ -300,18 +303,19 @@ export default function MultipleItemPost({ post }) {
           Downvote
         </button>
 
-        <button className="mip-action-btn" onClick={() => open("comment")}>
+        <button
+          className="mip-action-btn"
+          onClick={() => commentModalRef.current.open()}
+        >
           <img src={commentIcon} alt="Comment" className="mip-action-icon" />{" "}
           Comment{" "}
         </button>
       </div>
-      
+
       {modals.order && (
         <BulkOrderModal onClose={() => close("order")} listing={listing} />
       )}
-      {modals.comment && (
-        <CommentModal onClose={() => close("comment")} listing={listing} />
-      )}
+      <CommentModal ref={commentModalRef} listing={listing} />
     </div>
   );
 }

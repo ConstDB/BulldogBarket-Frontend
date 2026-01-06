@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../styles/MarketFeed/SingleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
@@ -9,6 +9,8 @@ import chatIcon from "../../assets/chat.svg";
 import CountVotes from "../../assets/countvotes.svg";
 import profileIcon from "../../assets/profileicon.svg";
 import itemImage from "../../assets/item.svg";
+import RequestModal from "@/modals/RequestModal";
+import CommentModal from "@/modals/CommentModal";
 
 const API_BASE = "http://127.0.0.1:3000/api/v1";
 
@@ -26,6 +28,9 @@ export default function SingleItemPost({ post }) {
   const [downvoted, setDownvoted] = useState(
     listing.downvotes?.includes(userId)
   );
+
+  const requestModalRef = useRef();
+  const commentModalRef = useRef();
 
   const [upvotesLocal, setUpvotesLocal] = useState(upvoteCount);
   const [downvotesLocal, setDownvotesLocal] = useState(downvoteCount);
@@ -46,9 +51,7 @@ export default function SingleItemPost({ post }) {
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some(
-            (item) => item.listing._id === listingId
-          );
+          const isSaved = savedListings.some((item) => item._id === listingId);
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -226,14 +229,22 @@ export default function SingleItemPost({ post }) {
       <div className="sip-item-box">
         <div className="sip-image-wrapper">
           <div className="sip-category">{listing.category}</div>
-          <img src={listing.images?.[0] || itemImage} className="sip-item-img" />
+          <img
+            src={listing.images?.[0] || itemImage}
+            className="sip-item-img"
+          />
           <div className="sip-price">₱{listing.price || 0}.00</div>
         </div>
-        
+
         <div className="sip-title">{listing.name}</div>
 
         <div className="sip-buttons">
-          <button className="sip-request-btn">Request Item</button>
+          <button
+            className="sip-request-btn"
+            onClick={() => requestModalRef.current.open()}
+          >
+            Request Item
+          </button>
           <button className="sip-chat-btn">
             <img src={chatIcon} /> Chat
           </button>
@@ -281,11 +292,13 @@ export default function SingleItemPost({ post }) {
 
         <button
           className="sip-action-btn"
-          onClick={() => alert("Comment modal")}
+          onClick={() => commentModalRef.current.open()}
         >
           <img src={commentIcon} className="sip-action-icon" /> Comment
         </button>
       </div>
+      <RequestModal ref={requestModalRef} listing={listing} />
+      <CommentModal ref={commentModalRef} listing={listing} />
     </div>
   );
 }
