@@ -5,18 +5,18 @@ import { useFetchProfileQuery } from "@/hooks/useFetchProfileQuery";
 import Loading from "@/components/Loading";
 
 function UserProfileEdit() {
-  const { data, isLoading } = useFetchProfileQuery();
+  const { data, isPending } = useFetchProfileQuery();
 
-  if (isLoading) return <Loading />;
 
+  if (isPending) return <Loading />;
   return (
     <div className="flex justify-center items-center font-sans pt-8">
       <div className="flex-col items-center ">
-        <UserBanner user={data.user} />
+        <UserBanner user={data} />
 
         <div className="flex justify-between min-h-screen pt-9 box-border gap-7">
           <UserSidebar />
-          <UserInfoEdit user={data.user} />
+          <UserInfoEdit user={data} />
         </div>
       </div>
     </div>

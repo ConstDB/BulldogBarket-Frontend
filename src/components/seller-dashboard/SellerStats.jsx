@@ -1,24 +1,33 @@
-import React from "react";
-
-// 1. Import the new CSS file
+import { useFetchDashboardSummary } from "@/hooks/useFetchDashboardSummary";
 import "../../styles/SellerDashboard/SellerStats.css";
 
 export default function SellerStats() {
-  const statsData = [
-    { label: "TOTAL EARNINGS", value: "₱ 3,450" },
-    { label: "ITEMS SOLD", value: "12" },
-    { label: "TO MEETUP", value: "3" },
-    { label: "RATING", value: "4.8" },
-  ];
+  const { data, isPending } = useFetchDashboardSummary();
+
+  if (isPending) {
+    return <div>...Loading</div>;
+  }
+
+  const { totalEarnings, itemsSold, toMeetup, rating } = data;
 
   return (
     <div className="stats-grid">
-      {statsData.map((stat, index) => (
-        <div key={index} className="stat-card">
-          <div className="stat-label">{stat.label}</div>
-          <div className="stat-value">{stat.value}</div>
-        </div>
-      ))}
+      <div className="stat-card">
+        <div className="stat-label">TOTAL EARNINGS</div>
+        <div className="stat-value">₱ {totalEarnings}</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-label">ITEMS SOLD</div>
+        <div className="stat-value">{itemsSold}</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-label">TO MEETUP</div>
+        <div className="stat-value">{toMeetup}</div>
+      </div>
+      <div className="stat-card">
+        <div className="stat-label">RATING</div>
+        <div className="stat-value">{rating}</div>
+      </div>
     </div>
   );
 }
