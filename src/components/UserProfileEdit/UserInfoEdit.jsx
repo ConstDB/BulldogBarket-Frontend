@@ -5,15 +5,6 @@ import LockIcon from "../../assets/lock.svg";
 import ChatIcon from "../../assets/chat.svg";
 
 function UserInfoEdit({ user, onSave }) {
-  // Add safety check at the start
-  if (!user) {
-    return (
-      <div className="h-[650px] bg-white rounded-2xl p-7 flex flex-col gap-5 shadow border border-gray-100">
-        <div className="uie-title">Loading user information...</div>
-      </div>
-    );
-  }
-
   const [course, setCourse] = useState(user.course || "");
   const [year, setYearLevel] = useState(user.yearLevel || "");
   const [campus, setCampus] = useState(user.campus || "");
@@ -38,9 +29,12 @@ function UserInfoEdit({ user, onSave }) {
       if (onSave && typeof onSave === "function") {
         await onSave(payload);
       } else {
-        const res = await fetch(`/api/profile`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/me`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           body: JSON.stringify(payload),
         });
 
@@ -89,11 +83,7 @@ function UserInfoEdit({ user, onSave }) {
       <div className="uie-row">
         <div className="uie-field-group">
           <label className="uie-label-lg">Course / Program</label>
-          <select
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-            className="uie-select"
-          >
+          <select value={course} onChange={(e) => setCourse(e.target.value)} className="uie-select">
             <option value="">Select Course</option>
             {NU_COURSES.map((c) => (
               <option key={c} value={c}>
