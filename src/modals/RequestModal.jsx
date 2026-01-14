@@ -83,7 +83,7 @@ const RequestModal = forwardRef((listing, ref) => {
           <div className="text-xs text-blue-800">
             <span className="font-bold">Single Stock Item: </span>
             You are sending a request to
-            <span className="font-bold"> {data.seller.name}</span>. If they
+            <span className="font-bold"> {data?.seller?.name}</span>. If they
             accept your request, you will be notified to proceed with the
             meetup.
           </div>
@@ -93,7 +93,7 @@ const RequestModal = forwardRef((listing, ref) => {
       <div className="my-4 flex flex-col font-bold gap-3">
         <div>
           <h1 className="text-xs text-neutral-500">ITEM</h1>
-          <h1 className="text-[16px] ">{data.name}</h1>
+          <h1 className="text-[16px] ">{data?.name}</h1>
         </div>
 
         <div>

@@ -75,7 +75,6 @@ export default function MultipleItemPost({ post }) {
   const { modals, open, close } = useModalManager();
 
   const commentModalRef = useRef();
-  const orderModalRef = useRef();
 
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
