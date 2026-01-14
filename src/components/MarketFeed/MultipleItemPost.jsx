@@ -75,6 +75,7 @@ export default function MultipleItemPost({ post }) {
   const { modals, open, close } = useModalManager();
 
   const commentModalRef = useRef();
+  const OrderModalRef = useRef();
 
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
@@ -245,7 +246,10 @@ export default function MultipleItemPost({ post }) {
         <div className="mip-title">{listing.name}</div>
 
         <div className="mip-buttons">
-          <button className="mip-request-btn" onClick={() => open("order")}>
+          <button
+            className="mip-request-btn"
+            onClick={() => OrderModalRef.current.open()}
+          >
             Order Item
           </button>
 
@@ -324,9 +328,7 @@ export default function MultipleItemPost({ post }) {
         </button>
       </div>
 
-      {modals.order && (
-        <BulkOrderModal onClose={() => close("order")} listing={listing} />
-      )}
+      <BulkOrderModal ref={OrderModalRef} listing={listing} />
       <CommentModal ref={commentModalRef} listing={listing} />
     </div>
   );
