@@ -287,9 +287,18 @@ export default function MultipleItemPost({ post }) {
           className="mip-action-btn"
           onClick={handleUpvote}
           disabled={actionLoading}
-          style={{ opacity: upvoted ? 1 : 0.6 }}
+          style={{ color: upvoted ? "#35408E" : "inherit", fontWeight: upvoted ? "bold" : "normal" }}
         >
-          <img src={upvoteIcon} alt="Upvote" className="mip-action-icon" />
+          <img
+              src={upvoteIcon}
+              alt="Upvote"
+              className="mip-action-icon"
+              style={{
+                filter: upvoted
+                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                  : "none"
+              }}
+          />
           Upvote
         </button>
 
@@ -297,9 +306,18 @@ export default function MultipleItemPost({ post }) {
           className="mip-action-btn"
           onClick={handleDownvote}
           disabled={actionLoading}
-          style={{ opacity: downvoted ? 1 : 0.6 }}
+          style={{ color: downvoted ? "#35408E" : "inherit", fontWeight: downvoted ? "bold" : "normal" }}
         >
-          <img src={downvoteIcon} alt="Downvote" className="mip-action-icon" />
+          <img
+              src={downvoteIcon}
+              alt="Downvote"
+              className="mip-action-icon"
+              style={{
+                filter: downvoted
+                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                  : "none"
+              }}
+        />
           Downvote
         </button>
 
