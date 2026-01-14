@@ -37,10 +37,22 @@ input[type="number"].no-spin::-webkit-outer-spin-button {
   background-color: #35408e;
 }
 
+.text-brand-primary {
+  color: #35408e;
+}
+
 .bg-brand-dark {
   background-color: #2a326b;
 }
 
+.text-brand-dark {
+  color: #2a326b;
+}
+
 .bg-brand-accent {
   background-color: #ffd400;
+}
+
+.text-brand-accent {
+  color: #ffd400;
 }
