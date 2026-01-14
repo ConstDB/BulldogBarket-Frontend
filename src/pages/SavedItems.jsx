@@ -8,39 +8,7 @@ export default function SavedItems() {
   const navigate = useNavigate();
 
   // start with mock data while offline / before backend responds
-  const [savedItems, setSavedItems] = useState([
-    {
-      listing: {
-        _id: "6935b2b7cdcc1bec7f563ca5",
-        seller: { _id: "693428c5fdbfd10f55b2cfad", name: "Rj Silagan" },
-        type: "bulk",
-        name: "NU ID Lace",
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs3.amazonaws.com%2Fimages.ecwid.com%2Fimages%2F26273031%2F1377812301.jpg&f=1&nofb=1&ipt=3987cea91d3c720c7dd5b3e95f87c905784b35548c7c132d03d025d54ed3a988",
-        ],
-        price: 120,
-        category: "Accessories",
-        stocks: 50,
-      },
-      createdAt: "2025-12-09T17:32:05.788Z",
-    },
-    {
-      listing: {
-        _id: "69385eabe0f11e88240f4266",
-        seller: { _id: "69385defe0f11e88240f4255", name: "EdrIch Santuyo" },
-        type: "bulk",
-        name: "OLFU ID Lace",
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs3.amazonaws.com%2Fimages.ecwid.com%2Fimages%2F26273031%2F1377812301.jpg&f=1&nofb=1&ipt=3987cea91d3c720c7dd5b3e95f87c905784b35548c7c132d03d025d54ed3a988",
-        ],
-        price: 120,
-        category: "Accessories",
-        status: "available",
-        stocks: 50,
-      },
-      createdAt: "2025-12-09T17:39:59.388Z",
-    },
-  ]);
+  const [savedItems, setSavedItems] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -141,9 +109,7 @@ export default function SavedItems() {
           <p className="list-subtitle">Items you've bookmarked for later.</p>
         </div>
 
-        {error && (
-          <div style={{ color: "#DC2626", marginBottom: 12 }}>{error}</div>
-        )}
+        {error && <div style={{ color: "#DC2626", marginBottom: 12 }}>{error}</div>}
 
         {loading && (
           <div style={{ color: "#64748B", marginBottom: 12 }}>Loading saved items...</div>
@@ -152,18 +118,19 @@ export default function SavedItems() {
         {/* Dynamic Grid: Maps through your data array */}
         <div className="saved-grid">
           {savedItems.map((item, index) => (
-            <SavedItemCard
-              key={item.listing._id || index}
-              data={item}
-              onRemove={handleRemove}
-            />
+            <SavedItemCard key={item.listing._id || index} data={item} onRemove={handleRemove} />
           ))}
         </div>
 
         {/* Empty State Message */}
         {!loading && savedItems.length === 0 && (
-          <p style={{ textAlign: "center", color: "#6B7280", marginTop: "50px", fontSize: "1.1rem" }}>
-            Your watchlist is empty. <Link to="/" style={{ color: "#2A3B8F", fontWeight: "bold" }}>Browse items</Link>
+          <p
+            style={{ textAlign: "center", color: "#6B7280", marginTop: "50px", fontSize: "1.1rem" }}
+          >
+            Your watchlist is empty.{" "}
+            <Link to="/" style={{ color: "#2A3B8F", fontWeight: "bold" }}>
+              Browse items
+            </Link>
           </p>
         )}
       </div>
