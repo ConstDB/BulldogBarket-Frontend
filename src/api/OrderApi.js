@@ -14,3 +14,6 @@ export const buyerCancelOrder = async (orderId) => {
   await api.patch(`/orders/${orderId}/buyer-cancel`);
 };
 
+export const buyerConfirmReceived = async (orderId) => {
+  await api.patch(`/orders/${orderId}/complete/buyer`);
+};

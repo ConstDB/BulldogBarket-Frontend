@@ -9,6 +9,7 @@ import { Package } from "lucide-react";
 import { useState } from "react";
 import "../styles/MyPurchases.css";
 import { useBuyerCancelOrderMutation } from "@/hooks/useBuyerCancelOrderMutation";
+import { useBuyerConfirmReceivedMutation } from "@/hooks/useBuyerConfirmReceivedMutation";
 
 const API_BASE_URL = "http://127.0.0.1:3000/api/v1";
 
@@ -31,7 +32,7 @@ const StatusBadge = ({ type, status, paymentMethod }) => {
     }
     if (type === "pending") return "WAITING APPROVAL";
     if (type === "toReceive") {
-      return paymentMethod === "Cash on Meetup" ? "TO MEETUP" : "REQUEST ACCEPTED";
+      return "TO MEETUP";
     }
   };
 
@@ -47,6 +48,8 @@ const PurchaseCard = ({
   onRateSeller,
   onViewDetails,
   onChat,
+  sellerConfirmed,
+  buyerConfirmed,
 }) => {
   const { id, listing, quantity, totalPrice, status, paymentMethod } = order;
 
@@ -94,18 +97,42 @@ const PurchaseCard = ({
     if (type === "toReceive") {
       return (
         <div className="card-actions">
-          <button className="btn-secondary cancel-order" onClick={() => onCancelOrder(id)}>
-            Cancel Order
-          </button>
+          {(sellerConfirmed || buyerConfirmed) && (
+            <button
+              disabled
+              title="You can no longer cancel this order."
+              className="border border-red-500 text-red-500 px-4 py-2 rounded-lg opacity-50 cursor-not-allowed"
+            >
+              Cancel Order
+            </button>
+          )}
+          {!buyerConfirmed && !sellerConfirmed && (
+            <button
+              className="border border-red-500 text-red-500 px-4 py-2 rounded-lg "
+              onClick={() => onCancelOrder(id)}
+            >
+              Cancel Order
+            </button>
+          )}
           <button
             className="btn-secondary chat"
             onClick={() => onChat(listing.sellerMessengerLink)}
           >
             Chat
           </button>
-          <button className="btn-primary" onClick={() => onOrderReceived(id)}>
-            Order Received
-          </button>
+          {buyerConfirmed && !sellerConfirmed && (
+            <button
+              disabled
+              className="bg-[#35408e]/60 px-4 py-2 rounded-lg text-white cursor-not-allowed"
+            >
+              Waiting For Seller Confirmation
+            </button>
+          )}
+          {!sellerConfirmed && !buyerConfirmed && (
+            <button className="btn-primary" onClick={() => onOrderReceived(id)}>
+              Order Received
+            </button>
+          )}
         </div>
       );
     }
@@ -233,28 +260,7 @@ const MyPurchases = () => {
   const { data: pendingOffers = [] } = useFetchBuyerPendingOffersQuery();
 
   const { mutate: cancelOrder } = useBuyerCancelOrderMutation();
-
-  const handleOrderReceived = async (orderId) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/orders/${orderId}/complete`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to mark order as received");
-      }
-
-      // Refresh orders after completion
-      // await fetchOrders();
-      alert("Order marked as received successfully");
-    } catch (err) {
-      console.error("Error marking order as received:", err);
-      alert("Failed to mark order as received. Please try again.");
-    }
-  };
+  const { mutate: orderReceived } = useBuyerConfirmReceivedMutation();
 
   const handleRateSeller = (orderId) => {
     // Navigate to rating page or open rating modal
@@ -324,10 +330,12 @@ const MyPurchases = () => {
               order={order}
               type={activeTab}
               onCancelOrder={cancelOrder}
-              onOrderReceived={handleOrderReceived}
+              onOrderReceived={orderReceived}
               onRateSeller={handleRateSeller}
               onViewDetails={handleViewDetails}
               onChat={handleChat}
+              sellerConfirmed={order.sellerConfirmed}
+              buyerConfirmed={order.buyerConfirmed}
             />
           ))
         )}
