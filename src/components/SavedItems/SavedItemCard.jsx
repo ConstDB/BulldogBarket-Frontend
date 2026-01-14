@@ -17,6 +17,7 @@ export default function SavedItemCard({ data, onRemove }) {
   const { modals, open, close } = useModalManager();
 
   const requestModalRef = useRef();
+  const orderModalRef = useRef();
 
   return (
     <div className="saved-card">
@@ -75,7 +76,7 @@ export default function SavedItemCard({ data, onRemove }) {
           <button
             className={`action-btn ${!isAvailable ? "disabled" : "primary"}`}
             disabled={!isAvailable}
-            onClick={() => open("order")}
+            onClick={() => orderModalRef.current.open()}
           >
             Order Now
           </button>
@@ -89,10 +90,8 @@ export default function SavedItemCard({ data, onRemove }) {
           </button>
         )}
       </div>
-      {modals.order && (
-        <OrderModal onClose={() => close("order")} listing={listing} />
-      )}
 
+      <OrderModal ref={orderModalRef} listing={listing} />
       <RequestModal ref={requestModalRef} listing={listing} />
     </div>
   );

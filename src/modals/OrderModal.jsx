@@ -32,7 +32,7 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
   const [value, setValue] = useState(1);
   const [payment, setPayment] = useState("");
   const [location, setLocation] = useState("");
-  const [totalAmount, setTotalAmount] = useState(listing.price);
+  const [totalAmount, setTotalAmount] = useState(listing?.price);
   const [error, setError] = useState("");
 
   const createOrderMutation = useCreateOrder();
@@ -53,13 +53,13 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
     setValue(1);
     setPayment("");
     setLocation("");
-    setTotalAmount(listing.price);
+    setTotalAmount(listing?.price);
     setError("");
   };
 
   useEffect(() => {
-    setTotalAmount(listing.price * value);
-  }, [value, listing.price]);
+    setTotalAmount(listing?.price * value);
+  }, [value, listing?.price]);
 
   const handleOrder = () => {
     setError("");
@@ -69,8 +69,8 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
       return;
     }
 
-    if (listing.stocks < value) {
-      setError(`Not enough stocks. Only ${listing.stocks} left.`);
+    if (listing?.stocks < value) {
+      setError(`Not enough stocks. Only ${listing?.stocks} left.`);
       return;
     }
 
@@ -127,8 +127,8 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
 
         <div className="flex justify-between py-2.5 font-black">
           <div>
-            <h1 className="text-xl">{listing.name}</h1>
-            <h1 className="text-xl text-[#35408E]">₱{listing.price}.00</h1>
+            <h1 className="text-xl">{listing?.name}</h1>
+            <h1 className="text-xl text-[#35408E]">₱{listing?.price}.00</h1>
           </div>
 
           <div className="flex items-center justify-between border border-[#E5E7EB] w-24 h-8 rounded-[10px] overflow-hidden">
@@ -174,7 +174,7 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
         </div>
 
         <div className="flex justify-between my-6">
-          <span className="font-bold text-[#6B7280]">Total</span>
+          <span className="font-bold text-[#6B7280]">Total Amount</span>
           <span className="text-2xl font-bold text-[#35408E]">
             ₱{totalAmount}.00
           </span>
