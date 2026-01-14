@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "../../styles/MarketFeed/SingleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
+import savedBookmarkIcon from "../../assets/ybookmark.svg";
 import upvoteIcon from "../../assets/upvote.svg";
 import downvoteIcon from "../../assets/downvote.svg";
 import commentIcon from "../../assets/comment.svg";
@@ -38,20 +39,23 @@ export default function SingleItemPost({ post }) {
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState("");
 
+  const token = localStorage.getItem("token");
   // Check if listing is already saved
   useEffect(() => {
     const checkIfSaved = async () => {
-      const token = localStorage.getItem("token");
       if (!token || !listingId) return;
 
       try {
         const res = await fetch(`${API_BASE}/users/saved-listings`, {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some((item) => item._id === listingId);
+          const isSaved = savedListings.some(
+            (item) => item.listing?._id === listingId
+          );
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -60,7 +64,7 @@ export default function SingleItemPost({ post }) {
     };
 
     checkIfSaved();
-  }, [listingId]);
+  }, [listingId, token]);
 
   // Handle Upvote
   const handleUpvote = async () => {
@@ -160,8 +164,6 @@ export default function SingleItemPost({ post }) {
     }
 
     try {
-      console.log("Sending bookmark request:", { listingId, bookmarked });
-
       const res = await fetch(`${API_BASE}/users/saved-listings`, {
         method: bookmarked ? "DELETE" : "POST",
         headers: {
@@ -170,8 +172,6 @@ export default function SingleItemPost({ post }) {
         },
         body: JSON.stringify({ listingId }),
       });
-
-      console.log("Response status:", res.status);
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -212,14 +212,13 @@ export default function SingleItemPost({ post }) {
         </div>
 
         <button
-          className="sip-bookmark-btn"
+          className="bg-none border-none cursor-pointer"
           onClick={handleBookmark}
           disabled={actionLoading}
         >
           <img
-            src={bookmarkIcon}
-            className="sip-bookmark-icon"
-            style={{ opacity: bookmarked ? 1 : 0.4 }}
+            src={bookmarked ? savedBookmarkIcon : bookmarkIcon}
+            className="w-4"
           />
         </button>
       </div>

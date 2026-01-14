@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "../../styles/MarketFeed/MultipleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
+import savedBookmarkIcon from "../../assets/ybookmark.svg";
 import upvoteIcon from "../../assets/upvote.svg";
 import downvoteIcon from "../../assets/downvote.svg";
 import commentIcon from "../../assets/comment.svg";
@@ -27,7 +28,6 @@ export default function MultipleItemPost({ post }) {
     const payload = JSON.parse(decodedJson); // convert to JS object
 
     const userId = payload["id"];
-    console.log(payload);
   }
 
   const upvoteCount = listing.upvotes?.length || 0;
@@ -48,17 +48,19 @@ export default function MultipleItemPost({ post }) {
   // Check if listing is already saved
   useEffect(() => {
     const checkIfSaved = async () => {
-      const token = localStorage.getItem("token");
       if (!token || !listingId) return;
 
       try {
         const res = await fetch(`${API_BASE}/users/saved-listings`, {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some((item) => item._id === listingId);
+          const isSaved = savedListings.some(
+            (item) => item.listing?._id === listingId
+          );
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -67,7 +69,7 @@ export default function MultipleItemPost({ post }) {
     };
 
     checkIfSaved();
-  }, [listingId]);
+  }, [listingId, token]);
 
   // Handle upvote
   const { modals, open, close } = useModalManager();
@@ -160,8 +162,6 @@ export default function MultipleItemPost({ post }) {
     setActionLoading(true);
     setActionError("");
 
-    const token = localStorage.getItem("token");
-
     if (!token) {
       setActionError("No token found. Please login.");
       setActionLoading(false);
@@ -169,8 +169,6 @@ export default function MultipleItemPost({ post }) {
     }
 
     try {
-      console.log("Sending bookmark request:", { listingId, bookmarked });
-
       const res = await fetch(`${API_BASE}/users/saved-listings`, {
         method: bookmarked ? "DELETE" : "POST",
         headers: {
@@ -179,8 +177,6 @@ export default function MultipleItemPost({ post }) {
         },
         body: JSON.stringify({ listingId }),
       });
-
-      console.log("Response status:", res.status);
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -227,10 +223,9 @@ export default function MultipleItemPost({ post }) {
           className="mip-bookmark-btn"
         >
           <img
-            src={bookmarkIcon}
+            src={bookmarked ? savedBookmarkIcon : bookmarkIcon}
             alt="Bookmark"
             className="mip-bookmark-icon"
-            style={{ opacity: bookmarked ? 1 : 0.4 }}
           />
         </button>
       </div>
