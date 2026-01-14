@@ -9,3 +9,8 @@ export const getBuyerOrder = async (status) => {
   const { data } = await api.get("/orders/buyer", { params: { status } });
   return data;
 };
+
+export const buyerCancelOrder = async (orderId) => {
+  await api.patch(`/orders/${orderId}/buyer-cancel`);
+};
+

@@ -8,6 +8,7 @@ import { useFetchBuyerPendingOffersQuery } from "@/hooks/useFetchBuyerPendingOff
 import { Package } from "lucide-react";
 import { useState } from "react";
 import "../styles/MyPurchases.css";
+import { useBuyerCancelOrderMutation } from "@/hooks/useBuyerCancelOrderMutation";
 
 const API_BASE_URL = "http://127.0.0.1:3000/api/v1";
 
@@ -231,14 +232,7 @@ const MyPurchases = () => {
   const { data: cancelledOrders = [] } = useCancelledBuyerOrdersQuery();
   const { data: pendingOffers = [] } = useFetchBuyerPendingOffersQuery();
 
-  const handleCancelOrder = async () => {
-    try {
-      console.log("cancel order implementation");
-    } catch (err) {
-      console.error("Error cancelling order:", err);
-      alert("Failed to cancel order. Please try again.");
-    }
-  };
+  const { mutate: cancelOrder } = useBuyerCancelOrderMutation();
 
   const handleOrderReceived = async (orderId) => {
     try {
@@ -329,7 +323,7 @@ const MyPurchases = () => {
               key={order.id}
               order={order}
               type={activeTab}
-              onCancelOrder={handleCancelOrder}
+              onCancelOrder={cancelOrder}
               onOrderReceived={handleOrderReceived}
               onRateSeller={handleRateSeller}
               onViewDetails={handleViewDetails}
