@@ -32,3 +32,15 @@ input[type="number"].no-spin::-webkit-outer-spin-button {
   -webkit-appearance: none; /* Chrome, Safari, Edge */
   margin: 0;
 }
+
+.bg-brand-primary {
+  background-color: #35408e;
+}
+
+.bg-brand-dark {
+  background-color: #2a326b;
+}
+
+.bg-brand-accent {
+  background-color: #ffd400;
+}
