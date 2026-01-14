@@ -5,43 +5,22 @@ import OrderSection from "../components/seller-dashboard/OrderSection";
 import SellerListings from "../components/seller-dashboard/SellerListings";
 
 export default function SellerDashboard() {
-  const styles = {
-    page: {
-      minHeight: "100vh",
-      backgroundColor: "#F9FAFB",
-      padding: "40px",
-      fontFamily: "'Inter', sans-serif",
-      display: "flex",
-      justifyContent: "center",
-    },
-    container: {
-      width: "100%",
-      maxWidth: "1280px",
-      display: "flex",
-      flexDirection: "column",
-      gap: "30px",
-    },
-    mainContentGrid: {
-      display: "grid",
-      gridTemplateColumns: "2fr 1fr",
-      gap: "30px",
-      alignItems: "start",
-    },
-  };
-
   return (
-    <>
-      
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <SellerHeader />
-          <SellerStats />
-          <div style={styles.mainContentGrid}>
+    <div className="min-h-screen bg-gray-50 p-10 font-sans flex justify-center">
+      <div className="w-full max-w-7xl flex flex-col gap-8">
+        <SellerHeader />
+        <SellerStats />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="lg:col-span-2">
             <OrderSection />
+          </div>
+
+          <div className="lg:col-span-1">
             <SellerListings />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
