@@ -9,8 +9,3 @@ export const getBuyerOrder = async (status) => {
   const { data } = await api.get("/orders/buyer", { params: { status } });
   return data;
 };
-
-export const getBuyerPendingOffers = async () => {
-  const { data } = await api.get(`/offers/buyer/pending`);
-  return data;
-};

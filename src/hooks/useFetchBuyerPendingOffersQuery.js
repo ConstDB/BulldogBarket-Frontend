@@ -1,4 +1,4 @@
-import { getBuyerPendingOffers } from "@/api/OrderApi";
+import { getBuyerPendingOffers } from "@/api/OffersApi";
 import { useQuery } from "@tanstack/react-query";
 
 export const useFetchBuyerPendingOffersQuery = () => {
