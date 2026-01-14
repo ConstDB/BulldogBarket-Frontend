@@ -34,6 +34,7 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
   const [location, setLocation] = useState("");
   const [totalAmount, setTotalAmount] = useState(listing?.price);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const createOrderMutation = useCreateOrder();
 
@@ -55,6 +56,7 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
     setLocation("");
     setTotalAmount(listing?.price);
     setError("");
+    setSuccess(false);
   };
 
   useEffect(() => {
@@ -82,7 +84,10 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
         paymentMethod: payment,
       },
       {
-        onSuccess: () => setOpen(false),
+        onSuccess: () => {
+          // setOpen(false);
+          setSuccess(true);
+        },
         onError: (error) => {
           const status = error?.response?.status;
           if (status === 403) {
@@ -120,78 +125,94 @@ const BulkOrderModal = forwardRef(({ listing, onClose }, ref) => {
           </p>
         </div>
 
-        <div className="flex justify-between font-bold text-[#6B7280] mt-3">
-          <span>Item</span>
-          <span>Quantity</span>
-        </div>
-
-        <div className="flex justify-between py-2.5 font-black">
-          <div>
-            <h1 className="text-xl">{listing?.name}</h1>
-            <h1 className="text-xl text-[#35408E]">₱{listing?.price}.00</h1>
+        {success ? (
+          <div className="text-center p-6">
+            <h2 className="text-green-600 font-bold text-xl mb-2">
+              Order Placed!
+            </h2>
+            <p className="text-sm text-[#6B7280]">
+              Your order has been successfully added. The seller will contact
+              you for the meetup.
+            </p>
           </div>
+        ) : (
+          <>
+            <div className="flex justify-between font-bold text-[#6B7280] mt-3">
+              <span>Item</span>
+              <span>Quantity</span>
+            </div>
 
-          <div className="flex items-center justify-between border border-[#E5E7EB] w-24 h-8 rounded-[10px] overflow-hidden">
-            <button onClick={decrement} className="ml-2.5 w-7">
-              -
-            </button>
-            <input
-              type="number"
-              value={value}
-              onChange={handleChange}
-              className="w-12 text-center focus:outline-none border-none p-0 no-spin"
-            />
-            <button onClick={increment} className="mr-2.5 w-7">
-              +
-            </button>
-          </div>
-        </div>
+            <div className="flex justify-between py-2.5 font-black">
+              <div>
+                <h1 className="text-xl">{listing?.name}</h1>
+                <h1 className="text-xl text-[#35408E]">₱{listing?.price}.00</h1>
+              </div>
 
-        <hr className="border-t border-[#D9D9D9] my-3" />
+              <div className="flex items-center justify-between border border-[#E5E7EB] w-24 h-8 rounded-[10px] overflow-hidden">
+                <button onClick={decrement} className="ml-2.5 w-7">
+                  -
+                </button>
+                <input
+                  type="number"
+                  value={value}
+                  onChange={handleChange}
+                  className="w-12 text-center focus:outline-none border-none p-0 no-spin"
+                />
+                <button onClick={increment} className="mr-2.5 w-7">
+                  +
+                </button>
+              </div>
+            </div>
 
-        <div className="flex gap-x-32 font-bold text-[#6B7280] mb-1.5">
-          <h1>Payment</h1> <h1>Location</h1>
-        </div>
-        <div className="flex gap-4">
-          <Select value={payment} onValueChange={setPayment}>
-            <SelectTrigger className="w-full border-neutral-200 bg-neutral-100">
-              <SelectValue placeholder="Payment" />
-            </SelectTrigger>
-            <SelectContent className="bg-neutral-100">
-              <SelectGroup>
-                <SelectItem value="GCash">GCash</SelectItem>
-                <SelectItem value="Cash on Meetup">Cash on Meetup</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+            <hr className="border-t border-[#D9D9D9] my-3" />
 
-          <Input
-            className="border-neutral-200 bg-neutral-100"
-            value={location}
-            placeholder="Meetup location"
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </div>
+            <div className="flex gap-x-32 font-bold text-[#6B7280] mb-1.5">
+              <h1>Payment</h1> <h1>Location</h1>
+            </div>
+            <div className="flex gap-4">
+              <Select value={payment} onValueChange={setPayment}>
+                <SelectTrigger className="w-full border-neutral-200 bg-neutral-100">
+                  <SelectValue placeholder="Payment" />
+                </SelectTrigger>
+                <SelectContent className="bg-neutral-100">
+                  <SelectGroup>
+                    <SelectItem value="GCash">GCash</SelectItem>
+                    <SelectItem value="Cash on Meetup">
+                      Cash on Meetup
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
 
-        <div className="flex justify-between my-6">
-          <span className="font-bold text-[#6B7280]">Total Amount</span>
-          <span className="text-2xl font-bold text-[#35408E]">
-            ₱{totalAmount}.00
-          </span>
-        </div>
+              <Input
+                className="border-neutral-200 bg-neutral-100"
+                value={location}
+                placeholder="Meetup location"
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
 
-        {error && (
-          <div className="text-xs text-red-600 bg-red-50 p-2 mb-1.5 rounded-md">
-            {error}
-          </div>
+            <div className="flex justify-between my-6">
+              <span className="font-bold text-[#6B7280]">Total Amount</span>
+              <span className="text-2xl font-bold text-[#35408E]">
+                ₱{totalAmount}.00
+              </span>
+            </div>
+
+            {error && (
+              <div className="text-xs text-red-600 bg-red-50 p-2 mb-1.5 rounded-md">
+                {error}
+              </div>
+            )}
+
+            <Button
+              className="w-full bg-green-600 rounded-[10px] 4focus:bg-green-800 text-white text-sm font-bold"
+              onClick={handleOrder}
+            >
+              Confirm Order
+            </Button>
+          </>
         )}
-
-        <Button
-          className="w-full bg-green-600 rounded-[10px] 4focus:bg-green-800 text-white text-sm font-bold"
-          onClick={handleOrder}
-        >
-          Confirm Order
-        </Button>
       </DialogContent>
     </Dialog>
   );

@@ -65,14 +65,14 @@ export default function SavedItems() {
     // optimistic update: remove locally first
     const prev = savedItems;
     const updatedList = savedItems.filter(
-      (item) => item.listing._id !== listingId
+      (item) => item.listing?._id !== listingId
     );
     setSavedItems(updatedList);
 
     try {
       const token = localStorage.getItem("token");
       // backend expects saved-listings under users namespace
-      const url = `${API_BASE}/api/v1/users/saved-listings/${listingId}`;
+      const url = `${API_BASE}/api/v1/users/saved-listings`;
 
       const res = await fetch(url, {
         method: "DELETE",
@@ -80,6 +80,7 @@ export default function SavedItems() {
           "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
+        body: JSON.stringify({ listingId: listingId }),
       });
 
       if (!res.ok) {
