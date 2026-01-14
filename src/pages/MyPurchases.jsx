@@ -1,12 +1,13 @@
+import { useBuyerCancelOfferMutation } from "@/hooks/useBuyerCancelOfferMutation";
 import {
   useCancelledBuyerOrdersQuery,
   useCompletedBuyerOrdersQuery,
   usePendingBuyerOrdersQuery,
 } from "@/hooks/useFetchBuyerOrdersQuery";
 import { useFetchBuyerPendingOffersQuery } from "@/hooks/useFetchBuyerPendingOffersQuery";
+import { Package } from "lucide-react";
 import { useState } from "react";
 import "../styles/MyPurchases.css";
-import { Package } from "lucide-react";
 
 const API_BASE_URL = "http://127.0.0.1:3000/api/v1";
 
@@ -179,8 +180,10 @@ function FallbackOrderImg() {
 }
 
 function PendingOfferCard({ offer }) {
-  const { listing } = offer;
+  const { listing, id } = offer;
   const { name, condition, images, price, sellerName } = listing;
+
+  const { mutate: cancelOffer } = useBuyerCancelOfferMutation();
 
   return (
     <div className="w-full rounded-lg border border-gray-100 overflow-hidden shadow">
@@ -211,7 +214,7 @@ function PendingOfferCard({ offer }) {
       </div>
 
       <div className="bg-gray-50 border-t border-t-gray-100 flex justify-end p-6">
-        <button className="text-red-500 font-bold" onClick={() => console.log("cancel order")}>
+        <button className="text-red-500 font-bold" onClick={() => cancelOffer(id)}>
           Cancel Request
         </button>
       </div>

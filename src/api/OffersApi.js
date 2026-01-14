@@ -9,3 +9,7 @@ export const getBuyerPendingOffers = async () => {
   const { data } = await api.get(`/offers/buyer/pending`);
   return data;
 };
+
+export const cancelOffer = async (offerId) => {
+  await api.patch(`/offers/${offerId}/cancel`);
+};
