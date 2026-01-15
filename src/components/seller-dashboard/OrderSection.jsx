@@ -3,33 +3,73 @@ import { FaUser, FaBox } from "react-icons/fa";
 
 // Import the CSS (Make sure this file exists from the previous step)
 import "../../styles/SellerDashboard/OrderSection.css";
-import { useGetSellerPendingOffer } from "@/hooks/useOfferApi";
-import { useGetSellerPendingOrder } from "@/hooks/useOrderApi";
+import {
+  useApprovePendingOffer,
+  useGetSellerPendingOffer,
+  useRejectPendingOffer,
+} from "@/hooks/useOfferApi";
+import {
+  useGetSellerPendingOrder,
+  useMarkOrderAsComplete,
+  useSellerCancelOrder,
+} from "@/hooks/useOrderApi";
 
 export default function OrderSection() {
-  // --- MOCK DATA: TO MEETUP / SHIP ---
-  const [meetups, setMeetups] = useState([
-    {
-      id: 7173,
-      orderId: "Order #7173",
-      items: "2x Graham Balls • ₱100",
-      buyerInfo: "Buyer: Danfred Martin • GCash Paid",
-      avatarColor: "#F59E0B",
-      initials: "DM",
-    },
-    {
-      id: 193,
-      orderId: "Order #193",
-      items: "2x Graham Balls • ₱100",
-      buyerInfo: "Buyer: Nonie Andrew • Cash on Meetup",
-      avatarColor: "#EC4899",
-      initials: "NA",
-    },
-  ]);
-
   const { data: orders = [] } = useGetSellerPendingOrder();
   const { data: offers = [] } = useGetSellerPendingOffer();
 
+  const { mutate: accept } = useApprovePendingOffer();
+  const { mutate: reject } = useRejectPendingOffer();
+  const { mutate: complete } = useMarkOrderAsComplete();
+  const { mutate: cancel } = useSellerCancelOrder();
+
+  const handleCancelOrder = (orderId) => {
+    cancel(
+      {
+        orderId: orderId,
+        cancelReason: "Buyer didn't show up to the meetup place.",
+      },
+      {
+        onSuccess: () => {
+          console.log("Cancelling order is successful");
+        },
+        onError: (err) => {
+          console.error(`Unexpected Error ${err}`);
+        },
+      }
+    );
+  };
+  const handleOrderComplete = (orderId) => {
+    complete(orderId, {
+      onSuccess: () => {
+        console.log("Marking order as complete is successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error: ${err}`);
+      },
+    });
+  };
+  const handleApproveOffer = (offerId) => {
+    accept(offerId, {
+      onSuccess: () => {
+        console.log("Approving offer is successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error: ${err}`);
+      },
+    });
+  };
+
+  const handleRejectOffer = (offerId) => {
+    reject(offerId, {
+      onSuccess: () => {
+        console.log("Rejecting offer is Successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error ${err}`);
+      },
+    });
+  };
   return (
     <div className="orders-container">
       <div className="order-card">
@@ -41,7 +81,7 @@ export default function OrderSection() {
         </div>
 
         {offers.map((req) => (
-          <div key={req?._id} className="order-row">
+          <div key={req?.id} className="order-row">
             <div className="user-group">
               <div className="w-11">
                 <img
@@ -64,8 +104,18 @@ export default function OrderSection() {
             </div>
 
             <div className="action-group">
-              <button className="btn btn-reject">Reject</button>
-              <button className="btn btn-accept">Accept Deal</button>
+              <button
+                className="btn btn-reject"
+                onClick={() => handleRejectOffer(req?.id)}
+              >
+                Reject
+              </button>
+              <button
+                className="btn btn-accept"
+                onClick={() => handleApproveOffer(req?.id)}
+              >
+                Accept Deal
+              </button>
             </div>
           </div>
         ))}
@@ -117,8 +167,16 @@ export default function OrderSection() {
             </div>
 
             <div className="action-group">
-              <span className="no-show-text">Buyer No-Show</span>
-              <button className="btn border-none bg-green-600 text-white">
+              <span
+                className="no-show-text"
+                onClick={() => handleCancelOrder(order?.id)}
+              >
+                Buyer No-Show
+              </span>
+              <button
+                className="btn border-none bg-green-600 text-white"
+                onClick={() => handleOrderComplete(order?.id)}
+              >
                 Mark Completed
               </button>
             </div>
