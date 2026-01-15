@@ -17,7 +17,7 @@ export default function MarketFeed() {
     fetchListings(1, true);
   }, []);
 
-  // fetchListings: pageNum - which page to fetch, replace - whether to replace current posts
+ 
   async function fetchListings(pageNum = 1, replace = false) {
     setLoading(true);
     setError(null);
@@ -55,9 +55,9 @@ export default function MarketFeed() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="w-fit flex self-center flex-col items-center gap-5 mt-[22px] relative">
+      <div className="w-fit flex self-center flex-col items-center gap-5 mt-[78px] relative">
         <QuickPost />
         <FilterButton active={activeFilter} onChange={setActiveFilter} />
 

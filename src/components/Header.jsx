@@ -18,7 +18,7 @@ function Header() {
   };
 
   return (
-    <header className="w-full h-14 bg-[#2E3A8C] flex items-center justify-between px-6 font-sen shadow-md relative">
+    <header className="fixed top-0 left-0 w-full h-14 bg-[#2E3A8C] flex items-center justify-between px-6 font-sen shadow-md z-50">
       <div className="flex items-center gap-2.5 px-[60px]">
         <Link to="/marketfeed">
           <img src={barket} alt="BarkKart Logo" className="h-5" />
