@@ -26,9 +26,7 @@ export default function SingleItemPost({ post }) {
 
   const [bookmarked, setBookmarked] = useState(listing.isSaved || false);
   const [upvoted, setUpvoted] = useState(listing.upvotes?.includes(userId));
-  const [downvoted, setDownvoted] = useState(
-    listing.downvotes?.includes(userId)
-  );
+  const [downvoted, setDownvoted] = useState(listing.downvotes?.includes(userId));
 
   const requestModalRef = useRef();
   const commentModalRef = useRef();
@@ -53,9 +51,7 @@ export default function SingleItemPost({ post }) {
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some(
-            (item) => item.listing?._id === listingId
-          );
+          const isSaved = savedListings.some((item) => item.listing?._id === listingId);
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -193,21 +189,15 @@ export default function SingleItemPost({ post }) {
     <div className="sip-container">
       <div className="sip-user-row">
         <div className="sip-user-info">
-          <img
-            src={listing.seller?.avatarUrl || profileIcon}
-            className="sip-avatar"
-          />
+          <img src={listing.seller?.avatarUrl || profileIcon} className="sip-avatar" />
           <div>
             <div className="sip-user-name">
               <span className="sip-name">{listing.seller?.name || "User"}</span>
               <span className="sip-year">
-                • {listing.seller?.yearLevel || ""}{" "}
-                {listing.seller?.course || ""}
+                • {listing.seller?.yearLevel || ""} {listing.seller?.course || ""}
               </span>
             </div>
-            <div className="sip-meta">
-              {listing.seller?.campus || "NU Manila"}
-            </div>
+            <div className="sip-meta">{listing.seller?.campus || "NU Manila"}</div>
           </div>
         </div>
 
@@ -216,10 +206,7 @@ export default function SingleItemPost({ post }) {
           onClick={handleBookmark}
           disabled={actionLoading}
         >
-          <img
-            src={bookmarked ? savedBookmarkIcon : bookmarkIcon}
-            className="w-4"
-          />
+          <img src={bookmarked ? savedBookmarkIcon : bookmarkIcon} className="w-4" />
         </button>
       </div>
 
@@ -228,44 +215,39 @@ export default function SingleItemPost({ post }) {
       <div className="sip-item-box">
         <div className="sip-image-wrapper">
           <div className="sip-category">{listing.category}</div>
-          <img
-            src={listing.images?.[0] || itemImage}
-            className="sip-item-img"
-          />
+          <img src={listing.images?.[0] || itemImage} className="sip-item-img" />
           <div className="sip-price">₱{listing.price || 0}.00</div>
         </div>
 
         <div className="sip-title">{listing.name}</div>
 
         <div className="sip-buttons">
-          <button
-            className="sip-request-btn"
-            onClick={() => requestModalRef.current.open()}
-          >
-            Request Item
-          </button>
+          {post.userHasInteracted ? (
+            <button className="bg-gray-200 w-2/3 rounded-lg text-gray-600 font-bold">
+              Request Sent
+            </button>
+          ) : (
+            <button className="sip-request-btn" onClick={() => requestModalRef.current.open()}>
+              Request Item
+            </button>
+          )}
           <button className="sip-chat-btn">
             <img src={chatIcon} /> Chat
           </button>
         </div>
 
-        <div className="sip-note">
-          Seller approval required for single items.
-        </div>
+        <div className="sip-note">Seller approval required for single items.</div>
       </div>
 
       <div className="sip-stats">
         <span className="sip-stat">
-          <img src={CountVotes} className="sip-stat-icon" /> {upvotesLocal}{" "}
-          upvotes
+          <img src={CountVotes} className="sip-stat-icon" /> {upvotesLocal} upvotes
         </span>
         <span className="sip-stat">{commentCount} comments</span>
       </div>
 
       {actionError && (
-        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>
-          {actionError}
-        </div>
+        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>{actionError}</div>
       )}
 
       <hr className="sip-divider" />
@@ -275,17 +257,20 @@ export default function SingleItemPost({ post }) {
           className="sip-action-btn"
           onClick={handleUpvote}
           disabled={actionLoading}
-          style={{ color: upvoted ? "#35408E" : "inherit", fontWeight: upvoted ? "bold" : "normal"}}
+          style={{
+            color: upvoted ? "#35408E" : "inherit",
+            fontWeight: upvoted ? "bold" : "normal",
+          }}
         >
           <img
-              src={upvoteIcon}
-              alt="Upvote"
-              className="mip-action-icon"
-              style={{
-                filter: upvoted
-                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
-                  : "none"
-              }}
+            src={upvoteIcon}
+            alt="Upvote"
+            className="mip-action-icon"
+            style={{
+              filter: upvoted
+                ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                : "none",
+            }}
           />
           Upvote
         </button>
@@ -294,25 +279,25 @@ export default function SingleItemPost({ post }) {
           className="sip-action-btn"
           onClick={handleDownvote}
           disabled={actionLoading}
-          style={{ color: downvoted ? "#35408E" : "inherit", fontWeight: downvoted ? "bold" : "normal"}}
+          style={{
+            color: downvoted ? "#35408E" : "inherit",
+            fontWeight: downvoted ? "bold" : "normal",
+          }}
         >
           <img
-              src={downvoteIcon}
-              alt="Downvote"
-              className="mip-action-icon"
-              style={{
-                filter: downvoted
-                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
-                  : "none"
-              }}
-        />
+            src={downvoteIcon}
+            alt="Downvote"
+            className="mip-action-icon"
+            style={{
+              filter: downvoted
+                ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                : "none",
+            }}
+          />
           Downvote
         </button>
 
-        <button
-          className="sip-action-btn"
-          onClick={() => commentModalRef.current.open()}
-        >
+        <button className="sip-action-btn" onClick={() => commentModalRef.current.open()}>
           <img src={commentIcon} className="sip-action-icon" /> Comment
         </button>
       </div>
