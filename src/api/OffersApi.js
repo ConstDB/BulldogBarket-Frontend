@@ -13,3 +13,8 @@ export const getBuyerPendingOffers = async () => {
 export const cancelOffer = async (offerId) => {
   await api.patch(`/offers/${offerId}/cancel`);
 };
+
+export const getSellerPendingOffers = async () => {
+  const { data } = await api.get(`/offers/seller/pending`);
+  return data;
+};

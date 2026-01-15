@@ -15,7 +15,6 @@ export default function OrderSection() {
       avatarColor: "#8B5CF6", // Purple
       initials: "ES",
     },
-    
   ]);
 
   // --- MOCK DATA: TO MEETUP / SHIP ---
@@ -25,7 +24,7 @@ export default function OrderSection() {
       orderId: "Order #7173",
       items: "2x Graham Balls • ₱100",
       buyerInfo: "Buyer: Danfred Martin • GCash Paid",
-      avatarColor: "#F59E0B", 
+      avatarColor: "#F59E0B",
       initials: "DM",
     },
     {
@@ -33,17 +32,16 @@ export default function OrderSection() {
       orderId: "Order #193",
       items: "2x Graham Balls • ₱100",
       buyerInfo: "Buyer: Nonie Andrew • Cash on Meetup",
-      avatarColor: "#EC4899", 
+      avatarColor: "#EC4899",
       initials: "NA",
     },
   ]);
 
   return (
     <div className="orders-container">
-      
       <div className="order-card">
         <div className="order-header blue">
-          <div className="header-title">
+          <div className="flex items-center font-bold gap-2">
             <FaUser /> Requests (Approval Needed)
           </div>
           <div className="header-badge blue">{requests.length}</div>
@@ -52,7 +50,10 @@ export default function OrderSection() {
         {requests.map((req) => (
           <div key={req.id} className="order-row">
             <div className="user-group">
-              <div className="user-avatar" style={{ backgroundColor: req.avatarColor }}>
+              <div
+                className="user-avatar"
+                style={{ backgroundColor: req.avatarColor }}
+              >
                 {req.initials}
               </div>
               <div className="text-group">
@@ -71,9 +72,11 @@ export default function OrderSection() {
             </div>
           </div>
         ))}
-        
+
         {requests.length === 0 && (
-          <div style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}>
+          <div
+            style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
+          >
             No pending requests.
           </div>
         )}
@@ -81,16 +84,19 @@ export default function OrderSection() {
 
       <div className="order-card">
         <div className="order-header green">
-          <div className="header-title">
+          <div className="flex items-center font-bold gap-2">
             <FaBox /> To Meetup / Ship
           </div>
-          <div className="header-badge green">{meetups.length}</div>
+          <div className="header-badge bg-green-600">{meetups.length}</div>
         </div>
 
         {meetups.map((order) => (
           <div key={order.id} className="order-row">
             <div className="user-group">
-              <div className="user-avatar" style={{ backgroundColor: order.avatarColor }}>
+              <div
+                className="user-avatar"
+                style={{ backgroundColor: order.avatarColor }}
+              >
                 {order.initials}
               </div>
               <div className="text-group">
@@ -105,13 +111,17 @@ export default function OrderSection() {
 
             <div className="action-group">
               <span className="no-show-text">Buyer No-Show</span>
-              <button className="btn btn-delivered">Mark Delivered</button>
+              <button className="btn border-none bg-green-600 text-white">
+                Mark Completed
+              </button>
             </div>
           </div>
         ))}
 
         {meetups.length === 0 && (
-          <div style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}>
+          <div
+            style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
+          >
             No pending meetups.
           </div>
         )}

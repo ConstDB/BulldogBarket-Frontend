@@ -1,9 +1,9 @@
 /* src/components/seller-dashboard/SellerHeader.css */
 
 :root {
-  --text-dark: #1F2937;
-  --text-light: #6B7280;
-  --btn-yellow: #FFD400;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --btn-yellow: #ffd400;
   --btn-text: #111827;
 }
 
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 7px;
 }
 
 .title-group {

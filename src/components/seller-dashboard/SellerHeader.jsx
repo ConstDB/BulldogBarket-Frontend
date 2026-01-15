@@ -10,8 +10,10 @@ export default function SellerHeader() {
   return (
     <div className="header-container">
       <div className="title-group">
-        <h1 className="header-title">Seller Hub</h1>
-        <p className="header-subtitle">Manage your orders and listings</p>
+        <h1 className="text-3xl font-bold">Seller Hub</h1>
+        <p className="text-lg text-neutral-500">
+          Manage your orders and listings
+        </p>
       </div>
 
       <button className="post-btn" onClick={() => navigate("/post-product")}>
