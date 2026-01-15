@@ -3,6 +3,7 @@ import ListingTypeSelector from "../components/postproduct/ListingTypeSelector";
 import LivePreview from "../components/postproduct/LivePreview";
 import PostButton from "../components/postproduct/PostButton";
 import ProductDetailsForm from "../components/postproduct/ProductDetailsForm";
+import Header from "@/components/Header";
 
 export default function PostProduct() {
   const [itemName, setItemName] = useState("");
@@ -162,6 +163,9 @@ export default function PostProduct() {
   };
 
   return (
+  <>
+    <Header />
+
     <div
       style={{
         width: "100%",
@@ -179,6 +183,7 @@ export default function PostProduct() {
           padding: 40,
           width: "100%",
           boxSizing: "border-box",
+          paddingTop: 60,
         }}
       >
         <div style={{ maxWidth: 1080, flex: 1 }}>
@@ -247,5 +252,7 @@ export default function PostProduct() {
         </div>
       </div>
     </div>
-  );
-}
+  </>
+);
+
+  }
