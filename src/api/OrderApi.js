@@ -17,3 +17,8 @@ export const buyerCancelOrder = async (orderId) => {
 export const buyerConfirmReceived = async (orderId) => {
   await api.patch(`/orders/${orderId}/complete/buyer`);
 };
+
+export const getSellerPendingOrder = async () => {
+  const { data } = await api.get(`/orders/seller/pending`);
+  return data;
+};

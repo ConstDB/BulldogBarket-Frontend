@@ -3,20 +3,10 @@ import { FaUser, FaBox } from "react-icons/fa";
 
 // Import the CSS (Make sure this file exists from the previous step)
 import "../../styles/SellerDashboard/OrderSection.css";
+import { useGetSellerPendingOffer } from "@/hooks/useOfferApi";
+import { useGetSellerPendingOrder } from "@/hooks/useOrderApi";
 
 export default function OrderSection() {
-  // --- MOCK DATA: REQUESTS ---
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      name: "Edrich Darren Santuyo",
-      item: "PE Uniform",
-      meetupDetails: "Meetup: Garden, 2pm today",
-      avatarColor: "#8B5CF6", // Purple
-      initials: "ES",
-    },
-  ]);
-
   // --- MOCK DATA: TO MEETUP / SHIP ---
   const [meetups, setMeetups] = useState([
     {
@@ -37,6 +27,9 @@ export default function OrderSection() {
     },
   ]);
 
+  const { data: orders = [] } = useGetSellerPendingOrder();
+  const { data: offers = [] } = useGetSellerPendingOffer();
+
   return (
     <div className="orders-container">
       <div className="order-card">
@@ -44,24 +37,28 @@ export default function OrderSection() {
           <div className="flex items-center font-bold gap-2">
             <FaUser /> Requests (Approval Needed)
           </div>
-          <div className="header-badge blue">{requests.length}</div>
+          <div className="header-badge blue">{offers.length}</div>
         </div>
 
-        {requests.map((req) => (
-          <div key={req.id} className="order-row">
+        {offers.map((req) => (
+          <div key={req?._id} className="order-row">
             <div className="user-group">
-              <div
-                className="user-avatar"
-                style={{ backgroundColor: req.avatarColor }}
-              >
-                {req.initials}
+              <div className="w-11">
+                <img
+                  src={req?.buyer?.avatarUrl}
+                  className="rounded-full border"
+                />
               </div>
               <div className="text-group">
-                <div className="main-text">{req.name}</div>
-                <div className="sub-text">
-                  Wants: <span className="highlight-bold">{req.item}</span>
+                <div className="text-sm font-bold">{req?.buyer?.name}</div>
+                <div className="w-80 text-xs text-neutral-500">
+                  Wants:{" "}
+                  <span className="text-black font-bold">
+                    {req?.listing?.name}
+                  </span>
                   <br />
-                  {req.meetupDetails}
+                  <span>Note: </span>
+                  <span className="wrap-break-word">{req?.buyerNote}</span>
                 </div>
               </div>
             </div>
@@ -73,7 +70,7 @@ export default function OrderSection() {
           </div>
         ))}
 
-        {requests.length === 0 && (
+        {offers.length === 0 && (
           <div
             style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
           >
@@ -87,24 +84,34 @@ export default function OrderSection() {
           <div className="flex items-center font-bold gap-2">
             <FaBox /> To Meetup / Ship
           </div>
-          <div className="header-badge bg-green-600">{meetups.length}</div>
+          <div className="header-badge bg-green-600">{orders.length}</div>
         </div>
 
-        {meetups.map((order) => (
-          <div key={order.id} className="order-row">
+        {orders.map((order) => (
+          <div key={order?.id} className="order-row">
             <div className="user-group">
-              <div
-                className="user-avatar"
-                style={{ backgroundColor: order.avatarColor }}
-              >
-                {order.initials}
+              <div className="user-avatar">
+                <img
+                  src={order?.buyer?.avatarUrl}
+                  className="w-11 rounded-full"
+                />
               </div>
               <div className="text-group">
-                <div className="main-text">{order.orderId}</div>
-                <div className="sub-text">
-                  {order.items}
+                <div className="text-sm font-bold">
+                  Order #{order?.id.slice(-4).toUpperCase()}
+                </div>
+                <div className="flex gap-1.5 items-center text-xs text-neutral-500">
+                  <span>{order?.quantity}X</span>
+                  <span>{order?.listing?.name}</span>
+                  <span className="text-sm">•</span>
+                  <span>₱{order?.totalPrice}</span>
                   <br />
-                  {order.buyerInfo}
+                </div>
+                <div className="flex gap-1.5 items-center text-[10px] text-[#9CA3AF]">
+                  <span>Buyer:</span>
+                  <span>{order?.buyer?.name}</span>
+                  <span className="text-sm">•</span>
+                  <span>{order?.paymentMethod}</span>
                 </div>
               </div>
             </div>
@@ -118,7 +125,7 @@ export default function OrderSection() {
           </div>
         ))}
 
-        {meetups.length === 0 && (
+        {orders.length === 0 && (
           <div
             style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
           >

@@ -1,5 +1,5 @@
 import { createOffer, getSellerPendingOffers } from "@/api/OffersApi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateOffer = () => {
   const queryClient = useQueryClient();
@@ -10,9 +10,8 @@ export const useCreateOffer = () => {
 };
 
 export const useGetSellerPendingOffer = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: getSellerPendingOffers,
-    onSuccess: () => queryClient.invalidateQueries(["offers"]),
+  return useQuery({
+    queryKey: ["seller-pending-offers"],
+    queryFn: getSellerPendingOffers,
   });
 };
