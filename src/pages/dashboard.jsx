@@ -7,7 +7,7 @@ import SellerListings from "../components/seller-dashboard/SellerListings";
 export default function SellerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-10 font-sans flex justify-center">
-      <div className="w-full max-w-7xl flex flex-col gap-8">
+      <div className="w-full max-w-7xl flex flex-col gap-6">
         <SellerHeader />
         <SellerStats />
 

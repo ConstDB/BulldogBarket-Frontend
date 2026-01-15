@@ -64,13 +64,15 @@ export default function SavedItems() {
   const handleRemove = async (listingId) => {
     // optimistic update: remove locally first
     const prev = savedItems;
-    const updatedList = savedItems.filter((item) => item.listing._id !== listingId);
+    const updatedList = savedItems.filter(
+      (item) => item.listing?._id !== listingId
+    );
     setSavedItems(updatedList);
 
     try {
       const token = localStorage.getItem("token");
       // backend expects saved-listings under users namespace
-      const url = `${API_BASE}/api/v1/users/saved-listings/${listingId}`;
+      const url = `${API_BASE}/api/v1/users/saved-listings`;
 
       const res = await fetch(url, {
         method: "DELETE",
@@ -78,6 +80,7 @@ export default function SavedItems() {
           "Content-Type": "application/json",
           ...(token && { Authorization: `Bearer ${token}` }),
         },
+        body: JSON.stringify({ listingId: listingId }),
       });
 
       if (!res.ok) {
@@ -96,7 +99,11 @@ export default function SavedItems() {
   return (
     <div className="saved-items-page">
       <div className="saved-header-bg">
-        <button className="back-btn" onClick={() => navigate(-1)} aria-label="Go back">
+        <button
+          className="back-btn"
+          onClick={() => navigate(-1)}
+          aria-label="Go back"
+        >
           <FaArrowLeft />
         </button>
         <span className="page-title">Saved Items</span>
@@ -109,23 +116,36 @@ export default function SavedItems() {
           <p className="list-subtitle">Items you've bookmarked for later.</p>
         </div>
 
-        {error && <div style={{ color: "#DC2626", marginBottom: 12 }}>{error}</div>}
+        {error && (
+          <div style={{ color: "#DC2626", marginBottom: 12 }}>{error}</div>
+        )}
 
         {loading && (
-          <div style={{ color: "#64748B", marginBottom: 12 }}>Loading saved items...</div>
+          <div style={{ color: "#64748B", marginBottom: 12 }}>
+            Loading saved items...
+          </div>
         )}
 
         {/* Dynamic Grid: Maps through your data array */}
         <div className="saved-grid">
           {savedItems.map((item, index) => (
-            <SavedItemCard key={item.listing._id || index} data={item} onRemove={handleRemove} />
+            <SavedItemCard
+              key={item.listing?._id || index}
+              data={item}
+              onRemove={handleRemove}
+            />
           ))}
         </div>
 
         {/* Empty State Message */}
         {!loading && savedItems.length === 0 && (
           <p
-            style={{ textAlign: "center", color: "#6B7280", marginTop: "50px", fontSize: "1.1rem" }}
+            style={{
+              textAlign: "center",
+              color: "#6B7280",
+              marginTop: "50px",
+              fontSize: "1.1rem",
+            }}
           >
             Your watchlist is empty.{" "}
             <Link to="/" style={{ color: "#2A3B8F", fontWeight: "bold" }}>

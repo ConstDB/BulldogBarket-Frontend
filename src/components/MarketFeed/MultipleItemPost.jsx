@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "../../styles/MarketFeed/MultipleItemPost.css";
 
 import bookmarkIcon from "../../assets/bookmarks.svg";
+import savedBookmarkIcon from "../../assets/ybookmark.svg";
 import upvoteIcon from "../../assets/upvote.svg";
 import downvoteIcon from "../../assets/downvote.svg";
 import commentIcon from "../../assets/comment.svg";
@@ -27,7 +28,6 @@ export default function MultipleItemPost({ post }) {
     const payload = JSON.parse(decodedJson); // convert to JS object
 
     const userId = payload["id"];
-    console.log(payload);
   }
 
   const upvoteCount = listing.upvotes?.length || 0;
@@ -36,9 +36,7 @@ export default function MultipleItemPost({ post }) {
 
   const [bookmarked, setBookmarked] = useState(listing.isSaved || false);
   const [upvoted, setUpvoted] = useState(listing.upvotes?.includes(userId));
-  const [downvoted, setDownvoted] = useState(
-    listing.downvotes?.includes(userId)
-  );
+  const [downvoted, setDownvoted] = useState(listing.downvotes?.includes(userId));
 
   const [upvotesLocal, setUpvotesLocal] = useState(upvoteCount);
   const [downvotesLocal, setDownvotesLocal] = useState(downvoteCount);
@@ -48,17 +46,17 @@ export default function MultipleItemPost({ post }) {
   // Check if listing is already saved
   useEffect(() => {
     const checkIfSaved = async () => {
-      const token = localStorage.getItem("token");
       if (!token || !listingId) return;
 
       try {
         const res = await fetch(`${API_BASE}/users/saved-listings`, {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.ok) {
           const savedListings = await res.json();
-          const isSaved = savedListings.some((item) => item._id === listingId);
+          const isSaved = savedListings.some((item) => item.listing?._id === listingId);
           setBookmarked(isSaved);
         }
       } catch (err) {
@@ -67,13 +65,13 @@ export default function MultipleItemPost({ post }) {
     };
 
     checkIfSaved();
-  }, [listingId]);
+  }, [listingId, token]);
 
   // Handle upvote
   const { modals, open, close } = useModalManager();
 
   const commentModalRef = useRef();
-  const orderModalRef = useRef();
+  const OrderModalRef = useRef();
 
   const handleUpvote = async () => {
     if (!listingId) return setActionError("Missing listing ID");
@@ -160,8 +158,6 @@ export default function MultipleItemPost({ post }) {
     setActionLoading(true);
     setActionError("");
 
-    const token = localStorage.getItem("token");
-
     if (!token) {
       setActionError("No token found. Please login.");
       setActionLoading(false);
@@ -169,8 +165,6 @@ export default function MultipleItemPost({ post }) {
     }
 
     try {
-      console.log("Sending bookmark request:", { listingId, bookmarked });
-
       const res = await fetch(`${API_BASE}/users/saved-listings`, {
         method: bookmarked ? "DELETE" : "POST",
         headers: {
@@ -179,8 +173,6 @@ export default function MultipleItemPost({ post }) {
         },
         body: JSON.stringify({ listingId }),
       });
-
-      console.log("Response status:", res.status);
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -202,35 +194,23 @@ export default function MultipleItemPost({ post }) {
     <div className="mip-container">
       <div className="mip-user-row">
         <div className="mip-user-info">
-          <img
-            src={listing.seller?.avatarUrl || profileIcon}
-            alt="User"
-            className="mip-avatar"
-          />
+          <img src={listing.seller?.avatarUrl || profileIcon} alt="User" className="mip-avatar" />
           <div>
             <div className="mip-user-name">
               <span className="mip-name">{listing.seller?.name || "User"}</span>
               <span className="mip-year">
-                • {listing.seller?.yearLevel || ""}{" "}
-                {listing.seller?.course || ""}
+                • {listing.seller?.yearLevel || ""} {listing.seller?.course || ""}
               </span>
             </div>
-            <div className="mip-meta">
-              {listing.seller?.campus || "NU Manila"}
-            </div>
+            <div className="mip-meta">{listing.seller?.campus || "NU Manila"}</div>
           </div>
         </div>
 
-        <button
-          onClick={handleBookmark}
-          disabled={actionLoading}
-          className="mip-bookmark-btn"
-        >
+        <button onClick={handleBookmark} disabled={actionLoading} className="mip-bookmark-btn">
           <img
-            src={bookmarkIcon}
+            src={bookmarked ? savedBookmarkIcon : bookmarkIcon}
             alt="Bookmark"
             className="mip-bookmark-icon"
-            style={{ opacity: bookmarked ? 1 : 0.4 }}
           />
         </button>
       </div>
@@ -240,44 +220,41 @@ export default function MultipleItemPost({ post }) {
       <div className="mip-item-box">
         <div className="mip-image-wrapper">
           <div className="mip-category">{listing.category}</div>
-          <img
-            src={listing.images?.[0] || foodImage}
-            alt="Item"
-            className="mip-item-img"
-          />
+          <img src={listing.images?.[0] || foodImage} alt="Item" className="mip-item-img" />
           <div className="mip-price">₱{listing.price || 0}.00 / piece</div>
         </div>
 
         <div className="mip-title">{listing.name}</div>
 
         <div className="mip-buttons">
-          <button className="mip-request-btn" onClick={() => open("order")}>
-            Order Item
-          </button>
+          {post.userHasInteracted ? (
+            <button className="bg-green-100 text-green-800 border border-green-200">
+              Order Placed
+            </button>
+          ) : (
+            <button className="mip-request-btn" onClick={() => OrderModalRef.current.open()}>
+              Order Item
+            </button>
+          )}
 
           <button className="mip-chat-btn">
             <img src={chatIcon} alt="Chat" /> Chat
           </button>
         </div>
 
-        <div className="mip-note">
-          Stocks reserved automatically. Pay on meetup.
-        </div>
+        <div className="mip-note">Stocks reserved automatically. Pay on meetup.</div>
       </div>
 
       <div className="mip-stats">
         <span className="mip-stat">
-          <img src={CountVotes} alt="Count" className="mip-stat-icon" />{" "}
-          {upvotesLocal} upvotes
+          <img src={CountVotes} alt="Count" className="mip-stat-icon" /> {upvotesLocal} upvotes
         </span>
 
         <span className="mip-stat">{commentCount} comments</span>
       </div>
 
       {actionError && (
-        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>
-          {actionError}
-        </div>
+        <div style={{ color: "#DC2626", fontSize: 12, marginTop: 8 }}>{actionError}</div>
       )}
 
       <hr className="mip-divider" />
@@ -287,17 +264,20 @@ export default function MultipleItemPost({ post }) {
           className="mip-action-btn"
           onClick={handleUpvote}
           disabled={actionLoading}
-          style={{ color: upvoted ? "#35408E" : "inherit", fontWeight: upvoted ? "bold" : "normal" }}
+          style={{
+            color: upvoted ? "#35408E" : "inherit",
+            fontWeight: upvoted ? "bold" : "normal",
+          }}
         >
           <img
-              src={upvoteIcon}
-              alt="Upvote"
-              className="mip-action-icon"
-              style={{
-                filter: upvoted
-                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
-                  : "none"
-              }}
+            src={upvoteIcon}
+            alt="Upvote"
+            className="mip-action-icon"
+            style={{
+              filter: upvoted
+                ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                : "none",
+            }}
           />
           Upvote
         </button>
@@ -306,33 +286,30 @@ export default function MultipleItemPost({ post }) {
           className="mip-action-btn"
           onClick={handleDownvote}
           disabled={actionLoading}
-          style={{ color: downvoted ? "#35408E" : "inherit", fontWeight: downvoted ? "bold" : "normal" }}
+          style={{
+            color: downvoted ? "#35408E" : "inherit",
+            fontWeight: downvoted ? "bold" : "normal",
+          }}
         >
           <img
-              src={downvoteIcon}
-              alt="Downvote"
-              className="mip-action-icon"
-              style={{
-                filter: downvoted
-                  ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
-                  : "none"
-              }}
-        />
+            src={downvoteIcon}
+            alt="Downvote"
+            className="mip-action-icon"
+            style={{
+              filter: downvoted
+                ? "invert(28%) sepia(73%) saturate(5000%) hue-rotate(224deg) brightness(85%) contrast(88%)"
+                : "none",
+            }}
+          />
           Downvote
         </button>
 
-        <button
-          className="mip-action-btn"
-          onClick={() => commentModalRef.current.open()}
-        >
-          <img src={commentIcon} alt="Comment" className="mip-action-icon" />{" "}
-          Comment{" "}
+        <button className="mip-action-btn" onClick={() => commentModalRef.current.open()}>
+          <img src={commentIcon} alt="Comment" className="mip-action-icon" /> Comment{" "}
         </button>
       </div>
 
-      {modals.order && (
-        <BulkOrderModal onClose={() => close("order")} listing={listing} />
-      )}
+      <BulkOrderModal ref={OrderModalRef} listing={listing} />
       <CommentModal ref={commentModalRef} listing={listing} />
     </div>
   );

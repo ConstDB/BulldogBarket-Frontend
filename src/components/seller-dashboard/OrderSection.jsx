@@ -3,77 +3,127 @@ import { FaUser, FaBox } from "react-icons/fa";
 
 // Import the CSS (Make sure this file exists from the previous step)
 import "../../styles/SellerDashboard/OrderSection.css";
+import {
+  useApprovePendingOffer,
+  useGetSellerPendingOffer,
+  useRejectPendingOffer,
+} from "@/hooks/useOfferApi";
+import {
+  useGetSellerPendingOrder,
+  useMarkOrderAsComplete,
+  useSellerCancelOrder,
+} from "@/hooks/useOrderApi";
 
 export default function OrderSection() {
-  // --- MOCK DATA: REQUESTS ---
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      name: "Edrich Darren Santuyo",
-      item: "PE Uniform",
-      meetupDetails: "Meetup: Garden, 2pm today",
-      avatarColor: "#8B5CF6", // Purple
-      initials: "ES",
-    },
-    
-  ]);
+  const { data: orders = [] } = useGetSellerPendingOrder();
+  const { data: offers = [] } = useGetSellerPendingOffer();
 
-  // --- MOCK DATA: TO MEETUP / SHIP ---
-  const [meetups, setMeetups] = useState([
-    {
-      id: 7173,
-      orderId: "Order #7173",
-      items: "2x Graham Balls • ₱100",
-      buyerInfo: "Buyer: Danfred Martin • GCash Paid",
-      avatarColor: "#F59E0B", 
-      initials: "DM",
-    },
-    {
-      id: 193,
-      orderId: "Order #193",
-      items: "2x Graham Balls • ₱100",
-      buyerInfo: "Buyer: Nonie Andrew • Cash on Meetup",
-      avatarColor: "#EC4899", 
-      initials: "NA",
-    },
-  ]);
+  const { mutate: accept } = useApprovePendingOffer();
+  const { mutate: reject } = useRejectPendingOffer();
+  const { mutate: complete } = useMarkOrderAsComplete();
+  const { mutate: cancel } = useSellerCancelOrder();
 
+  const handleCancelOrder = (orderId) => {
+    cancel(
+      {
+        orderId: orderId,
+        cancelReason: "Buyer didn't show up to the meetup place.",
+      },
+      {
+        onSuccess: () => {
+          console.log("Cancelling order is successful");
+        },
+        onError: (err) => {
+          console.error(`Unexpected Error ${err}`);
+        },
+      }
+    );
+  };
+  const handleOrderComplete = (orderId) => {
+    complete(orderId, {
+      onSuccess: () => {
+        console.log("Marking order as complete is successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error: ${err}`);
+      },
+    });
+  };
+  const handleApproveOffer = (offerId) => {
+    accept(offerId, {
+      onSuccess: () => {
+        console.log("Approving offer is successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error: ${err}`);
+      },
+    });
+  };
+
+  const handleRejectOffer = (offerId) => {
+    reject(offerId, {
+      onSuccess: () => {
+        console.log("Rejecting offer is Successful");
+      },
+      onError: (err) => {
+        console.error(`Unexpected Error ${err}`);
+      },
+    });
+  };
   return (
     <div className="orders-container">
-      
       <div className="order-card">
         <div className="order-header blue">
-          <div className="header-title">
+          <div className="flex items-center font-bold gap-2">
             <FaUser /> Requests (Approval Needed)
           </div>
-          <div className="header-badge blue">{requests.length}</div>
+          <div className="header-badge blue">{offers.length}</div>
         </div>
 
-        {requests.map((req) => (
-          <div key={req.id} className="order-row">
+        {offers.map((req) => (
+          <div key={req?.id} className="order-row">
             <div className="user-group">
-              <div className="user-avatar" style={{ backgroundColor: req.avatarColor }}>
-                {req.initials}
+              <div className="w-11">
+                <img
+                  src={req?.buyer?.avatarUrl}
+                  className="rounded-full border"
+                />
               </div>
               <div className="text-group">
-                <div className="main-text">{req.name}</div>
-                <div className="sub-text">
-                  Wants: <span className="highlight-bold">{req.item}</span>
+                <div className="text-sm font-bold">{req?.buyer?.name}</div>
+                <div className="w-80 text-xs text-neutral-500">
+                  Wants:{" "}
+                  <span className="text-black font-bold">
+                    {req?.listing?.name}
+                  </span>
                   <br />
-                  {req.meetupDetails}
+                  <span>Note: </span>
+                  <span className="wrap-break-word">{req?.buyerNote}</span>
                 </div>
               </div>
             </div>
 
             <div className="action-group">
-              <button className="btn btn-reject">Reject</button>
-              <button className="btn btn-accept">Accept Deal</button>
+              <button
+                className="btn btn-reject"
+                onClick={() => handleRejectOffer(req?.id)}
+              >
+                Reject
+              </button>
+              <button
+                className="btn btn-accept"
+                onClick={() => handleApproveOffer(req?.id)}
+              >
+                Accept Deal
+              </button>
             </div>
           </div>
         ))}
-        
-        {requests.length === 0 && (
-          <div style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}>
+
+        {offers.length === 0 && (
+          <div
+            style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
+          >
             No pending requests.
           </div>
         )}
@@ -81,37 +131,62 @@ export default function OrderSection() {
 
       <div className="order-card">
         <div className="order-header green">
-          <div className="header-title">
+          <div className="flex items-center font-bold gap-2">
             <FaBox /> To Meetup / Ship
           </div>
-          <div className="header-badge green">{meetups.length}</div>
+          <div className="header-badge bg-green-600">{orders.length}</div>
         </div>
 
-        {meetups.map((order) => (
-          <div key={order.id} className="order-row">
+        {orders.map((order) => (
+          <div key={order?.id} className="order-row">
             <div className="user-group">
-              <div className="user-avatar" style={{ backgroundColor: order.avatarColor }}>
-                {order.initials}
+              <div className="user-avatar">
+                <img
+                  src={order?.buyer?.avatarUrl}
+                  className="w-11 rounded-full"
+                />
               </div>
               <div className="text-group">
-                <div className="main-text">{order.orderId}</div>
-                <div className="sub-text">
-                  {order.items}
+                <div className="text-sm font-bold">
+                  Order #{order?.id.slice(-4).toUpperCase()}
+                </div>
+                <div className="flex gap-1.5 items-center text-xs text-neutral-500">
+                  <span>{order?.quantity}X</span>
+                  <span>{order?.listing?.name}</span>
+                  <span className="text-sm">•</span>
+                  <span>₱{order?.totalPrice}</span>
                   <br />
-                  {order.buyerInfo}
+                </div>
+                <div className="flex gap-1.5 items-center text-[10px] text-[#9CA3AF]">
+                  <span>Buyer:</span>
+                  <span>{order?.buyer?.name}</span>
+                  <span className="text-sm">•</span>
+                  <span>{order?.paymentMethod}</span>
                 </div>
               </div>
             </div>
 
             <div className="action-group">
-              <span className="no-show-text">Buyer No-Show</span>
-              <button className="btn btn-delivered">Mark Delivered</button>
+              <span
+                className="no-show-text"
+                onClick={() => handleCancelOrder(order?.id)}
+              >
+                Buyer No-Show
+              </span>
+              <button
+                className="btn border-none bg-green-600 text-white"
+                onClick={() => handleOrderComplete(order?.id)}
+              >
+                Mark Completed
+              </button>
             </div>
           </div>
         ))}
 
-        {meetups.length === 0 && (
-          <div style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}>
+        {orders.length === 0 && (
+          <div
+            style={{ padding: "24px", color: "#6B7280", fontStyle: "italic" }}
+          >
             No pending meetups.
           </div>
         )}
