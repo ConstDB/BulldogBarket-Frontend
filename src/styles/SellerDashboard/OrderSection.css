@@ -1,0 +1,187 @@
+/* src/components/seller-dashboard/SellerOrders.css */
+
+:root {
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --border-light: #e5e7eb;
+
+  /* Request Section (Blue) */
+  --req-header-bg: #eff6ff;
+  --req-text: #1e40af;
+  --req-main: #2563eb;
+
+  /* Meetup Section (Green) */
+  --meet-header-bg: #ecfdf5;
+  --meet-text: #065f46;
+  --meet-main: #10b981;
+
+  /* Alerts */
+  --alert-red: #ef4444;
+}
+
+.orders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.order-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+/* --- HEADERS --- */
+.order-header {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Variants for Headers */
+.order-header.blue {
+  background-color: var(--req-header-bg);
+  color: var(--req-text);
+}
+
+.order-header.green {
+  background-color: var(--meet-header-bg);
+  color: var(--meet-text);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-badge {
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.header-badge.blue {
+  background-color: #35408e;
+}
+
+.header-badge.green {
+  background-color: var(--meet-main);
+}
+
+/* --- ROWS --- */
+.order-row {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Removes border for the last item so it looks clean */
+.order-row:last-child {
+  border-bottom: none;
+}
+
+/* --- USER INFO --- */
+.user-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  object-fit: cover;
+  font-weight: 600;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.main-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.sub-text {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+.highlight-bold {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* --- ACTIONS --- */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Button Styles */
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-reject {
+  border: 1px solid var(--border-light);
+  background-color: white;
+  color: var(--text-dark);
+}
+
+.btn-accept {
+  border: none;
+  background-color: #35408e;
+  color: white;
+}
+
+.btn-delivered {
+  border: none;
+  background-color: var(--meet-main);
+  color: white;
+}
+
+.no-show-text {
+  color: var(--alert-red);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}

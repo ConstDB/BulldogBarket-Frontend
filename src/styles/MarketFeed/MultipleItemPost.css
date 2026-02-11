@@ -1,0 +1,208 @@
+.mip-container {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  font-family: "Sen", sans-serif;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.mip-user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mip-user-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.mip-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 999px;
+}
+
+.mip-user-name {
+  display: flex;
+  align-items: center;
+}
+
+.mip-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.mip-year {
+  font-size: 12px;
+  color: gray;
+}
+
+.mip-meta {
+  font-size: 12px;
+  color: gray;
+}
+
+.mip-bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mip-bookmark-icon {
+  width: 16px;
+}
+
+.mip-description {
+  margin: 14px 0;
+  font-size: 15px;
+}
+
+.mip-item-box {
+  width: 100%;
+  max-width: 530px;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #cdced0;
+  font-family: "Sen", sans-serif;
+}
+
+.mip-image-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.mip-category {
+  background: #f3f5f7;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #4b5563;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.mip-item-img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.mip-price {
+  background: #2d46a8;
+  color: #ffca28;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.mip-title {
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.mip-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -4px;
+  margin-bottom: 6px;
+}
+
+.mip-request-btn {
+  width: 67%;
+  height: 38px;
+  background: #2d46a8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mip-chat-btn {
+  width: 30%;
+  height: 38px;
+  background: white;
+  color: #3b5bdb;
+  border: 2px solid #d0d4e0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.mip-note {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 5px;
+  color: gray;
+}
+
+.mip-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.mip-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mip-stat-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.mip-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.mip-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 40px 0;
+}
+
+.mip-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  color: #444;
+  transition: opacity 0.2s;
+}
+
+.mip-action-btn:hover {
+  opacity: 0.8;
+}
+
+.mip-action-icon {
+  width: 20px;
+}

@@ -1,0 +1,56 @@
+/* src/components/seller-dashboard/SellerHeader.css */
+
+:root {
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --btn-yellow: #ffd400;
+  --btn-text: #111827;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  font-size: 1rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+.post-btn {
+  background-color: var(--btn-yellow);
+  color: var(--btn-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease;
+}
+
+/* CSS handles the hover effect now */
+.post-btn:hover {
+  transform: scale(1.02);
+}

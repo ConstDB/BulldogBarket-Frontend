@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NU_CAMPUSES, NU_COURSES, NU_YEAR_LEVELS } from "../../constants/nuConstants";
 import { validateSignup } from "../../schemas/user_schema";
+import "../../styles/SignUp/signup.css";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+import passwordIcon from "../../assets/password.svg";
+import person from "../../assets/person.svg";
+import ID from "../../assets/ID.svg";
+import campusIcon from "../../assets/campus.svg";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -17,7 +23,7 @@ export default function SignupForm() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [showPassword, setShowPassword] = useState(false);
   const API_BASE = import.meta.env.VITE_API_URL || "";
 
   const handleChange = (e) => {
@@ -29,7 +35,6 @@ export default function SignupForm() {
     e.preventDefault();
     setError(null);
     
-    // Use the validation schema
     const validationErrors = validateSignup(formData);
     if (Object.keys(validationErrors).length > 0) {
       setError(Object.values(validationErrors)[0]);
@@ -37,29 +42,29 @@ export default function SignupForm() {
     }
 
     const payload = {
-      fullName: formData.fullName,
+      name: formData.fullName,
       studentNumber: formData.studentNumber,
       course: formData.course,
-      year: formData.year,
+      yearLevel: formData.year,
       campus: formData.campus,
       password: formData.password,
     };
 
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/auth/signup`, {
+      const res = await fetch(`${API_BASE}/api/v1/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(data?.message || "Signup failed");
-        return;
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard");
+      } else {
+        navigate("/signin");
       }
-
-      navigate("/signin");
     } catch (err) {
       setError(err?.message || "Network error");
     } finally {
@@ -68,50 +73,61 @@ export default function SignupForm() {
   };
 
   return (
-    <div style={{ flex: 1, background: "white", padding: "3rem" }}>
-      <h1 style={{ fontSize: "24px", fontWeight: 700 }}>Create your account</h1>
-      <p style={{ fontSize: "14px", color: "#6B7280", marginBottom: "2rem" }}>
-        Enter your details to join the marketplace.
-      </p>
+    <div className="signup-form-container">
+      <h1>Create your account</h1>
+      <p>Enter your details to join the marketplace.</p>
 
-      {error && <div style={{ color: "#B91C1C", marginBottom: "1rem" }}>{error}</div>}
+      {error && <div className="signup-error">{error}</div>}
+      <form className="signup-form" onSubmit={handleSubmit}>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div>
-          <label style={{ fontWeight: 700 }}>Full Name</label>
+        <div className="input-wrapper">
+          <span className="icon-left">
+            <img src={person} alt="person icon" className="input-icon" />
+          </span>
           <input
             type="text"
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
             placeholder="Juan Dela Cruz"
-            style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
+            required
           />
         </div>
 
         <div>
-          <label style={{ fontWeight: 700 }}>Student Number <span style={{ color: "#EF4444" }}>*</span></label>
-          <input
-            type="text"
-            name="studentNumber"
-            value={formData.studentNumber}
-            onChange={handleChange}
-            placeholder="2022-123456"
-            style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
-          />
-          <p style={{ fontSize: "14px", color: "#9CA3AF" }}>Required for verification. Must be a valid NU ID</p>
+          <label>
+            Student Number <span className="required">*</span>
+          </label>
+          <div className="input-wrapper">
+            <span className="icon-left">
+              <img src={ID} alt="student ID icon" className="input-icon" />
+            </span>
+            <input
+              type="text"
+              name="studentNumber"
+              value={formData.studentNumber}
+              onChange={handleChange}
+              placeholder="2022-123456"
+              required
+            />
+          </div>
+          <p className="signup-helper-text">
+            Required for verification. Must be a valid NU ID
+          </p>
         </div>
 
-        <div style={{ display: "flex", gap: "2.5rem" }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontWeight: 700 }}>Course</label>
+        <div className="signup-select-row">
+          <div className="select-wrapper">
+            <label>Course</label>
             <select
               name="course"
               value={formData.course}
               onChange={handleChange}
-              style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
+              className={formData.course === "" ? "placeholder" : ""}
             >
-              <option value="">Select a course</option>
+              <option value="" disabled>
+                e.g., BSCS-ML
+              </option>
               {NU_COURSES.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -119,15 +135,18 @@ export default function SignupForm() {
               ))}
             </select>
           </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontWeight: 700 }}>Year</label>
+
+          <div className="select-wrapper">
+            <label>Year</label>
             <select
               name="year"
               value={formData.year}
               onChange={handleChange}
-              style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
+              className={formData.year === "" ? "placeholder" : ""}
             >
-              <option value="">Select year level</option>
+              <option value="" disabled>
+                e.g., 3rd year
+              </option>
               {NU_YEAR_LEVELS.map((y) => (
                 <option key={y} value={y}>
                   {y}
@@ -138,52 +157,66 @@ export default function SignupForm() {
         </div>
 
         <div>
-          <label style={{ fontWeight: 700 }}>Campus</label>
-          <select
-            name="campus"
-            value={formData.campus}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
-          >
-            <option value="">Select a campus</option>
-            {NU_CAMPUSES.map((c) => (
-              <option key={c} value={c}>
-                {c}
+          <label>Campus</label>
+          <div className="input-wrapper">
+            <span className="icon-left">
+              <img src={campusIcon} alt="campus icon" className="input-icon" />
+            </span>
+            <select
+              name="campus"
+              value={formData.campus}
+              onChange={handleChange}
+              className={formData.campus === "" ? "placeholder" : ""}
+              required
+            >
+              <option value="" disabled>
+                NU Manila
               </option>
-            ))}
-          </select>
+              {NU_CAMPUSES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div>
-          <label style={{ fontWeight: 700 }}>Password</label>
+        <div className="input-wrapper">
+          <span className="icon-left">
+            <img src={passwordIcon} alt="password icon" className="input-icon" />
+          </span>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="************"
-            style={{ width: "100%", padding: "0.75rem", borderRadius: 8, border: "1px solid #9CA3AF" }}
+            required
           />
+          <button
+            type="button"
+            className="password-toggle-btn"
+            onClick={() => setShowPassword((prev) => !prev)}
+            aria-label={showPassword ? "Hide password" : "Show password"}>
+            {showPassword ? <FaEyeSlash color="#6B7280" /> : <FaEye color="#6B7280" />}
+          </button>
         </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          
+        <div className="signup-checkbox">
           <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />
-          <p style={{ fontSize: "14px" }}>
-            I agree to the <span style={{ color: "#35408E", fontWeight: 700 }}>Terms of Service</span> and I certify that I am a bonafide student of National University.
+          <p>
+            I agree to the <span className="signup-highlight">Terms of Service</span> and I certify
+            that I am a bonafide student of National University.
           </p>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{ background: "#35408E", color: "white", padding: "0.75rem", borderRadius: 4, fontWeight: 700, marginTop: "1rem", cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
-        >
+        <button type="submit" disabled={loading}>
           {loading ? "Creating…" : "Create Account"}
         </button>
       </form>
 
-      <p style={{ marginTop: "1rem", fontSize: "14px" }}>
-        Already have an account? <Link to="/signin" style={{ color: "#35408E", fontWeight: 700 }}>Sign In</Link>
+      <p className="signup-signin-link">
+        Already have an account? <Link to="/signin">Sign In</Link>
       </p>
     </div>
   );

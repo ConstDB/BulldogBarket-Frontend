@@ -1,0 +1,82 @@
+.listing-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #E5E7EB;
+  background-color: white;
+  border-radius: 10px;
+  width: 800px;
+}
+
+.listing-selector-header {
+  font-size: 16px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.listing-selector-header img {
+  width: 24px;
+  height: 24px;
+}
+
+.listing-selector-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.listing-card {
+  width: 350px;
+  height: 140px;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: white;
+}
+
+.listing-card.active {
+  background: #EFF6FF;
+}
+
+.listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.listing-card img {
+  width: 40px;
+  height: 40px;
+}
+
+.listing-card-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.listing-card-desc {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.listing-card-type {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.listing-card-type.request {
+  color: #35408E;
+}
+
+.listing-card-type.instant {
+  color: #16A34A;
+}

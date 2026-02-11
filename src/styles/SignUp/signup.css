@@ -1,0 +1,265 @@
+.signup-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #F9FAFB;
+}
+
+.signup-card {
+  display: flex;
+  width: 70%;
+  max-width: 1280px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.signup-form-container {
+  flex: 1;
+  background: white;
+  padding: 3rem;
+  border-top-right-radius: 16px;
+}
+
+/* Input Wrapper for Icon Fields */
+.input-wrapper {
+  position: relative; 
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Inputs */
+.input-wrapper input {
+  width: 100%;
+  height: 48px;
+  padding: 12px 12px 12px 45px !important; 
+  border-radius: 8px;
+  border: 1px solid #9CA3AF;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+.input-wrapper input[name="password"] {
+  padding-right: 40px; 
+}
+
+.input-wrapper input:focus {
+  border-color: #2a3b8f;
+}
+
+/* Icon positioning */
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  width: 18px;
+  height: 18px;
+  pointer-events: none; 
+}
+
+/* Show/hide password button */
+.password-toggle-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle-btn img,
+.password-toggle-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* Headings */
+.signup-form-container h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.signup-form-container p {
+  font-size: 14px;
+  color: #6B7280;
+  margin-bottom: 2rem;
+}
+
+/* Error Message */
+.signup-form-container .error-message {
+  color: #B91C1C;
+  margin-bottom: 1rem;
+}
+
+/* Form Layout */
+.signup-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-form-container label {
+  font-weight: 700;
+}
+
+/* Inputs & Selects */
+.signup-form-container input[type="text"],
+.signup-form-container input[type="password"],
+.signup-form-container select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #9CA3AF;
+}
+
+.signup-form-container .helper-text {
+  font-size: 14px;
+  color: #9CA3AF;
+}
+
+/* Placeholder colors */
+.signup-form-container select.placeholder {
+  color: #6B7280; 
+}
+
+.signup-form-container select:not(.placeholder) {
+  color: black; 
+}
+
+/* Row for course & year */
+.signup-form-container .signup-select-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.signup-form-container .signup-select-row .select-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form-container .signup-select-row label {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.signup-form-container .signup-select-row select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #9CA3AF;
+}
+
+.signup-form-container .signup-select-row .helper-text {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 0.25rem;
+}
+
+/* Checkbox */
+.signup-form-container .signup-checkbox {
+  display: flex;
+  align-items: flex-start; 
+  gap: 0.5rem;
+  font-size: 14px;
+}
+
+.signup-form-container .signup-checkbox p {
+  margin: 0;
+  line-height: 1.4; 
+}
+
+/* Button */
+.signup-form-container button {
+  background: #35408E;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.signup-form-container button:hover {
+  background-color: #1e2b6e;
+}
+
+.signup-form-container button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.signup-form-container .input-wrapper select {
+  width: 100%;
+  height: 48px;
+  padding-left: 40px; 
+  border-radius: 8px;
+  border: 1px solid #9CA3AF;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input-wrapper input[name="password"] {
+  padding-right: 100px !important;
+   
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 5px;
+  top: 9px;
+  background: transparent !important;
+  border: none !important;            
+  box-shadow: none !important;       
+  border-radius: 0 !important;        
+  cursor: pointer;
+  padding: 0;                       
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B7280; 
+}
+
+.password-toggle-btn:focus,
+.password-toggle-btn:active {
+  outline: none !important;
+  background: transparent !important;
+}
+
+.password-toggle-btn:hover {
+  color: #111827; 
+}
+
+.signup-highlight {
+  color: #35408E; 
+}
+
+.signup-signin-link a {
+  color: #35408E;       
+  font-weight: 700;     
+  text-decoration: none; 
+  cursor: pointer;
+}
+
+.signup-signin-link a:hover {
+  text-decoration: underline; 
+  color: #1e2b6e;             
+}

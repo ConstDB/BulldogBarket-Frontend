@@ -1,6 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+}
+
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.no-spin {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="number"].no-spin {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Standard */
+}
+
+input[type="number"].no-spin::-webkit-inner-spin-button,
+input[type="number"].no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  margin: 0;
+}
+
+.bg-brand-primary {
+  background-color: #35408e;
+}
+
+.text-brand-primary {
+  color: #35408e;
+}
+
+.bg-brand-dark {
+  background-color: #2a326b;
+}
+
+.text-brand-dark {
+  color: #2a326b;
+}
+
+.bg-brand-accent {
+  background-color: #ffd400;
+}
+
+.text-brand-accent {
+  color: #ffd400;
 }
